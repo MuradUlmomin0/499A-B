@@ -1,0 +1,9 @@
+paho-mqtt
+numpy
+pandas
+scikit-learn
+torch
+flwr
+opacus
+fastapi
+uvicorn
