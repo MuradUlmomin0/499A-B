@@ -4,21 +4,11 @@ import json
 import sys
 import argparse
 import paho.mqtt.client as mqtt
-
-# ============================================================
-# WEEK 3 PRIVATE SHIELD - FAKE IOT DEVICE SIMULATOR
-# This file creates fake IoT devices and sends data to MQTT.
-# Week 3 upgrade: it now sends network-flow features for ML.
-# ============================================================
-
-
-# ============================================================
 # 1. DEVICE PROFILES
 # Each device has different normal behavior.
 # Camera = high traffic
 # Sensor = low traffic
 # Plug = occasional traffic
-# ============================================================
 
 DEVICE_PROFILES = {
     "camera": {
@@ -44,29 +34,21 @@ DEVICE_PROFILES = {
     }
 }
 
-
-# ============================================================
 # 2. LABEL MAP
-# These labels help Person B create labelled.csv for ML.
+# These labels create csv for ML.
 # 0 = normal traffic
 # 1 = DoS attack traffic
 # 2 = port scan traffic
 # 3 = Mirai-style traffic
-# ============================================================
-
 LABELS = {
     "normal": 0,
     "dos": 1,
     "port_scan": 2,
     "mirai": 3
 }
-
-
-# ============================================================
 # 3. NORMAL FEATURE GENERATOR
 # This creates realistic low-value network features.
 # These features are similar to N-BaIoT/network-flow columns.
-# ============================================================
 
 def generate_normal_features(profile):
     flow_duration = round(random.uniform(1.0, 10.0), 2)
@@ -87,11 +69,9 @@ def generate_normal_features(profile):
     }
 
 
-# ============================================================
 # 4. ATTACK FEATURE GENERATOR
 # This creates extreme traffic values.
 # ML models can learn these are different from normal behavior.
-# ============================================================
 
 def generate_attack_features(mode):
     # DoS attack = too many packets and too much traffic
@@ -139,16 +119,12 @@ def generate_attack_features(mode):
             "rst_flag_cnt": random.randint(10, 80)
         }
 
-
-# ============================================================
 # 5. COMMAND-LINE ARGUMENTS
 # This lets you choose device type and traffic mode from terminal.
 #
 # Example:
 # python fake_device.py --type camera --mode normal
 # python fake_device.py --type camera --mode dos
-# ============================================================
-
 parser = argparse.ArgumentParser(description="PRIVATE SHIELD Week 3 Fake IoT Device Simulator")
 
 parser.add_argument(
@@ -172,36 +148,25 @@ traffic_mode = args.mode
 profile = DEVICE_PROFILES[device_type]
 device_id = profile["device_id"]
 
-
-# ============================================================
 # 6. MQTT SETTINGS
-# MQTT broker is Mosquitto running on your own laptop.
+# MQTT broker is Mosquitto running .
 # The topic will look like:
 # devices/cam_01
 # devices/sensor_02
 # devices/plug_03
-# ============================================================
-
 MQTT_BROKER = "127.0.0.1"
 MQTT_PORT = 1883
 MQTT_TOPIC = f"devices/{device_id}"
 
-
-# ============================================================
 # 7. CREATE MQTT CLIENT
 # This version supports both newer and older paho-mqtt versions.
-# ============================================================
-
 try:
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 except AttributeError:
     client = mqtt.Client()
 
-
-# ============================================================
 # 8. CONNECT TO MQTT BROKER
 # If Mosquitto is not running, this part will show an error.
-# ============================================================
 
 try:
     client.connect(MQTT_BROKER, MQTT_PORT, 60)
@@ -217,8 +182,6 @@ except Exception as e:
     print(f"[{device_id}] Failed to connect: {e}")
     sys.exit(1)
 
-
-# ============================================================
 # 9. MAIN LOOP
 # This runs forever until you press Ctrl+C.
 # Every loop:
@@ -227,7 +190,6 @@ except Exception as e:
 # 3. Publish to MQTT
 # 4. Print the message
 # 5. Sleep based on device profile
-# ============================================================
 
 try:
     while True:
