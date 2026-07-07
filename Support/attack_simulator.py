@@ -11,24 +11,24 @@ This script is for controlled CSE499 lab testing on your own localhost broker.
 
 from __future__ import annotations
 
-import argparse
-import json
-import socket
-import sys
-import threading
-import time
+import argparse   # reads terminal commands
+import json       # creates JSON messages
+import socket     # creates network connections
+import sys        # exits the program properly
+import threading  # runs many connections at the same time.
+import time       # controls duration and speed
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
 
 
-DEFAULT_HOST = "localhost"
-DEFAULT_MQTT_PORT = 1883
-DEFAULT_DURATION = 30
+DEFAULT_HOST = "localhost"        # means my own computer
+DEFAULT_MQTT_PORT = 1883          # 1883 is the default MQTT port.
+DEFAULT_DURATION = 30             # 30 means the attack runs for 30 seconds by default
 
 
 @dataclass
-class AttackResult:
+class AttackResult:               #This stores the final result.
     mode: str
     duration_seconds: float
     total_events: int
@@ -40,7 +40,7 @@ def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-def mqtt_string(value: str) -> bytes:
+def mqtt_string(value: str) -> bytes:  #These functions help send MQTT messages.MQTT is a message system.
     encoded = value.encode("utf-8")
     return len(encoded).to_bytes(2, "big") + encoded
 
@@ -97,7 +97,7 @@ class RawMqttPublisher:
         self.sock.sendall(packet)
 
 
-def make_attack_payload(sequence: int, rate: int) -> str:
+def make_attack_payload(sequence: int, rate: int) -> str:  # This function creates a fake attack message
     payload = {
         "device_id": "attacker_dos_01",
         "device_type": "attacker",
@@ -112,8 +112,8 @@ def make_attack_payload(sequence: int, rate: int) -> str:
     }
     return json.dumps(payload)
 
-
-def run_dos(host: str, port: int, duration: int, rate: int, topic: str) -> AttackResult:
+#This function runs the DoS attack DoS means sending too many messages.
+def run_dos(host: str, port: int, duration: int, rate: int, topic: str) -> AttackResult:  
     """Publish MQTT flood messages at a controlled target rate."""
     start = time.perf_counter()
     end = start + duration
@@ -142,13 +142,13 @@ def run_dos(host: str, port: int, duration: int, rate: int, topic: str) -> Attac
     )
 
 
-def try_connect(host: str, port: int, timeout: float) -> bool:
+def try_connect(host: str, port: int, timeout: float) -> bool:  #This function checks if a port is open
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sock.settimeout(timeout)
         return sock.connect_ex((host, port)) == 0
 
 
-def run_port_scan(
+def run_port_scan( #This function runs port scanning.It checks ports from 1 to 1000.It finds open ports.
     host: str,
     duration: int,
     start_port: int,
@@ -185,7 +185,7 @@ def run_port_scan(
     )
 
 
-def mirai_worker(
+def mirai_worker( #It is used inside threads,This is like many infected devices trying to connect at once.
     host: str,
     port: int,
     timeout: float,
@@ -201,7 +201,7 @@ def mirai_worker(
 
 
 def run_mirai(host: str, port: int, duration: int, connections: int, timeout: float) -> AttackResult:
-    """Open repeated waves of simultaneous TCP connections."""
+    """Open repeated waves of simultaneous TCP connections .This function runs Mirai-style attack."""
     start = time.perf_counter()
     end = start + duration
     total_attempts = 0
@@ -276,7 +276,7 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def main() -> int:
+def main() -> int: #This is the main controller.It checks which mode you selected.Then it runs the correct function.
     args = parse_args()
 
     if args.duration <= 0:
