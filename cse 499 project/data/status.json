@@ -1,0 +1,20 @@
+{
+    "running": false,
+    "topic": "devices/#",
+    "normal_csv": "data\\normal.csv",
+    "total_messages": 500,
+    "messages_last_10s": 500,
+    "devices_online": [
+        "sensor_mock"
+    ],
+    "alerts_fired": 0,
+    "last_msg": {
+        "device_id": "sensor_mock",
+        "temp": 24.5,
+        "humidity": 55.0,
+        "packets_per_sec": 1,
+        "bytes_per_pkt": 64,
+        "port": 1883
+    },
+    "updated_at": "2026-07-07 17:19:08"
+}
