@@ -1,12 +1,10 @@
-import time       # Allows us to pause the script (sleep)
-import random     # Generates the fake temperature and humidity numbers
-import json       # Converts our Python dictionary into a text format computers can send over networks
-import sys        # Allows the script to read commands typed in the terminal
+import time       
+import random     
+import json       
+import sys        
 import paho.mqtt.client as mqtt # The core library that handles the MQTT network protocol
 
 # CONFIGURATION SECTION: Setting up the device identity
-# This checks if we typed a name in the terminal (like 'cam_01'). 
-# If we didn't, it defaults to 'sensor_generic'.
 device_id = sys.argv[1] if len(sys.argv) > 1 else "sensor_generic"
 
 # NETWORK SETUP: Where is the server?
@@ -15,7 +13,6 @@ MQTT_PORT = 1883                        # The default port number Mosquitto list
 MQTT_TOPIC = f"devices/{device_id}"     # The 'channel' this specific device will broadcast on
 
 # INITIALIZATION: Create the network agent
-# (Note: Using CallbackAPIVersion.VERSION2 prevents that deprecation warning!)
 client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 
 # CONNECTION BLOCK: Try to connect to the broker
