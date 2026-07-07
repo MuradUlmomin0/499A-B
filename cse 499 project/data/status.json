@@ -1,0 +1,11 @@
+{
+    "running": false,
+    "topic": "devices/#",
+    "normal_csv": "data/normal.csv",
+    "total_messages": 0,
+    "messages_last_10s": 0,
+    "devices_online": [],
+    "alerts_fired": 0,
+    "last_msg": "N/A",
+    "updated_at": "N/A"
+}
