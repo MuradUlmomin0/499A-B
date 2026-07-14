@@ -7,3 +7,4 @@ flwr
 opacus
 fastapi
 uvicorn
+imbalanced-learn
