@@ -1,215 +1,363 @@
-# Import the standard system library to handle command-line arguments and clean script exiting
 import sys
-# Import the operating system library to create directories and manage file paths
 import os
-# Import the time library to calculate time differences, keep history, and pause execution
 import time
-# Import the json library to parse incoming JSON payloads and format the status file
 import json
-# Import the datetime module to generate human-readable timestamps for our logged rows
 from datetime import datetime
-# Import pandas to easily write collected lists of dictionary rows to the CSV dataset
+
 import pandas as pd
-# Import the MQTT client library to connect to the broker and receive published IoT messages
 import paho.mqtt.client as mqtt
 
-# Configuration variables: Broker host, broker port, and the topic we subscribe to
-BROKER_HOST = "localhost" # Connect to localhost by default
-BROKER_PORT = 1883        # Connect to port 1883 by default
-TOPIC = "devices/#"       # Subscribe to the topic devices/#
 
-# Define the folder path and file paths for our CSV and status files
-DATA_DIR = "data"                                         # Directory where data will be stored
-CSV_PATH = os.path.join(DATA_DIR, "normal.csv")           # File path to save normal IoT traffic
-STATUS_PATH = os.path.join(DATA_DIR, "status.json")       # File path to write live status info for monitor.py
+BROKER_HOST = "localhost"
+BROKER_PORT = 1883
 
-# Create the data directory if it does not already exist
-os.makedirs(DATA_DIR, exist_ok=True)                      # Create folder recursively; do nothing if it exists
+DEVICE_TOPIC = "devices/#"
+CONTROL_TOPIC = "private_shield/attack_mode"
 
-# Core state variables to track progress and statistics
-total_messages_count = 0  # Running counter of all valid messages received in this session
-message_buffer = []       # Temporary in-memory list to buffer rows before writing to CSV
-message_history = []      # List of dictionaries tracking (time, device_id) to calculate 10s rate
-last_message_data = "N/A" # Holds the payload of the last received message to update status.json
+DATA_DIR = "data"
+CSV_PATH = os.path.join(DATA_DIR, "labelled.csv")
+STATUS_PATH = os.path.join(DATA_DIR, "status.json")
 
-# Function to save all buffered rows to the CSV file
+LABEL_MAP = {
+    "normal": 0,
+    "dos": 1,
+    "port_scan": 2,
+    "mirai": 3,
+}
+
+CSV_COLUMNS = [
+    "timestamp",
+    "topic",
+    "device_id",
+    "device_type",
+    "temperature",
+    "temp",
+    "humidity",
+    "packets_per_sec",
+    "bytes_per_pkt",
+    "port",
+    "flow_duration",
+    "fwd_packets",
+    "bwd_packets",
+    "flow_bytes_per_sec",
+    "flow_pkts_per_sec",
+    "fwd_pkt_len_mean",
+    "bwd_pkt_len_mean",
+    "fin_flag_cnt",
+    "syn_flag_cnt",
+    "rst_flag_cnt",
+    "sequence",
+    "generated_at",
+    "attack_type",
+    "label",
+    "raw_payload",
+]
+
+BATCH_SIZE = 100
+
+os.makedirs(DATA_DIR, exist_ok=True)
+
+total_messages_count = 0
+message_buffer = []
+message_history = []
+last_message_data = "N/A"
+
+current_mode = "normal"
+current_label = 0
+
+
+def normalize_mode(mode: str) -> str:
+    mode = str(mode).strip().lower()
+    if mode == "portscan":
+        return "port_scan"
+    return mode
+
+
 def flush_buffer_to_csv():
-    global message_buffer # Use the global message buffer list
-    if not message_buffer: # If the buffer is empty, do nothing
-        return            # Exit the function early
-    
-    # Convert the buffered dictionaries into a pandas DataFrame
+    global message_buffer
+
+    if not message_buffer:
+        return
+
     df = pd.DataFrame(message_buffer)
-    # Check if the CSV file already exists on disk
-    file_exists = os.path.exists(CSV_PATH)
-    # Append the DataFrame to the CSV; write headers only if the file does not exist yet
-    df.to_csv(CSV_PATH, mode='a', header=not file_exists, index=False)
-    # Clear the in-memory buffer list so we do not write duplicate rows next time
+    df = df.reindex(columns=CSV_COLUMNS)
+
+    file_exists = os.path.exists(CSV_PATH) and os.path.getsize(CSV_PATH) > 0
+    df.to_csv(CSV_PATH, mode="a", header=not file_exists, index=False)
+
     message_buffer.clear()
 
-# Function to write the current status metrics to data/status.json
+
 def update_status_json(running=True):
-    # Prune history to keep only messages from the last 10 seconds
-    current_time = time.time() # Get the current epoch time in seconds
-    # Filter the message history list to keep messages newer than 10 seconds ago
-    recent_messages = [m for m in message_history if m["time"] > current_time - 10]
-    
-    # Calculate the number of messages received in the last 10 seconds
-    messages_last_10s = len(recent_messages)
-    # Extract unique device IDs from the recent messages to list online devices
-    devices_online = list(set(m["device_id"] for m in recent_messages))
-    
-    # Construct the dictionary representing the current state
+    global message_history
+
+    current_time = time.time()
+    message_history = [
+        item for item in message_history
+        if item["time"] > current_time - 10
+    ]
+
+    devices_online = sorted(
+        set(item["device_id"] for item in message_history)
+    )
+
     status_data = {
-        "running": running,                       # True if the logger is running, False if stopped
-        "topic": TOPIC,                           # The MQTT topic we are subscribed to
-        "normal_csv": CSV_PATH,                   # The path to the CSV file where data is logged
-        "total_messages": total_messages_count,   # Total messages processed during this run
-        "messages_last_10s": messages_last_10s,   # Count of messages in the last 10 seconds
-        "devices_online": devices_online,         # List of unique devices online in the last 10s
-        "alerts_fired": 0,                        # Always 0 because this is normal traffic (no anomalies)
-        "last_msg": last_message_data,            # The dictionary payload of the last received message
-        "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S") # Current time formatted as string
+        "running": running,
+        "topic": DEVICE_TOPIC,
+        "control_topic": CONTROL_TOPIC,
+        "normal_csv": CSV_PATH,
+        "labelled_csv": CSV_PATH,
+        "current_mode": current_mode,
+        "current_label": current_label,
+        "total_messages": total_messages_count,
+        "messages_last_10s": len(message_history),
+        "devices_online": devices_online,
+        "alerts_fired": 0,
+        "last_msg": last_message_data,
+        "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
     }
-    
-    # Write the dictionary to status.json using clean indenting
-    try:
-        with open(STATUS_PATH, "w") as f:          # Open status.json for writing
-            json.dump(status_data, f, indent=4)    # Serialize the dictionary to JSON format
-    except Exception as e:                         # Catch any file system writing errors
-        print(f"Error updating status.json: {e}") # Print the error to standard output
 
-# Callback function executed when the client successfully connects to the MQTT broker
+    try:
+        with open(STATUS_PATH, "w", encoding="utf-8") as file:
+            json.dump(status_data, file, indent=4)
+    except Exception as error:
+        print(f"Error updating status.json: {error}")
+
+
 def on_connect(client, userdata, flags, rc, properties=None):
-    if rc == 0:                                                 # Return code 0 means connection succeeded
-        print(f"Connected successfully to broker at {BROKER_HOST}:{BROKER_PORT}") # Print success message
-        client.subscribe(TOPIC)                                 # Subscribe to the devices/# topic
-        print(f"Subscribed to topic: {TOPIC}")                  # Log subscription info
-    else:                                                       # Any other return code means failure
-        print(f"Connection failed with code {rc}")              # Print connection failure code
+    connection_ok = (
+        rc == 0
+        or getattr(rc, "value", None) == 0
+    )
 
-# Callback function executed when a message is received from the subscribed MQTT topic
+    if connection_ok:
+        print(
+            f"Connected successfully to broker at "
+            f"{BROKER_HOST}:{BROKER_PORT}"
+        )
+
+        client.subscribe(DEVICE_TOPIC)
+        client.subscribe(CONTROL_TOPIC)
+
+        print(f"Subscribed to device topic: {DEVICE_TOPIC}")
+        print(f"Subscribed to control topic: {CONTROL_TOPIC}")
+        print(
+            f"Current mode: {current_mode} | "
+            f"Current label: {current_label}"
+        )
+    else:
+        print(f"Connection failed with code {rc}")
+
+
 def on_message(client, userdata, msg):
-    global total_messages_count, message_buffer, message_history, last_message_data # Access global state variables
-    
-    try:
-        # Decode the byte payload into a UTF-8 string
-        payload_str = msg.payload.decode('utf-8')
-        # Parse the JSON string into a Python dictionary
-        payload_dict = json.loads(payload_str)
-    except Exception as e:                                      # Handle JSON decode errors gracefully
-        print(f"Skipping invalid JSON message on topic {msg.topic}: {e}") # Print failure message
-        return                                                  # Exit callback early without logging
-    
-    # Record current timestamp for message rate tracking
-    current_time = time.time()                                  # Get epoch time in seconds
-    
-    # Extract the device ID from the payload dictionary, falling back to topic split if missing
-    device_id = payload_dict.get("device_id")                   # Read device_id key
-    if not device_id:                                           # If device_id key is missing
-        topic_parts = msg.topic.split('/')                      # Split topic string by slash
-        device_id = topic_parts[1] if len(topic_parts) > 1 else "unknown" # Use second part or unknown
-    
-    # Append this message's timestamp and device ID to our running history list
-    message_history.append({"time": current_time, "device_id": device_id})
-    
-    # Keep track of the last message dictionary for status updates
-    last_message_data = payload_dict                            # Store parsed payload dictionary
-    
-    # Create the row dictionary to be saved in our CSV file
-    row_data = {
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"), # Current timestamp formatted
-        "topic": msg.topic,                                      # The exact topic the message arrived on
-        **payload_dict,                                          # Unpack all keys/values from the JSON payload
-        "label": 0                                               # Append label = 0 for normal traffic
-    }
-    
-    # Add the row to our in-memory buffer list
-    message_buffer.append(row_data)                             # Append row dictionary to list
-    
-    # Increment the running counter of collected messages
-    total_messages_count += 1                                   # Increment count by 1
-    
-    # Print progress information every 50 messages
-    if total_messages_count % 50 == 0:                          # Check if count is a multiple of 50
-        print(f"Progress: Collected {total_messages_count} messages so far...") # Log progress count
-        flush_buffer_to_csv()                                   # Write current buffer to file immediately
-    
-    # Write to CSV immediately if the buffer exceeds a small batch size of 10
-    if len(message_buffer) >= 10:                               # Check if buffer has 10 or more rows
-        flush_buffer_to_csv()                                   # Write and flush the buffer
+    global total_messages_count
+    global message_buffer
+    global message_history
+    global last_message_data
+    global current_mode
+    global current_label
 
-# Main program block
-if __name__ == "__main__":
-    # Create an MQTT client instance, handling CallbackAPIVersion for paho-mqtt v2.x
     try:
-        # Try initializing with CallbackAPIVersion for Paho-MQTT v2.x compatibility
-        client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)   # Initialize MQTT Client V2
+        payload_str = msg.payload.decode("utf-8")
+        payload_dict = json.loads(payload_str)
+    except Exception as error:
+        print(
+            f"Skipping invalid JSON message on topic "
+            f"{msg.topic}: {error}"
+        )
+        return
+
+    if msg.topic == CONTROL_TOPIC:
+        received_mode = normalize_mode(
+            payload_dict.get("mode", "normal")
+        )
+
+        if received_mode not in LABEL_MAP:
+            print(
+                f"Ignoring unknown attack mode: "
+                f"{received_mode}"
+            )
+            return
+
+        current_mode = received_mode
+        current_label = LABEL_MAP[received_mode]
+
+        print("\n" + "=" * 55)
+        print(
+            f"MODE CHANGED: {current_mode.upper()} "
+            f"| LABEL = {current_label}"
+        )
+        print("=" * 55)
+
+        update_status_json(running=True)
+        return
+
+    if not msg.topic.startswith("devices/"):
+        return
+
+    current_time = time.time()
+
+    device_id = payload_dict.get("device_id")
+    if not device_id:
+        topic_parts = msg.topic.split("/")
+        device_id = (
+            topic_parts[-1]
+            if len(topic_parts) > 1
+            else "unknown"
+        )
+
+    message_history.append({
+        "time": current_time,
+        "device_id": device_id,
+    })
+
+    last_message_data = payload_dict
+
+    payload_attack_type = normalize_mode(
+        payload_dict.get("attack_type", "")
+    )
+
+    if (
+        payload_attack_type in LABEL_MAP
+        and payload_attack_type != "normal"
+    ):
+        row_attack_type = payload_attack_type
+        row_label = LABEL_MAP[payload_attack_type]
+    else:
+        row_attack_type = current_mode
+        row_label = current_label
+
+    row_data = {
+        "timestamp": datetime.now().strftime(
+            "%Y-%m-%d %H:%M:%S.%f"
+        )[:-3],
+        "topic": msg.topic,
+        **payload_dict,
+        "device_id": device_id,
+        "attack_type": row_attack_type,
+        "label": row_label,
+        "raw_payload": json.dumps(
+            payload_dict,
+            ensure_ascii=False,
+        ),
+    }
+
+    message_buffer.append(row_data)
+    total_messages_count += 1
+
+    if total_messages_count <= 5 or total_messages_count % 100 == 0:
+        print(
+            f"Row {total_messages_count}: "
+            f"device={device_id} | "
+            f"mode={row_attack_type} | "
+            f"label={row_label}"
+        )
+
+    if len(message_buffer) >= BATCH_SIZE:
+        flush_buffer_to_csv()
+
+
+def create_mqtt_client():
+    try:
+        return mqtt.Client(
+            mqtt.CallbackAPIVersion.VERSION2
+        )
     except AttributeError:
-        # Fallback to Paho-MQTT v1.x initialization if version 2 is not present
-        client = mqtt.Client()                                   # Initialize MQTT Client V1
-        
-    # Assign the connection and message handlers
-    client.on_connect = on_connect                              # Bind connection callback function
-    client.on_message = on_message                              # Bind message callback function
-    
-    # Connect to the local Mosquitto MQTT broker
-    print(f"Connecting to MQTT Broker at {BROKER_HOST}:{BROKER_PORT}...") # Print connection message
+        return mqtt.Client()
+
+
+if __name__ == "__main__":
+    client = create_mqtt_client()
+
+    client.on_connect = on_connect
+    client.on_message = on_message
+
+    print(
+        f"Connecting to MQTT Broker at "
+        f"{BROKER_HOST}:{BROKER_PORT}..."
+    )
+
     try:
-        client.connect(BROKER_HOST, BROKER_PORT, 60)            # Connect to broker with 60s timeout
-    except Exception as e:                                      # Catch broker connection failure
-        print("\n" + "="*50)                                    # Visual separator line
-        print("ERROR: Could not connect to the MQTT Broker!")   # Print main error statement
-        print(f"Details: {e}")                                  # Print the actual traceback/exception message
-        print("Please ensure that your Mosquitto MQTT Broker is running on localhost:1883.") # Give actionable tip
-        print("="*50 + "\n")                                    # Visual separator line
-        sys.exit(1)                                             # Exit script with error status code 1
-        
-    # Start the network loop in a background thread to process incoming messages
-    client.loop_start()                                         # Start background network loop thread
-    
-    # Write initial status to status.json indicating the logger is active
-    update_status_json(running=True)                            # Update status.json with running=True
-    
-    print("MQTT Logger is running. Collecting normal dataset. Press Ctrl+C to stop.") # Alert user
-    
-    # Main execution loop: Run until we reach at least 500 messages
+        client.connect(
+            BROKER_HOST,
+            BROKER_PORT,
+            60,
+        )
+    except Exception as error:
+        print("\n" + "=" * 50)
+        print("ERROR: Could not connect to the MQTT Broker!")
+        print(f"Details: {error}")
+        print(
+            "Please ensure that Mosquitto is running "
+            "on localhost:1883."
+        )
+        print("=" * 50 + "\n")
+        sys.exit(1)
+
+    client.loop_start()
+    update_status_json(running=True)
+
+    print(
+        "MQTT Logger is running. "
+        "Collecting auto-labelled data."
+    )
+    print(f"Output file: {CSV_PATH}")
+    print("Press Ctrl+C only after the full sequence finishes.")
+
     try:
-        while total_messages_count < 500:                       # Check if total messages is less than 500
-            time.sleep(1)                                       # Sleep for 1 second to reduce CPU usage
-            update_status_json(running=True)                    # Periodically update status.json to keep rate accurate
-            
-        print(f"\nTarget achieved! Collected {total_messages_count} messages.") # Log target reached
-        
-    except KeyboardInterrupt:                                   # Catch Ctrl+C interruption from terminal
-        print("\nCtrl+C detected! Safely shutting down...")     # Print shutdown alert
-        
-    finally:                                                    # Run this clean up block always on exit
-        # Write any remaining buffered rows in memory to normal.csv
-        print("Saving remaining buffered rows to CSV...")       # Log buffer flush step
-        flush_buffer_to_csv()                                   # Flush remaining rows to file
-        
-        # Stop the background network loop thread
-        client.loop_stop()                                      # Terminate the background MQTT thread
-        # Disconnect from the broker
-        client.disconnect()                                     # Cleanly disconnect network client socket
-        
-        # Write final status to status.json indicating the logger is stopped
-        update_status_json(running=False)                       # Update status.json with running=False
-        
-        # Print final summaries if we have logged messages and normal.csv exists
-        if os.path.exists(CSV_PATH):                            # Check if the normal.csv file exists
+        while True:
+            time.sleep(1)
+            update_status_json(running=True)
+
+    except KeyboardInterrupt:
+        print("\nCtrl+C detected! Safely shutting down...")
+
+    finally:
+        print("Saving remaining buffered rows to CSV...")
+        flush_buffer_to_csv()
+
+        client.loop_stop()
+        client.disconnect()
+
+        update_status_json(running=False)
+
+        if os.path.exists(CSV_PATH):
             try:
-                # Load the collected data using pandas
-                df = pd.read_csv(CSV_PATH)                      # Read CSV file into pandas DataFrame
-                print("\n" + "="*50)                            # Print separator line
-                print(f"Collected {len(df)} rows in total.")     # Print count of total rows collected
-                print("\nLast few rows of the CSV:")            # Header for tail print
-                print(df.tail(5))                               # Print last 5 rows of the DataFrame
-                print("\nCSV Summary Statistics:")              # Header for describe print
-                print(df.describe(include="all"))               # Print standard descriptive stats
-                print("="*50)                                   # Print separator line
-            except Exception as e:                              # Catch errors while loading or printing statistics
-                print(f"Error generating final dataset report: {e}") # Print the reporting error
-        else:                                                   # If normal.csv does not exist on exit
-            print("No CSV data file found to report on.")       # Print notice statement
+                df = pd.read_csv(CSV_PATH)
+
+                print("\n" + "=" * 55)
+                print(f"Collected {len(df)} rows in total.")
+
+                print("\nLabel counts:")
+                print(
+                    df["label"]
+                    .value_counts()
+                    .sort_index()
+                )
+
+                print("\nAttack type counts:")
+                print(
+                    df["attack_type"]
+                    .value_counts()
+                )
+
+                print("\nLast five rows:")
+                print(
+                    df[
+                        [
+                            "timestamp",
+                            "device_id",
+                            "attack_type",
+                            "label",
+                        ]
+                    ].tail(5)
+                )
+                print("=" * 55)
+
+            except Exception as error:
+                print(
+                    f"Error generating final dataset "
+                    f"report: {error}"
+                )
+        else:
+            print("No labelled CSV data file was created.")
