@@ -22,3 +22,7 @@ Support/FedMse_Research_Sakia/Data/Prepared_dataset.z01
 
 # macOS temporary metadata
 .DS_Store
+
+# FedMSE extracted datasets - local only
+Support/FedMse_Research_Sakia/Data/Prepared_dataset/
+Support/FedMse_Research_Sakia/Data/N-BaIoT/
