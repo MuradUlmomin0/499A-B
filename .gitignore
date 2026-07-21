@@ -1,0 +1,21 @@
+
+# Python temporary files
+Support/__pycache__/
+*.pyc
+
+# Local backup files
+Support/*_backup.py
+
+# FedMSE local environment
+Support/FedMse_Research_Sakia/.venv/
+
+# FedMSE Python temporary files
+Support/FedMse_Research_Sakia/**/__pycache__/
+Support/FedMse_Research_Sakia/**/*.pyc
+
+# FedMSE generated checkpoints
+Support/FedMse_Research_Sakia/src/Checkpoint/
+
+# FedMSE dataset archives
+Support/FedMse_Research_Sakia/Data/Prepared_dataset.zip
+Support/FedMse_Research_Sakia/Data/Prepared_dataset.z01
