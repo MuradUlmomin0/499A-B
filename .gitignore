@@ -19,3 +19,6 @@ Support/FedMse_Research_Sakia/src/Checkpoint/
 # FedMSE dataset archives
 Support/FedMse_Research_Sakia/Data/Prepared_dataset.zip
 Support/FedMse_Research_Sakia/Data/Prepared_dataset.z01
+
+# macOS temporary metadata
+.DS_Store
