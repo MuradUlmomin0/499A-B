@@ -1,0 +1,63 @@
+============================================================
+FedMSE Setup and Dataset Verification
+============================================================
+Python version: 3.12.4
+Dataset found: True
+Configuration found: True
+Configuration valid: True
+
+Dependency Check
+------------------------------------------------------------
+[OK] Pandas: 3.0.3
+[OK] NumPy: 2.5.1
+[OK] PyTorch: 2.13.0+cpu
+[OK] Scikit-learn: 1.9.0
+[OK] Matplotlib: 3.11.1
+[OK] tqdm: 4.69.0
+
+Client Dataset Check
+------------------------------------------------------------
+Client-1: OK
+  normal: exists=True, files=1
+  abnormal: exists=True, files=1
+  test_normal: exists=True, files=1
+Client-2: OK
+  normal: exists=True, files=1
+  abnormal: exists=True, files=1
+  test_normal: exists=True, files=1
+Client-3: OK
+  normal: exists=True, files=1
+  abnormal: exists=True, files=1
+  test_normal: exists=True, files=1
+Client-4: OK
+  normal: exists=True, files=1
+  abnormal: exists=True, files=1
+  test_normal: exists=True, files=1
+Client-5: OK
+  normal: exists=True, files=1
+  abnormal: exists=True, files=1
+  test_normal: exists=True, files=1
+Client-6: OK
+  normal: exists=True, files=1
+  abnormal: exists=True, files=1
+  test_normal: exists=True, files=1
+Client-7: OK
+  normal: exists=True, files=1
+  abnormal: exists=True, files=1
+  test_normal: exists=True, files=1
+Client-8: OK
+  normal: exists=True, files=1
+  abnormal: exists=True, files=1
+  test_normal: exists=True, files=1
+Client-9: OK
+  normal: exists=True, files=1
+  abnormal: exists=True, files=1
+  test_normal: exists=True, files=1
+Client-10: OK
+  normal: exists=True, files=1
+  abnormal: exists=True, files=1
+  test_normal: exists=True, files=1
+
+Ready clients: 10/10
+Overall status: SETUP READY
+============================================================

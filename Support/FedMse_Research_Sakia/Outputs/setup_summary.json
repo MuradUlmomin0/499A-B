@@ -1,0 +1,219 @@
+{
+    "python_version": "3.12.4",
+    "dataset_path": "C:\\Users\\USER\\Downloads\\499A-B\\Support\\FedMse_Research_Sakia\\Data\\N-BaIoT\\IID-10-Client_Data",
+    "dataset_exists": true,
+    "configuration": {
+        "path": "C:\\Users\\USER\\Downloads\\499A-B\\Support\\FedMse_Research_Sakia\\src\\Configuration\\scen2-nba-iot-10clients.json",
+        "exists": true,
+        "valid_json": true
+    },
+    "dependencies": {
+        "Pandas": {
+            "installed": true,
+            "version": "3.0.3"
+        },
+        "NumPy": {
+            "installed": true,
+            "version": "2.5.1"
+        },
+        "PyTorch": {
+            "installed": true,
+            "version": "2.13.0+cpu"
+        },
+        "Scikit-learn": {
+            "installed": true,
+            "version": "1.9.0"
+        },
+        "Matplotlib": {
+            "installed": true,
+            "version": "3.11.1"
+        },
+        "tqdm": {
+            "installed": true,
+            "version": "4.69.0"
+        }
+    },
+    "clients": [
+        {
+            "client": "Client-1",
+            "exists": true,
+            "folders": {
+                "normal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "abnormal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "test_normal": {
+                    "exists": true,
+                    "file_count": 1
+                }
+            }
+        },
+        {
+            "client": "Client-2",
+            "exists": true,
+            "folders": {
+                "normal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "abnormal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "test_normal": {
+                    "exists": true,
+                    "file_count": 1
+                }
+            }
+        },
+        {
+            "client": "Client-3",
+            "exists": true,
+            "folders": {
+                "normal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "abnormal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "test_normal": {
+                    "exists": true,
+                    "file_count": 1
+                }
+            }
+        },
+        {
+            "client": "Client-4",
+            "exists": true,
+            "folders": {
+                "normal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "abnormal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "test_normal": {
+                    "exists": true,
+                    "file_count": 1
+                }
+            }
+        },
+        {
+            "client": "Client-5",
+            "exists": true,
+            "folders": {
+                "normal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "abnormal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "test_normal": {
+                    "exists": true,
+                    "file_count": 1
+                }
+            }
+        },
+        {
+            "client": "Client-6",
+            "exists": true,
+            "folders": {
+                "normal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "abnormal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "test_normal": {
+                    "exists": true,
+                    "file_count": 1
+                }
+            }
+        },
+        {
+            "client": "Client-7",
+            "exists": true,
+            "folders": {
+                "normal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "abnormal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "test_normal": {
+                    "exists": true,
+                    "file_count": 1
+                }
+            }
+        },
+        {
+            "client": "Client-8",
+            "exists": true,
+            "folders": {
+                "normal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "abnormal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "test_normal": {
+                    "exists": true,
+                    "file_count": 1
+                }
+            }
+        },
+        {
+            "client": "Client-9",
+            "exists": true,
+            "folders": {
+                "normal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "abnormal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "test_normal": {
+                    "exists": true,
+                    "file_count": 1
+                }
+            }
+        },
+        {
+            "client": "Client-10",
+            "exists": true,
+            "folders": {
+                "normal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "abnormal": {
+                    "exists": true,
+                    "file_count": 1
+                },
+                "test_normal": {
+                    "exists": true,
+                    "file_count": 1
+                }
+            }
+        }
+    ],
+    "overall_status": "SETUP READY"
+}
