@@ -1,0 +1,73 @@
+{
+    "generation_time": "2026-07-14T18:21:03.732643",
+    "input_files": [
+        "data\\N-BaIoT\\danmini_doorbell\\benign_traffic.csv",
+        "data\\N-BaIoT\\danmini_doorbell\\gafgyt_attacks\\scan.csv",
+        "data\\N-BaIoT\\danmini_doorbell\\gafgyt_attacks\\udp.csv",
+        "data\\N-BaIoT\\danmini_doorbell\\mirai_attacks\\scan.csv",
+        "data\\dos.csv",
+        "data\\mirai.csv",
+        "data\\normal.csv",
+        "data\\normal_mock.csv",
+        "data\\port_scan.csv"
+    ],
+    "loaded_files": [
+        "data\\N-BaIoT\\danmini_doorbell\\benign_traffic.csv",
+        "data\\N-BaIoT\\danmini_doorbell\\gafgyt_attacks\\scan.csv",
+        "data\\N-BaIoT\\danmini_doorbell\\gafgyt_attacks\\udp.csv",
+        "data\\N-BaIoT\\danmini_doorbell\\mirai_attacks\\scan.csv",
+        "data\\dos.csv",
+        "data\\mirai.csv",
+        "data\\normal_mock.csv",
+        "data\\port_scan.csv"
+    ],
+    "skipped_files": [
+        "data\\normal.csv"
+    ],
+    "unmapped_files": [],
+    "rows_before_cleaning": 400,
+    "rows_after_cleaning": 400,
+    "duplicates_removed": 0,
+    "missing_rows_removed": 0,
+    "class_counts": {
+        "0": 100,
+        "1": 100,
+        "2": 100,
+        "3": 100
+    },
+    "class_percentages": {
+        "0": 0.25,
+        "1": 0.25,
+        "2": 0.25,
+        "3": 0.25
+    },
+    "source_counts": {
+        "real_nbaiot": 200,
+        "simulated_dos": 50,
+        "simulated_mirai": 50,
+        "simulated_normal": 50,
+        "simulated_port_scan": 50
+    },
+    "imbalance_ratio": 1.0,
+    "smote_applied": "Yes",
+    "feature_order": [
+        "flow_duration",
+        "fwd_packets",
+        "bwd_packets",
+        "flow_bytes_per_sec",
+        "flow_pkts_per_sec",
+        "fwd_pkt_len_mean",
+        "bwd_pkt_len_mean",
+        "fin_flag_cnt",
+        "syn_flag_cnt",
+        "rst_flag_cnt"
+    ],
+    "output_paths": {
+        "labelled": "data\\labelled.csv",
+        "labelled_audit": "data\\labelled_audit.csv",
+        "summary": "data\\dataset_summary.json",
+        "train_original": "data\\train_original.csv",
+        "train_smote": "data\\train_smote.csv",
+        "test": "data\\test.csv"
+    }
+}
