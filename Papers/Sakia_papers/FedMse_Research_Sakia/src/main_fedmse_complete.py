@@ -280,6 +280,8 @@ if __name__ == "__main__":
                                     
                                 # client_weights = random.sample(client_weights, int(num_participants * len(client_weights)))
                                 global_aggregator.update(local_models=client_weights)
+                                os.makedirs("../Outputs", exist_ok=True)
+                                torch.save(global_aggregator.model.state_dict(), "../Outputs/global_model.pt")
 
                                 logging.info(f"Round {round+1}/{num_rounds} - Updated global model - \
                                     Global loss: {global_aggregator.val_loss}")
