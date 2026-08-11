@@ -7,24 +7,24 @@ Support/__pycache__/
 Support/*_backup.py
 
 # FedMSE local environment
-Support/FedMse_Research_Sakia/.venv/
+Papers/Sakia_papers/FedMse_Research_Sakia/.venv/
 
 # FedMSE Python temporary files
-Support/FedMse_Research_Sakia/**/__pycache__/
-Support/FedMse_Research_Sakia/**/*.pyc
+Papers/Sakia_papers/FedMse_Research_Sakia/**/__pycache__/
+Papers/Sakia_papers/FedMse_Research_Sakia/**/*.pyc
 
 # FedMSE generated checkpoints
-Support/FedMse_Research_Sakia/src/Checkpoint/
+Papers/Sakia_papers/FedMse_Research_Sakia/src/Checkpoint/
 
 # FedMSE dataset archives
-Support/FedMse_Research_Sakia/Data/Prepared_dataset.zip
-Support/FedMse_Research_Sakia/Data/Prepared_dataset.z01
+Papers/Sakia_papers/FedMse_Research_Sakia/Data/Prepared_dataset.zip
+Papers/Sakia_papers/FedMse_Research_Sakia/Data/Prepared_dataset.z01
 
 # macOS temporary metadata
 .DS_Store
 
 # FedMSE extracted datasets - local only
-Support/FedMse_Research_Sakia/Data/Prepared_dataset/
-Support/FedMse_Research_Sakia/Data/N-BaIoT/
+Papers/Sakia_papers/FedMse_Research_Sakia/Data/Prepared_dataset/
+Papers/Sakia_papers/FedMse_Research_Sakia/Data/N-BaIoT/
 .DS_Store
 .DS_Store

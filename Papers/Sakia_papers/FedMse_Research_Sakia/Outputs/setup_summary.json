@@ -1,9 +1,9 @@
 {
     "python_version": "3.12.4",
-    "dataset_path": "C:\\Users\\USER\\Downloads\\499A-B\\Support\\FedMse_Research_Sakia\\Data\\N-BaIoT\\IID-10-Client_Data",
+    "dataset_path": "C:\\Users\\USER\\Downloads\\499A-B\\Papers\\Sakia_papers\\FedMse_Research_Sakia\\Data\\N-BaIoT\\IID-10-Client_Data",
     "dataset_exists": true,
     "configuration": {
-        "path": "C:\\Users\\USER\\Downloads\\499A-B\\Support\\FedMse_Research_Sakia\\src\\Configuration\\scen2-nba-iot-10clients.json",
+        "path": "C:\\Users\\USER\\Downloads\\499A-B\\Papers\\Sakia_papers\\FedMse_Research_Sakia\\src\\Configuration\\scen2-nba-iot-10clients.json",
         "exists": true,
         "valid_json": true
     },
