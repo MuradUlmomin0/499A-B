@@ -486,7 +486,4 @@ if __name__ == "__main__":
         f"FPR: {final_m[2] * 100:.2f}%"
     )
 
-    print("\nImportant:")
-    print("- This is a small educational reproduction.")
-    print("- The real paper uses N-BaIoT, 9 IoT devices, and 30 FL rounds.")
-    print("- For a closer reproduction, replace the synthetic dataset with N-BaIoT.")
+    
