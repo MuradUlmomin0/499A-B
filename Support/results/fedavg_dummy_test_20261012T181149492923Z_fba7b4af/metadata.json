@@ -1,0 +1,19 @@
+{
+  "seed": 42,
+  "python": "3.14.4",
+  "pytorch": "2.12.1+cu130",
+  "numpy": "2.5.0",
+  "scikit_learn": "1.9.0",
+  "pyyaml": "6.0.3",
+  "device": "cpu",
+  "deterministic": true,
+  "timestamp_utc": "2026-10-12T18:11:49.372325+00:00",
+  "git_commit": "ed695da8226d629070708562ffd8c9c13f3167eb",
+  "git_status": "M .gitignore\n D Others/.fuse_hidden000000b000000002\n D \"Others/.~lock.Update 5 report.docx#\"\n D \"Others/499A/PRIVATE SHIELD Literature Review.pptx\"\n D \"Others/499A/PRIVATE SHIELD Project (499A) Final Report.pdf\"\n D \"Others/499A/PRIVATE SHIELD Proposal Presentation .pptx\"\n D \"Others/499A/PRIVATE SHIELD Proposed Solution.docx\"\n D \"Others/499A/PRIVATE SHIELD Proposed Solution.pdf\"\n D \"Others/499A/PRIVATE_SHIELD 499A Final Presentation.pptx\"\n D \"Others/499A/PRIVATE_SHIELD_Project Proposal.pdf\"\n D \"Others/499A/Update 5 report.pdf\"\n D \"Others/499A/Update report week4.pdf\"\n D \"Others/499A/Week 2 report.pdf\"\n D \"Others/499A/Week 3 Update Report.pdf\"\n D \"Others/499A/Week1 Project Report.pdf\"\n D \"Others/499B/PRIVATE SHIELD CSE499B Review Presentation.pptx\"\n D \"Others/499B/PRIVATE SHIELD CSE499B Review report.docx\"\n D \"Others/499B/PRIVATE SHIELD CSE499B Review.pdf\"\n D Others/images/attack_dos1.png\n D Others/images/attack_dos2.png\n D Others/images/attack_sequence.png\n D Others/images/dos_output.png\n D Others/images/fake_device.png\n D Others/images/label_counts.png\n D Others/images/labelled_csv.png\n D Others/images/logger_summary.png\n D Others/images/mirai_output.png\n D Others/images/monitor_output.png\n D Others/images/port_scan_output.png\n D Others/images/quick_attack_test.png\n D Others/images/week2_person_d_monitor_output.png\n D Others/images/week3_bytes_flow_scatter.png\n D Others/images/week3_packets_histogram.png\n D Others/images/week3_visualise_terminal_output.png\n D \"Papers/muradpaper/paper1(SecureDyn-FL  )/Readme.txt\"\n D \"Papers/muradpaper/paper1(SecureDyn-FL  )/__pycache__/data_setup.cpython-314.pyc\"\n D \"Papers/muradpaper/paper1(SecureDyn-FL  )/__pycache__/federated_loop.cpython-314.pyc\"\n D \"Papers/muradpaper/paper1(SecureDyn-FL  )/__pycache__/model.cpython-314.pyc\"\n D \"Papers/muradpaper/paper1(SecureDyn-FL  )/central_auditor.py\"\n D \"Papers/muradpaper/paper1(SecureDyn-FL  )/client.py\"\n D \"Papers/muradpaper/paper1(SecureDyn-FL  )/data_setup.py\"\n D \"Papers/muradpaper/paper1(SecureDyn-FL  )/encryption.py\"\n D \"Papers/muradpaper/paper1(SecureDyn-FL  )/federated_loop.py\"\n D \"Papers/muradpaper/paper1(SecureDyn-FL  )/model.py\"\n D \"Papers/muradpaper/paper1(SecureDyn-FL  )/server.py\"\n D Requirements.txt\n D data/N-BaIoT/danmini_doorbell/benign_traffic.csv\n D data/N-BaIoT/danmini_doorbell/gafgyt_attacks/scan.csv\n D data/N-BaIoT/danmini_doorbell/gafgyt_attacks/udp.csv\n D data/N-BaIoT/danmini_doorbell/mirai_attacks/scan.csv\n D data/counter.json\n D data/dataset_summary.json\n D data/dos.csv\n D data/labelled.csv\n D data/labelled_audit.csv\n D data/mirai.csv\n D data/normal.csv\n D data/normal_mock.csv\n D data/port_scan.csv\n D data/status.json\n D data/test.csv\n D data/train_original.csv\n D data/train_smote.csv\n?? PROJECT_CONTEXT.md\n?? README.md\n?? data/interim/\n?? data/processed/\n?? data/raw/\n?? main.py\n?? others/\n?? requirements.txt\n?? support/",
+  "testing_only": true,
+  "purpose": "Synthetic framework verification; not research results",
+  "pytorch_threads": 1,
+  "client_selection": "uniform without replacement; ceil(rate * clients)",
+  "optimizer_state": "reset each round",
+  "sample_count": "local training dataset length, not epoch observations"
+}

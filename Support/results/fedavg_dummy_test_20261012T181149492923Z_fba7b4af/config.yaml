@@ -1,0 +1,32 @@
+experiment:
+  name: fedavg_dummy_test
+  seed: 42
+  device: cpu
+  deterministic: true
+  output_dir: support/results
+model:
+  type: mlp
+  input_dim: 6
+  num_classes: 3
+  hidden_dims:
+  - 16
+  - 8
+federated:
+  num_clients: 3
+  rounds: 3
+  participation_rate: 1.0
+  aggregation: fedavg
+training:
+  local_epochs: 1
+  batch_size: 8
+  optimizer: adam
+  learning_rate: 0.001
+dataset:
+  type: dummy
+  client_samples:
+  - 16
+  - 24
+  - 32
+  evaluation_samples: 24
+attack:
+  enabled: false
