@@ -1,4 +1,10 @@
-"""Milestone A entry point. Synthetic execution requires --dummy-test."""
+"""Command-line entry point for dummy FedAvg and prepared model execution.
+
+--dummy-test opts into synthetic federated framework verification only.
+--prepared requires an explicit --config YAML whose mode selects saved-model
+prediction or evaluation. The prepared workflow does not train or preprocess.
+--federated requires explicit prepared-FedAvg YAML and performs local training.
+"""
 import argparse
 from pathlib import Path
 import torch
@@ -11,6 +17,8 @@ from support.data.dummy import make_dummy_data
 from support.federated.client import FederatedClient
 from support.federated.server import FederatedServer
 from support.federated.aggregation import FedAvgAggregator
+from support.prepared_runner import run_prepared
+from support.federated_runner import run_federated
 
 REPOSITORY = Path(__file__).resolve().parent
 
@@ -43,13 +51,45 @@ def run_dummy_test(config):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='PRIVATE SHIELD Milestone A framework test')
-    parser.add_argument('--config',type=Path,default=REPOSITORY/'support/configs/fedavg_dummy_test.yaml')
-    parser.add_argument('--dummy-test',action='store_true',help='Explicitly run synthetic framework verification only')
+    """Select one explicit workflow and print its completed output directory."""
+    parser = argparse.ArgumentParser(
+        description='PRIVATE SHIELD: dummy verification, prepared prediction/evaluation or prepared FedAvg training',
+    )
+    parser.add_argument(
+        '--config', type=Path,
+        help='YAML path; required with --prepared or --federated; dummy verification has a bundled default',
+    )
+    workflow = parser.add_mutually_exclusive_group(required=True)
+    workflow.add_argument(
+        '--dummy-test', action='store_true',
+        help='Explicitly run synthetic federated framework verification only',
+    )
+    workflow.add_argument(
+        '--prepared', action='store_true',
+        help='Use --config for saved-model prediction or evaluation without training',
+    )
+    workflow.add_argument(
+        '--federated', action='store_true',
+        help='Train prepared client partitions with FedAvg and round validation; requires --config',
+    )
     args = parser.parse_args()
-    if not args.dummy_test:
-        parser.error('Use --dummy-test. Real dataset execution is not implemented yet.')
-    config = load_config(args.config)
+    if args.federated:
+        if args.config is None:
+            parser.error('--federated requires --config with a prepared-FedAvg YAML')
+        path = run_federated(args.config)
+        print('Prepared FedAvg run completed (round evaluation: validation).')
+        print(f'Run artifacts: {path}')
+        return
+    if args.prepared:
+        if args.config is None:
+            parser.error('--prepared requires --config with a prepared-run YAML')
+        path = run_prepared(args.config)
+        print('Prepared-data run completed.')
+        print(f'Run artifacts: {path}')
+        return
+
+    config_path = args.config if args.config is not None else REPOSITORY/'support/configs/fedavg_dummy_test.yaml'
+    config = load_config(config_path)
     path,_ = run_dummy_test(config)
     print('Synthetic FedAvg framework test completed. Metrics are NOT research results.')
     print(f'Test artifacts: {path}')
