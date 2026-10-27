@@ -1,0 +1,36 @@
+# Prepared evaluation template: supply the referenced artifacts before running.
+# Use a version 1 PyTorch MLP artifact and a compatible JSON data manifest that
+# points to already-prepared labeled NPZ arrays. The paths below are examples.
+#
+# Run from the repository root after supplying the artifacts:
+# shield_env/bin/python main.py --prepared --config support/configs/prepared_evaluate.yaml
+#
+# Relative path values resolve from this YAML's directory (support/configs/).
+# Testing-only status comes from the model/data declarations. Synthetic inputs
+# are for software verification; their metrics must not be used as research results.
+# Keep final test data separate from training, aggregation and model selection.
+
+schema_version: 1
+mode: evaluate
+
+experiment:
+  name: prepared_evaluate
+  seed: 42
+  device: cpu
+  deterministic: true
+  # Each execution creates a separate run folder within support/results/.
+  output_dir: ../results
+
+model:
+  # Select the artifact independently of final test scores.
+  artifact_path: ../results/checkpoints/prepared_model.pt
+
+dataset:
+  # Prepared features must already have the model's required preprocessing applied.
+  manifest_path: ../../data/processed/test_manifest.json
+  # The manifest must declare role: test, and its NPZ must contain labels.
+  expected_role: test
+
+inference:
+  # Number of rows processed per evaluation batch; weights remain unchanged.
+  batch_size: 256
