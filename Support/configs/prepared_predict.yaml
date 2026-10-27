@@ -1,0 +1,35 @@
+# Prepared prediction template: supply the referenced artifacts before running.
+# Use a version 1 PyTorch MLP artifact and a compatible JSON data manifest that
+# points to already-prepared NPZ arrays. The paths below are examples.
+#
+# Run from the repository root after supplying the artifacts:
+# shield_env/bin/python main.py --prepared --config support/configs/prepared_predict.yaml
+#
+# Relative path values resolve from this YAML's directory (support/configs/).
+# Testing-only status comes from the model/data declarations. Synthetic inputs
+# are for software verification; their outputs must not be used as research results.
+
+schema_version: 1
+mode: predict
+
+experiment:
+  name: prepared_predict
+  seed: 42
+  device: cpu
+  deterministic: true
+  # Each execution creates a separate run folder within support/results/.
+  output_dir: ../results
+
+model:
+  # The artifact contains weights, architecture, feature/class order and metadata.
+  artifact_path: ../results/checkpoints/prepared_model.pt
+
+dataset:
+  # Prepared features must already have the model's required preprocessing applied.
+  manifest_path: ../../data/processed/predict_manifest.json
+  # Must match the manifest's declared role. Prediction ignores any supplied labels.
+  expected_role: predict
+
+inference:
+  # Number of rows processed per prediction batch.
+  batch_size: 256
