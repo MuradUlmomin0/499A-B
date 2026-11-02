@@ -1,4 +1,4 @@
-"""Load model weights with their own compatibility and purpose declarations.
+"""Load/save model weights with their own compatibility and purpose declarations.
 
 Version 1 is a torch.save() mapping with these exact fields:
     schema_version, model_name, model_state, contract, training_completed,
@@ -79,6 +79,17 @@ def load_model_artifact(path: str | Path) -> ModelArtifact:
     artifact_sha256 = hashlib.sha256(content).hexdigest()
     description = torch.load(io.BytesIO(content), map_location='cpu', weights_only=True)
 
+    model, contract = _validated_model(description)
+    return ModelArtifact(
+        model=model, contract=contract, artifact_path=artifact_path,
+        artifact_sha256=artifact_sha256, model_name=description['model_name'],
+        training_completed=description['training_completed'], testing_only=description['testing_only'],
+    )
+
+
+def _validated_model(description):
+    """Share the version 1 validation rules between loading and saving."""
+
     required = {
         'schema_version', 'model_name', 'model_state', 'contract',
         'training_completed', 'testing_only',
@@ -115,12 +126,44 @@ def load_model_artifact(path: str | Path) -> ModelArtifact:
         model.load_state_dict(clone_state(ordered_state), strict=True)
         model.eval()
 
-    return ModelArtifact(
-        model=model,
-        contract=contract,
-        artifact_path=artifact_path,
-        artifact_sha256=artifact_sha256,
-        model_name=model_name,
-        training_completed=description['training_completed'],
-        testing_only=description['testing_only'],
-    )
+    return model, contract
+
+
+def save_model_artifact(
+    model: nn.Module, path: str | Path, *, contract: ModelDataContract,
+    model_name: str, training_completed: bool, testing_only: bool,
+) -> Path:
+    """Save a complete compatible MLP artifact without training or overwriting.
+
+    The producer supplies the model's original contract and explicit purpose
+    declarations. These declarations do not prove provenance or model quality.
+    All validation and serialization precede filesystem writes. The caller's
+    weights, modes, device, gradients and CPU RNG are preserved. Missing parent
+    directories are created after validation. A newly created partial file is
+    removed if writing fails; existing files are never replaced.
+    """
+    if not isinstance(model, nn.Module):
+        raise TypeError('model must be a torch.nn.Module')
+    if not isinstance(contract, ModelDataContract):
+        raise TypeError('contract must be a ModelDataContract')
+    state = model.state_dict()
+    validate_state(state)
+    description = {
+        'schema_version': 1, 'model_name': model_name,
+        'model_state': clone_state(state), 'contract': contract.to_dict(),
+        'training_completed': training_completed, 'testing_only': testing_only,
+    }
+    _validated_model(description)
+    buffer = io.BytesIO()
+    torch.save(description, buffer)
+    destination = Path(path).resolve()
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    # Exclusive creation protects an existing artifact, including a collision.
+    stream = destination.open('xb')
+    try:
+        with stream:
+            stream.write(buffer.getvalue())
+    except BaseException:
+        destination.unlink(missing_ok=True)
+        raise
+    return destination
