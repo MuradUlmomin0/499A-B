@@ -1,9 +1,10 @@
-"""Command-line entry point for dummy FedAvg and prepared model execution.
+"""Command-line entry point for preparation, dummy FedAvg and prepared models.
 
 --dummy-test opts into synthetic federated framework verification only.
 --prepared requires an explicit --config YAML whose mode selects saved-model
 prediction or evaluation. The prepared workflow does not train or preprocess.
 --federated requires explicit prepared-FedAvg YAML and performs local training.
+--prepare-data prepares a bounded diagnostic dataset without model training.
 """
 import argparse
 from pathlib import Path
@@ -21,6 +22,12 @@ from support.prepared_runner import run_prepared
 from support.federated_runner import run_federated
 
 REPOSITORY = Path(__file__).resolve().parent
+
+
+def run_preparation(config_path):
+    """Import the raw-data adapter only when preparation is explicitly selected."""
+    from support.prepare_runner import run_preparation as prepare
+    return prepare(config_path)
 
 
 def run_dummy_test(config):
@@ -53,11 +60,11 @@ def run_dummy_test(config):
 def main():
     """Select one explicit workflow and print its completed output directory."""
     parser = argparse.ArgumentParser(
-        description='PRIVATE SHIELD: dummy verification, prepared prediction/evaluation or prepared FedAvg training',
+        description='PRIVATE SHIELD: data preparation, dummy verification, prepared prediction/evaluation or FedAvg training',
     )
     parser.add_argument(
         '--config', type=Path,
-        help='YAML path; required with --prepared or --federated; dummy verification has a bundled default',
+        help='YAML path; required for preparation, prepared execution or federated training; dummy has a bundled default',
     )
     workflow = parser.add_mutually_exclusive_group(required=True)
     workflow.add_argument(
@@ -72,7 +79,18 @@ def main():
         '--federated', action='store_true',
         help='Train prepared client partitions with FedAvg and round validation; requires --config',
     )
+    workflow.add_argument(
+        '--prepare-data', action='store_true',
+        help='Prepare a memory-bounded diagnostic dataset without model training; requires --config',
+    )
     args = parser.parse_args()
+    if args.prepare_data:
+        if args.config is None:
+            parser.error('--prepare-data requires --config with a preparation YAML')
+        path = run_preparation(args.config)
+        print('Data preparation completed (diagnostic only; no model training).')
+        print(f'Prepared artifacts: {path}')
+        return
     if args.federated:
         if args.config is None:
             parser.error('--federated requires --config with a prepared-FedAvg YAML')
