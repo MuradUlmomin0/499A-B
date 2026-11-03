@@ -9,7 +9,22 @@ import yaml
 
 
 class ExperimentLogger:
-    def __init__(self, output_dir, name, config, metadata):
+    def __init__(self, output_dir, name, config, metadata, *, evaluation_role=None):
+        # Legacy dummy callers keep their original files and CSV schema.
+        # Prepared FL callers explicitly label the server's round data validation.
+        if evaluation_role not in (None, 'validation'):
+            raise ValueError('FL round evaluation_role must be validation or omitted')
+        metadata = dict(metadata)
+        if evaluation_role is not None:
+            if type(metadata.get('testing_only')) is not bool:
+                raise ValueError('Prepared FL metadata needs an explicit testing_only boolean')
+            if metadata.get('evaluation_role', evaluation_role) != evaluation_role:
+                raise ValueError('Conflicting FL evaluation role')
+            metadata['evaluation_role'] = evaluation_role
+        # Check serializability before creating output folders.
+        json.dumps(metadata, allow_nan=False)
+        yaml.safe_dump(config)
+        self.evaluation_role = evaluation_role
         root = Path(output_dir)
         root.mkdir(parents=True,exist_ok=True)
         stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
@@ -25,6 +40,8 @@ class ExperimentLogger:
             'client_metrics.csv': ['round_id','client_id','sample_count','train_loss'],
             'aggregation_weights.csv': ['round_id','client_id','sample_count','weight'],
         }
+        if evaluation_role is not None:
+            self.columns['round_metrics.csv'].insert(1, 'evaluation_role')
         for filename,columns in self.columns.items():
             with (self.path/filename).open('x',newline='') as stream:
                 csv.DictWriter(stream,fieldnames=columns).writeheader()
@@ -41,6 +58,10 @@ class ExperimentLogger:
     def log_round(self, record, results, weights):
         if self.finished:
             raise ValueError('Run already finalized')
+        if self.evaluation_role is not None:
+            if record.get('evaluation_role', self.evaluation_role) != self.evaluation_role:
+                raise ValueError('Round metric role conflicts with logger')
+            record = {**record, 'evaluation_role': self.evaluation_role}
         self._append('round_metrics.csv',record)
         for result in results:
             self._append('client_metrics.csv',{'round_id':result.round_id,'client_id':result.client_id,
@@ -51,8 +72,14 @@ class ExperimentLogger:
     def finish(self, metrics, checkpoint):
         if self.finished:
             raise ValueError('Run already finalized')
-        self._json('final_metrics.json',{'testing_only':self.testing_only,'metrics':metrics})
+        if self.evaluation_role is None:
+            self._json('final_metrics.json',{'testing_only':self.testing_only,'metrics':metrics})
+        else:
+            self._json('validation_metrics.json', {'testing_only': self.testing_only,
+                       'evaluation_role': self.evaluation_role, 'metrics': metrics})
         checkpoint = {**checkpoint,'testing_only':self.testing_only}
+        if self.evaluation_role is not None:
+            checkpoint['evaluation_role'] = self.evaluation_role
         with (self.path/'checkpoint.pt').open('xb') as stream:
             torch.save(checkpoint,stream)
         self.finished = True
