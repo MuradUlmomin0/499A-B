@@ -4,7 +4,8 @@
 --prepared requires an explicit --config YAML whose mode selects saved-model
 prediction or evaluation. The prepared workflow does not train or preprocess.
 --federated requires explicit prepared-FedAvg YAML and performs local training.
---prepare-data prepares a bounded diagnostic dataset without model training.
+--prepare-data retains the retired 39-feature source adapter for reference.
+--stacking explicitly recovers/validates the supplied notebook model; diagnostic only.
 """
 import argparse
 from pathlib import Path
@@ -22,6 +23,12 @@ from support.prepared_runner import run_prepared
 from support.federated_runner import run_federated
 
 REPOSITORY = Path(__file__).resolve().parent
+
+
+def run_stacking(config_path):
+    """Keep the supplied notebook model separate from MLP/FedAvg contracts."""
+    from support.stacking_runner import run_stacking as stacking
+    return stacking(config_path)
 
 
 def run_preparation(config_path):
@@ -81,9 +88,20 @@ def main():
     )
     workflow.add_argument(
         '--prepare-data', action='store_true',
-        help='Prepare a memory-bounded diagnostic dataset without model training; requires --config',
+        help='Reference adapter for the retired 39-feature dataset, without model training; requires --config',
+    )
+    workflow.add_argument(
+        '--stacking', action='store_true',
+        help='Recover or validate the supplied stacking model without training; diagnostic only; requires --config',
     )
     args = parser.parse_args()
+    if args.stacking:
+        if args.config is None:
+            parser.error('--stacking requires --config with an explicit recovery/validation YAML')
+        path = run_stacking(args.config)
+        print('Stacking diagnostic completed. Reconstructed preprocessing; NOT research results.')
+        print(f'Run artifacts: {path}')
+        return
     if args.prepare_data:
         if args.config is None:
             parser.error('--prepare-data requires --config with a preparation YAML')
