@@ -16,13 +16,13 @@ import numpy as np
 import torch
 import yaml
 
-from support.data.stacking import (
+from Support.data.stacking import (
     iter_stacking_data, load_recovery, recover_preprocessing, sha256_file,
 )
-from support.evaluation.metrics import classification_metrics
-from support.models.stacking import load_stacking_checkpoint
-from support.utils.prepared_config import _PreparedConfigLoader
-from support.utils.reproducibility import environment_metadata, seed_everything
+from Support.evaluation.metrics import classification_metrics
+from Support.models.stacking import load_stacking_checkpoint
+from Support.Utils.prepared_config import _PreparedConfigLoader
+from Support.Utils.reproducibility import environment_metadata, seed_everything
 
 
 REPOSITORY = Path(__file__).resolve().parents[1]

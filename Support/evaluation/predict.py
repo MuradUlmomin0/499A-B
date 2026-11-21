@@ -6,9 +6,9 @@ import torch
 from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
 
-from support.data.contract import ModelDataContract
-from support.data.manifest import PreparedDataManifest
-from support.data.prepared import PreparedData
+from Support.data.contract import ModelDataContract
+from Support.data.manifest import PreparedDataManifest
+from Support.data.prepared import PreparedData
 
 
 @dataclass(frozen=True)

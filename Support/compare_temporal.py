@@ -4,7 +4,7 @@ import csv
 import json
 from pathlib import Path
 import numpy as np
-from support.data.latest_pilot import _json
+from Support.data.latest_pilot import _json
 
 METRICS=['accuracy','balanced_accuracy','macro_f1','weighted_f1','loss']
 

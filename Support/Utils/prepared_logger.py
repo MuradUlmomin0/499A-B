@@ -25,13 +25,13 @@ from torch import nn
 from torch.utils.data import TensorDataset
 import yaml
 
-from support.data.contract import ModelDataContract
-from support.data.manifest import PreparedDataManifest
-from support.data.prepared import PreparedData
-from support.evaluation.predict import PredictionResult
-from support.evaluation.prepared import PreparedEvaluationResult
-from support.models.artifact import ModelArtifact
-from support.utils.prepared_config import validate_prepared_config
+from Support.data.contract import ModelDataContract
+from Support.data.manifest import PreparedDataManifest
+from Support.data.prepared import PreparedData
+from Support.evaluation.predict import PredictionResult
+from Support.evaluation.prepared import PreparedEvaluationResult
+from Support.models.artifact import ModelArtifact
+from Support.Utils.prepared_config import validate_prepared_config
 
 
 def _check_predictions(result, sample_count, num_classes):

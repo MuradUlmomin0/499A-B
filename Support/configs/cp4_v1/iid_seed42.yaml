@@ -1,0 +1,39 @@
+schema_version: 1
+experiment:
+  name: cp4_iid_seed42
+  seed: 42
+  device: cpu
+  deterministic: true
+  output_dir: ../../results/cp4_v1/runs
+dataset:
+  bundle_path: ../../../data/processed/research_cp1_v1/iid_seed42/federated_bundle.json
+initialization:
+  mode: random
+  artifact_path: null
+federated:
+  aggregation: temporal
+  rounds: 20
+  participation_rate: 1.0
+training:
+  optimizer: adam
+  learning_rate: 0.001
+  local_epochs: 1
+  batch_size: 128
+selection:
+  policy: final_round
+temporal:
+  projection_dim: 5
+  projection_seed: 1729
+  window: 5
+  components: 2
+  reg_covar: 1.0e-06
+  max_iter: 200
+  tol: 0.001
+  forgetting: 0.8
+  warmup_rounds: 3
+  calibration_min: 20
+  threshold_std: 3.0
+  threshold_floor: 1.0e-08
+  severe_ratio: 2.0
+  downweight: 0.5
+  reference_run_path: ../../results/cp2_v1/runs/cp2_iid_seed42_20261110T161835890702Z_f7a41338

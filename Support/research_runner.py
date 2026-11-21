@@ -15,14 +15,14 @@ import torch
 from torch.utils.data import DataLoader
 import yaml
 
-from support.data.latest_audit import source_hash
-from support.data.latest_pilot import _json
-from support.data.federated_bundle import load_federated_bundle
-from support.data.prepared import load_prepared_data
-from support.evaluation.metrics import evaluate_model
-from support.federated_runner import run_federated, _state_sha256
-from support.models.artifact import load_model_artifact
-from support.utils.training_config import load_training_config
+from Support.data.latest_audit import source_hash
+from Support.data.latest_pilot import _json
+from Support.data.federated_bundle import load_federated_bundle
+from Support.data.prepared import load_prepared_data
+from Support.evaluation.metrics import evaluate_model
+from Support.federated_runner import run_federated, _state_sha256
+from Support.models.artifact import load_model_artifact
+from Support.Utils.training_config import load_training_config
 
 
 def completed_preparation(config):
@@ -170,7 +170,7 @@ def run_matrix(config_dir, matrix_output):
             log=output/f'{condition}_seed{seed}.log'
             print(f'Starting {condition}, seed {seed}',flush=True)
             with log.open('x') as stream:
-                subprocess.run([sys.executable,'-m','support.research_runner','train-one','--config',str(config)],
+                subprocess.run([sys.executable,'-m','Support.research_runner','train-one','--config',str(config)],
                     env={**os.environ,'OPENBLAS_NUM_THREADS':'1','OMP_NUM_THREADS':'1','PYTHONDONTWRITEBYTECODE':'1'},
                     stdout=stream,stderr=subprocess.STDOUT,check=True)
             new=set(root.glob(parsed['experiment']['name']+'_*'))-before
@@ -194,8 +194,8 @@ def main():
     p=sub.add_parser('matrix');p.add_argument('--config-dir',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
     args=parser.parse_args()
     if args.action in ('prepare','export'):
-        from support.data.research_source import prepare_source
-        from support.data.research_export import export_research
+        from Support.data.research_source import prepare_source
+        from Support.data.research_export import export_research
         c=yaml.safe_load(args.source_config.read_text());p=yaml.safe_load(args.protocol.read_text());s=p['proposed_settings']
         if not p['review']['numeric_settings_approved'] or p['source']['archive_sha256']!=c['archive_sha256']:raise ValueError('Protocol approval/source mismatch')
         if args.action=='prepare':prepare_source(c,args.raw_output,args.work_dir,s['training_rows'],s['auxiliary_groups_per_class'],s['preparation_seed'])

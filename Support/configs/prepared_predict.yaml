@@ -3,9 +3,9 @@
 # points to already-prepared NPZ arrays. The paths below are examples.
 #
 # Run from the repository root after supplying the artifacts:
-# shield_env/bin/python main.py --prepared --config support/configs/prepared_predict.yaml
+# shield_env/bin/python main.py --prepared --config Support/configs/prepared_predict.yaml
 #
-# Relative path values resolve from this YAML's directory (support/configs/).
+# Relative path values resolve from this YAML's directory (Support/configs/).
 # Testing-only status comes from the model/data declarations. Synthetic inputs
 # are for software verification; their outputs must not be used as research results.
 
@@ -17,7 +17,7 @@ experiment:
   seed: 42
   device: cpu
   deterministic: true
-  # Each execution creates a separate run folder within support/results/.
+  # Each execution creates a separate run folder within Support/results/.
   output_dir: ../results
 
 model:

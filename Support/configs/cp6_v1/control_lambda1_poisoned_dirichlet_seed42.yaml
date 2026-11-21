@@ -1,0 +1,19 @@
+schema_version: 1
+method: fusion
+experiment:
+  name: cp6_control_lambda1_poisoned_dirichlet_seed42
+  output_dir: ../../results/cp6_v1/runs
+baseline_config_path: ../cp3_v1/dirichlet_seed42.yaml
+temporal_config_path: ../cp4_v1/dirichlet_seed42.yaml
+reference_clean_run_path: ../../results/cp3_v1/runs/cp3_dirichlet_seed42_20261112T121448823158Z_05fe6b1a
+endpoint_reference_run_path: ../../results/cp5_v1/runs/cp5_temporal_dirichlet_seed42_20261112T204114385581Z_5e68f5ae
+lambda_value: 1
+attack:
+  type: targeted_label
+  enabled: true
+  target_class: 18
+  destination_class: 1
+  malicious_clients: 2
+  start_round: 4
+  end_round: 20
+  selection_seed_offset: 5005

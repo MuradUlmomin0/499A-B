@@ -1,9 +1,9 @@
 """Local training accepts any compatible labeled PyTorch dataset."""
 import torch
 from torch.utils.data import DataLoader
-from support.utils.parameters import clone_state, extract_update, validate_state
-from support.utils.reproducibility import seed_everything
-from support.evaluation.metrics import evaluate_model
+from Support.Utils.parameters import clone_state, extract_update, validate_state
+from Support.Utils.reproducibility import seed_everything
+from Support.evaluation.metrics import evaluate_model
 from .types import ClientResult
 
 

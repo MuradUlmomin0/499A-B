@@ -1,10 +1,7 @@
-paho-mqtt
-numpy
-pandas
-scikit-learn
-torch
-flwr
-opacus
-fastapi
-uvicorn
-imbalanced-learn
+torch==2.12.1
+numpy==2.5.0
+scikit-learn==1.9.0
+PyYAML==6.0.3
+pandas==3.0.4
+scipy==1.18.0
+threadpoolctl==3.6.0

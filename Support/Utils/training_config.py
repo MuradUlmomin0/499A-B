@@ -6,7 +6,7 @@ import re
 
 import yaml
 
-from support.utils.prepared_config import _PreparedConfigLoader, _path_setting
+from Support.Utils.prepared_config import _PreparedConfigLoader, _path_setting
 
 
 def validate_training_config(config: dict) -> dict:

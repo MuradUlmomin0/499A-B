@@ -6,7 +6,7 @@ import torch
 def class_probability_matrix(model, loader, num_classes, device='cpu'):
     """Return float64 [true class, predicted class] mean probabilities.
 
-    Every true class must have auxiliary support. Actual class counts are used,
+    Every true class must have auxiliary Support. Actual class counts are used,
     so unequal support does not turn this into a frequency-weighted average.
     No model parameter, gradient, optimizer or module mode is left changed.
     """

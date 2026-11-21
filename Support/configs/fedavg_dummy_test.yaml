@@ -3,7 +3,7 @@ experiment:
   seed: 42
   device: cpu
   deterministic: true
-  output_dir: support/results
+  output_dir: Support/results
 model:
   type: mlp
   input_dim: 6

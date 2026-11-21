@@ -16,9 +16,9 @@ import numpy as np
 import torch
 from torch.utils.data import TensorDataset
 
-from support.data.contract import ModelDataContract
-from support.data.datasets import tabular_dataset
-from support.data.manifest import PreparedDataManifest, load_data_manifest
+from Support.data.contract import ModelDataContract
+from Support.data.datasets import tabular_dataset
+from Support.data.manifest import PreparedDataManifest, load_data_manifest
 
 
 @dataclass(frozen=True)

@@ -3,8 +3,8 @@ import math
 import random
 from time import perf_counter
 import torch
-from support.utils.parameters import clone_state
-from support.evaluation.metrics import evaluate_model
+from Support.Utils.parameters import clone_state
+from Support.evaluation.metrics import evaluate_model
 from .history import UpdateHistory
 
 

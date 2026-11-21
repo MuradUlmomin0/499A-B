@@ -10,10 +10,10 @@ import hashlib
 import json
 from pathlib import Path
 
-from support.data.contract import ModelDataContract
-from support.data.manifest import _unique_json_object, load_data_manifest
-from support.data.prepared import PreparedData, load_prepared_data
-from support.data.split_checks import SplitEvidence, check_disjoint_splits, file_sha256, load_split_evidence
+from Support.data.contract import ModelDataContract
+from Support.data.manifest import _unique_json_object, load_data_manifest
+from Support.data.prepared import PreparedData, load_prepared_data
+from Support.data.split_checks import SplitEvidence, check_disjoint_splits, file_sha256, load_split_evidence
 
 
 def _name(value, field):

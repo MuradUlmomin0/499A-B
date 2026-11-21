@@ -4,6 +4,9 @@
 --prepared requires an explicit --config YAML whose mode selects saved-model
 prediction or evaluation. The prepared workflow does not train or preprocess.
 --federated requires explicit prepared-FedAvg YAML and performs local training.
+--fedmade requires explicit adapted-FedMADE YAML and performs local training.
+--temporal requires explicit CP4 YAML and performs temporal-trust training.
+--poisoning requires explicit approved CP5 attack YAML.
 --prepare-data retains the retired 39-feature source adapter for reference.
 --stacking explicitly recovers/validates the supplied notebook model; diagnostic only.
 """
@@ -11,29 +14,53 @@ import argparse
 from pathlib import Path
 import torch
 from torch.utils.data import DataLoader
-from support.utils.config import load_config
-from support.utils.reproducibility import seed_everything, environment_metadata
-from support.utils.experiment_logger import ExperimentLogger
-from support.models.factory import create_model
-from support.data.dummy import make_dummy_data
-from support.federated.client import FederatedClient
-from support.federated.server import FederatedServer
-from support.federated.aggregation import FedAvgAggregator
-from support.prepared_runner import run_prepared
-from support.federated_runner import run_federated
+from Support.Utils.config import load_config
+from Support.Utils.reproducibility import seed_everything, environment_metadata
+from Support.Utils.experiment_logger import ExperimentLogger
+from Support.models.factory import create_model
+from Support.data.dummy import make_dummy_data
+from Support.federated.client import FederatedClient
+from Support.federated.server import FederatedServer
+from Support.federated.aggregation import FedAvgAggregator
+from Support.prepared_runner import run_prepared
+from Support.federated_runner import run_federated
 
 REPOSITORY = Path(__file__).resolve().parent
 
 
+def run_fusion(config_path):
+    """Run fixed approved CP6 fusion and independent validation audit."""
+    from Support.fusion_runner import run_verified
+    return run_verified(config_path)
+
+
+def run_poisoning(config_path):
+    """Run the explicitly configured controlled poisoning experiment."""
+    from Support.poisoning_runner import run_verified
+    return run_verified(config_path)
+
+
+def run_temporal(config_path):
+    """Load the approved temporal adaptation only when explicitly requested."""
+    from Support.temporal_runner import run_verified
+    return run_verified(config_path)
+
+
+def run_fedmade(config_path):
+    """Load the adapted method only when explicitly requested."""
+    from Support.fedmade_runner import run_verified
+    return run_verified(config_path)
+
+
 def run_stacking(config_path):
     """Keep the supplied notebook model separate from MLP/FedAvg contracts."""
-    from support.stacking_runner import run_stacking as stacking
+    from Support.stacking_runner import run_stacking as stacking
     return stacking(config_path)
 
 
 def run_preparation(config_path):
     """Import the raw-data adapter only when preparation is explicitly selected."""
-    from support.prepare_runner import run_preparation as prepare
+    from Support.prepare_runner import run_preparation as prepare
     return prepare(config_path)
 
 
@@ -67,7 +94,7 @@ def run_dummy_test(config):
 def main():
     """Select one explicit workflow and print its completed output directory."""
     parser = argparse.ArgumentParser(
-        description='PRIVATE SHIELD: data preparation, dummy verification, prepared prediction/evaluation or FedAvg training',
+        description='PRIVATE SHIELD: preparation, dummy verification, prepared evaluation, FedAvg, adapted FedMADE or temporal-trust training',
     )
     parser.add_argument(
         '--config', type=Path,
@@ -87,6 +114,10 @@ def main():
         help='Train prepared client partitions with FedAvg and round validation; requires --config',
     )
     workflow.add_argument(
+        '--fedmade', action='store_true',
+        help='Train with the approved adapted FedMADE aggregator and auxiliary data; requires --config',
+    )
+    workflow.add_argument(
         '--prepare-data', action='store_true',
         help='Reference adapter for the retired 39-feature dataset, without model training; requires --config',
     )
@@ -94,7 +125,38 @@ def main():
         '--stacking', action='store_true',
         help='Recover or validate the supplied stacking model without training; diagnostic only; requires --config',
     )
+    workflow.add_argument('--temporal', action='store_true',
+        help='Train with the approved temporal-trust adaptation; requires --config')
+    workflow.add_argument('--poisoning', action='store_true',
+        help='Run approved targeted-label poisoning or its zero-attack control; requires --config')
+    workflow.add_argument('--fusion', action='store_true', help='Run approved CP6 fusion; requires --config')
     args = parser.parse_args()
+    if args.fusion:
+        if args.config is None:parser.error('--fusion requires --config with a CP6 fusion YAML')
+        path=run_fusion(args.config)
+        print(f'Fusion run completed (validation; no final-test scoring). Run artifacts: {path}')
+        return
+    if args.poisoning:
+        if args.config is None:
+            parser.error('--poisoning requires --config with a CP5 attack YAML')
+        path = run_poisoning(args.config)
+        print('Controlled poisoning run completed (validation; no final-test scoring).')
+        print(f'Run artifacts: {path}')
+        return
+    if args.temporal:
+        if args.config is None:
+            parser.error('--temporal requires --config with a CP4 temporal YAML')
+        path = run_temporal(args.config)
+        print('Clean temporal-trust adaptation completed (validation; no final-test scoring).')
+        print(f'Run artifacts: {path}')
+        return
+    if args.fedmade:
+        if args.config is None:
+            parser.error('--fedmade requires --config with an adapted-FedMADE YAML')
+        path = run_fedmade(args.config)
+        print('Clean adapted FedMADE run completed (validation; no final-test scoring).')
+        print(f'Run artifacts: {path}')
+        return
     if args.stacking:
         if args.config is None:
             parser.error('--stacking requires --config with an explicit recovery/validation YAML')
@@ -124,7 +186,7 @@ def main():
         print(f'Run artifacts: {path}')
         return
 
-    config_path = args.config if args.config is not None else REPOSITORY/'support/configs/fedavg_dummy_test.yaml'
+    config_path = args.config if args.config is not None else REPOSITORY/'Support/configs/fedavg_dummy_test.yaml'
     config = load_config(config_path)
     path,_ = run_dummy_test(config)
     print('Synthetic FedAvg framework test completed. Metrics are NOT research results.')

@@ -1,0 +1,12 @@
+# First 10,000 validation rows, diagnostic only; NOT research results.
+# Test partition is never scored by this workflow.
+schema_version: 1
+mode: validate
+archive_path: /mnt/CA7ED12F7ED114D3/dataset/riysn/Dataset.zip
+archive_sha256: fd058f5d9b1471d8b10af17ef966df252728a06bd4bd2544d0ed810f76bc39da
+recovery_dir: ../../data/processed/stacking_recovered_46feature
+output_dir: ../results/stacking_diagnostics
+limit: 10000
+batch_size: 128
+chunk_rows: 2000
+seed: 42

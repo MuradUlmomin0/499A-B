@@ -1,0 +1,16 @@
+# Fixed original seed42 final-round model; validation only, no training.
+schema_version: 1
+mode: evaluate
+experiment:
+  name: cp3_iid_seed42_validation
+  seed: 42
+  device: cpu
+  deterministic: true
+  output_dir: ../../results/cp3_v1/evaluation
+model:
+  artifact_path: ../../results/cp3_v1/runs/cp3_iid_seed42_20261112T115908901406Z_bc653a86/model_artifact.pt
+dataset:
+  manifest_path: ../../../data/processed/research_cp1_v1/validation.manifest.json
+  expected_role: validation
+inference:
+  batch_size: 128

@@ -7,9 +7,9 @@ from time import perf_counter
 
 import numpy as np
 
-from support.data.latest_audit import input_digest, source_hash
-from support.data.prepared import load_prepared_data
-from support.data.split_checks import load_split_evidence, check_disjoint_splits
+from Support.data.latest_audit import input_digest, source_hash
+from Support.data.prepared import load_prepared_data
+from Support.data.split_checks import load_split_evidence, check_disjoint_splits
 
 
 def verify_prepared(source_dir, prepared_dir):

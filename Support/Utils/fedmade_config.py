@@ -2,8 +2,8 @@
 import math
 from pathlib import Path
 import yaml
-from support.utils.training_config import validate_training_config
-from support.utils.prepared_config import _PreparedConfigLoader, _path_setting
+from Support.Utils.training_config import validate_training_config
+from Support.Utils.prepared_config import _PreparedConfigLoader, _path_setting
 
 
 METHOD_FIELDS={'auxiliary_manifest_path','auxiliary_evidence_path','reference_run_path',

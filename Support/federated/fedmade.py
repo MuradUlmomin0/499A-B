@@ -1,6 +1,6 @@
 """User-approved FedMADE adaptation: DBSCAN + nonnegative least squares.
 
-Paper Eqs. 1–5 are mapped in support/docs/cp3_fedmade_design.md. NNLS is an
+Paper Eqs. 1–5 are mapped in Support/docs/cp3_fedmade_design.md. NNLS is an
 explicit replacement for the paper's incompletely specified Adam weight solver.
 """
 from collections import OrderedDict
@@ -13,8 +13,8 @@ from sklearn.cluster import DBSCAN
 import torch
 from torch.utils.data import DataLoader
 
-from support.federated.cpm import class_probability_matrix
-from support.utils.parameters import clone_state, validate_state
+from Support.federated.cpm import class_probability_matrix
+from Support.Utils.parameters import clone_state, validate_state
 
 
 def validate_cpms(cpms):

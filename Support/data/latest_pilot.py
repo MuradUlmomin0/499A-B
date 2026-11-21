@@ -5,8 +5,8 @@ from pathlib import Path
 
 import numpy as np
 
-from support.data.contract import ModelDataContract
-from support.data.latest_audit import input_digest, source_hash
+from Support.data.contract import ModelDataContract
+from Support.data.latest_audit import input_digest, source_hash
 
 
 def _json(path, value):

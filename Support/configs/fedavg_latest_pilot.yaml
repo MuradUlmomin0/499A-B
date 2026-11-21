@@ -1,0 +1,25 @@
+# This performs actual local training on the bounded latest-source MLP pilot.
+# Diagnostic validation only; final-round export. No test scoring or defenses.
+schema_version: 1
+experiment:
+  name: latest_mlp_fedavg_pilot
+  seed: 42
+  device: cpu
+  deterministic: true
+  output_dir: ../results/fedavg_latest
+dataset:
+  bundle_path: ../../data/processed/latest_fedavg_pilot/federated_bundle.json
+initialization:
+  mode: random
+  artifact_path: null
+federated:
+  aggregation: fedavg
+  rounds: 5
+  participation_rate: 1.0
+training:
+  optimizer: adam
+  learning_rate: 0.001
+  local_epochs: 1
+  batch_size: 128
+selection:
+  policy: final_round

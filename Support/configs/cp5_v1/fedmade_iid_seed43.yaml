@@ -1,0 +1,16 @@
+schema_version: 1
+method: fedmade
+experiment:
+  name: cp5_fedmade_iid_seed43
+  output_dir: ../../results/cp5_v1/runs
+baseline_config_path: ../cp3_v1/iid_seed43.yaml
+reference_clean_run_path: ../../results/cp3_v1/runs/cp3_iid_seed43_20261112T120509730435Z_e64c13b3
+attack:
+  type: targeted_label
+  enabled: true
+  target_class: 18
+  destination_class: 1
+  malicious_clients: 2
+  start_round: 4
+  end_round: 20
+  selection_seed_offset: 5005

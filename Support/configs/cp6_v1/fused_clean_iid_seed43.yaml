@@ -1,0 +1,19 @@
+schema_version: 1
+method: fusion
+experiment:
+  name: cp6_fused_clean_iid_seed43
+  output_dir: ../../results/cp6_v1/runs
+baseline_config_path: ../cp3_v1/iid_seed43.yaml
+temporal_config_path: ../cp4_v1/iid_seed43.yaml
+reference_clean_run_path: ../../results/cp3_v1/runs/cp3_iid_seed43_20261112T120509730435Z_e64c13b3
+endpoint_reference_run_path: null
+lambda_value: 0.5
+attack:
+  type: targeted_label
+  enabled: false
+  target_class: 18
+  destination_class: 1
+  malicious_clients: 0
+  start_round: 4
+  end_round: 20
+  selection_seed_offset: 5005

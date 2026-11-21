@@ -2,7 +2,7 @@
 from collections import OrderedDict
 from typing import Protocol
 import torch
-from support.utils.parameters import validate_state
+from Support.Utils.parameters import validate_state
 
 
 class Aggregator(Protocol):

@@ -18,7 +18,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from support.data.contract import ModelDataContract
+from Support.data.contract import ModelDataContract
 
 
 @dataclass(frozen=True)

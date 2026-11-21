@@ -1,0 +1,101 @@
+# Diagnostic class-capped MLP pilot for latest Dataset.zip; original splits are not modified.
+# Run --audit-only first; rerun without it to export the exact audited candidates.
+schema_version: 1
+archive_path: /mnt/CA7ED12F7ED114D3/dataset/riysn/Dataset.zip
+archive_sha256: fd058f5d9b1471d8b10af17ef966df252728a06bd4bd2544d0ed810f76bc39da
+feature_names:
+- flow_duration
+- Header_Length
+- Protocol Type
+- Duration
+- Rate
+- Srate
+- Drate
+- fin_flag_number
+- syn_flag_number
+- rst_flag_number
+- psh_flag_number
+- ack_flag_number
+- ece_flag_number
+- cwr_flag_number
+- ack_count
+- syn_count
+- fin_count
+- urg_count
+- rst_count
+- HTTP
+- HTTPS
+- DNS
+- Telnet
+- SMTP
+- SSH
+- IRC
+- TCP
+- UDP
+- DHCP
+- ARP
+- ICMP
+- IPv
+- LLC
+- Tot sum
+- Min
+- Max
+- AVG
+- Std
+- Tot size
+- IAT
+- Number
+- Magnitue
+- Radius
+- Covariance
+- Variance
+- Weight
+class_names:
+- Backdoor_Malware
+- BenignTraffic
+- BrowserHijacking
+- CommandInjection
+- DDoS-ACK_Fragmentation
+- DDoS-HTTP_Flood
+- DDoS-ICMP_Flood
+- DDoS-ICMP_Fragmentation
+- DDoS-PSHACK_Flood
+- DDoS-RSTFINFlood
+- DDoS-SYN_Flood
+- DDoS-SlowLoris
+- DDoS-SynonymousIP_Flood
+- DDoS-TCP_Flood
+- DDoS-UDP_Flood
+- DDoS-UDP_Fragmentation
+- DNS_Spoofing
+- DictionaryBruteForce
+- DoS-HTTP_Flood
+- DoS-SYN_Flood
+- DoS-TCP_Flood
+- DoS-UDP_Flood
+- MITM-ArpSpoofing
+- Mirai-greeth_flood
+- Mirai-greip_flood
+- Mirai-udpplain
+- Recon-HostDiscovery
+- Recon-OSScan
+- Recon-PingSweep
+- Recon-PortScan
+- SqlInjection
+- Uploading_Attack
+- VulnerabilityScan
+- XSS
+expected_rows:
+  train: 5491971
+  validation: 1176851
+  test: 1176851
+seed: 42
+chunk_rows: 20000
+train_per_class: 1000
+validation_per_class: 500
+num_clients: 3
+hidden_dims:
+- 64
+- 32
+output_dir: ../../data/processed/latest_fedavg_pilot
+work_dir: ../../data/interim

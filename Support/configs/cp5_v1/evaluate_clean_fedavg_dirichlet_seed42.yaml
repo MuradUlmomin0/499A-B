@@ -1,0 +1,16 @@
+# Fixed first non-IID seed42 pair; validation only, no training.
+schema_version: 1
+mode: evaluate
+experiment:
+  name: cp5_clean_fedavg_dirichlet_seed42_validation
+  seed: 42
+  device: cpu
+  deterministic: true
+  output_dir: ../../results/cp5_v1/evaluation
+model:
+  artifact_path: ../../results/cp2_v1/runs/cp2_dirichlet_seed42_20261110T163044237267Z_b8663aa2/model_artifact.pt
+dataset:
+  manifest_path: ../../../data/processed/research_cp1_v1/validation.manifest.json
+  expected_role: validation
+inference:
+  batch_size: 128

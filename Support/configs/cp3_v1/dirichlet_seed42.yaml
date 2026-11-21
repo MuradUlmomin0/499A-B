@@ -1,0 +1,32 @@
+schema_version: 1
+experiment:
+  name: cp3_dirichlet_seed42
+  seed: 42
+  device: cpu
+  deterministic: true
+  output_dir: ../../results/cp3_v1/runs
+dataset:
+  bundle_path: ../../../data/processed/research_cp1_v1/dirichlet_seed42/federated_bundle.json
+initialization:
+  mode: random
+  artifact_path: null
+federated:
+  aggregation: fedmade
+  rounds: 20
+  participation_rate: 1.0
+training:
+  optimizer: adam
+  learning_rate: 0.001
+  local_epochs: 1
+  batch_size: 128
+selection:
+  policy: final_round
+fedmade:
+  auxiliary_manifest_path: ../../../data/processed/research_cp1_v1/auxiliary.manifest.json
+  auxiliary_evidence_path: ../../../data/processed/research_cp1_v1/auxiliary.ids.json
+  reference_run_path: ../../results/cp2_v1/runs/cp2_dirichlet_seed42_20261110T163044237267Z_b8663aa2
+  eps: 0.5
+  min_samples: 1
+  solver: nnls
+  norm: frobenius
+  maxiter: 10000

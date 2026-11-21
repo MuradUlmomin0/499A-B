@@ -13,7 +13,7 @@ from scipy.special import logsumexp
 from sklearn.mixture import GaussianMixture
 import torch
 
-from support.utils.parameters import clone_state, flatten_update, validate_state
+from Support.Utils.parameters import clone_state, flatten_update, validate_state
 from .aggregation import FedAvgAggregator
 
 DEFAULTS=dict(projection_dim=5,projection_seed=1729,window=5,components=2,

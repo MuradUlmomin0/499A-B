@@ -16,7 +16,7 @@ import numpy as np
 import pandas as pd
 import yaml
 
-from support.data.latest_audit import ROLES, _sort, source_hash
+from Support.data.latest_audit import ROLES, _sort, source_hash
 
 
 def summarize_sorted(stream, classes):
@@ -122,7 +122,7 @@ def audit_protocol_support(config, output_dir, work_dir):
         test_scored=False,source_modified=False,provenance_verified=False,
         scope='Original-source eligibility only; before auxiliary reservation, sampling and post-scaling collision checks')
     output_dir.mkdir(parents=True,exist_ok=False)
-    with (output_dir/'support.json').open('x') as stream:
+    with (output_dir/'Support.json').open('x') as stream:
         json.dump(report,stream,indent=2,allow_nan=False); stream.write('\n')
     with (output_dir/'support_by_class.csv').open('x',newline='') as stream:
         writer=csv.writer(stream)

@@ -13,7 +13,7 @@ import json
 from pathlib import Path
 import re
 
-from support.data.manifest import _unique_json_object
+from Support.data.manifest import _unique_json_object
 
 
 def file_sha256(path: str | Path) -> str:

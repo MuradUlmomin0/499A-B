@@ -1,9 +1,9 @@
 """Strict configuration for the approved CP4 temporal-trust adaptation."""
 from pathlib import Path
 import yaml
-from support.federated.temporal import DEFAULTS
-from support.utils.training_config import validate_training_config
-from support.utils.prepared_config import _PreparedConfigLoader,_path_setting
+from Support.federated.temporal import DEFAULTS
+from Support.Utils.training_config import validate_training_config
+from Support.Utils.prepared_config import _PreparedConfigLoader,_path_setting
 
 
 def validate_temporal_config(value):

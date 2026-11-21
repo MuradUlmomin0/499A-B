@@ -1,0 +1,14 @@
+# Diagnostic reconstruction only; originals lost. No model training.
+# Existing output is preserved; choose a new directory to repeat.
+schema_version: 1
+mode: recover
+archive_path: /mnt/CA7ED12F7ED114D3/dataset/riysn/Dataset.zip
+archive_sha256: fd058f5d9b1471d8b10af17ef966df252728a06bd4bd2544d0ed810f76bc39da
+checkpoint_path: /home/murad/Downloads/pytorch_stacking_model.pth
+checkpoint_sha256: a691d736f1dbc7105a0881698f240304cfc4ef83788fa5f11e7c1d0835400b27
+notebook_path: /mnt/CA7ED12F7ED114D3/NSU/499A-B/Cse499B_3.ipynb
+notebook_sha256: 913f85aad6d0afca7e5c2b464c106bddbbc346cc226869dc6458592c2da952a8
+output_dir: ../../data/processed/stacking_recovered_46feature
+work_dir: ../../data/interim
+expected_rows: 5491971
+chunk_rows: 20000

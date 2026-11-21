@@ -11,13 +11,13 @@ from time import perf_counter
 
 import torch
 
-from support.data.prepared import load_prepared_data
-from support.evaluation.predict import predict_prepared_data
-from support.evaluation.prepared import evaluate_prepared_data
-from support.models.artifact import load_model_artifact
-from support.utils.prepared_config import load_prepared_config
-from support.utils.prepared_logger import save_prepared_run
-from support.utils.reproducibility import environment_metadata, seed_everything
+from Support.data.prepared import load_prepared_data
+from Support.evaluation.predict import predict_prepared_data
+from Support.evaluation.prepared import evaluate_prepared_data
+from Support.models.artifact import load_model_artifact
+from Support.Utils.prepared_config import load_prepared_config
+from Support.Utils.prepared_logger import save_prepared_run
+from Support.Utils.reproducibility import environment_metadata, seed_everything
 
 
 REPOSITORY = Path(__file__).resolve().parents[1]

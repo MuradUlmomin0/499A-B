@@ -13,7 +13,7 @@ from pathlib import Path
 import torch
 from torch import nn
 
-from support.utils.parameters import clone_state, validate_state
+from Support.Utils.parameters import clone_state, validate_state
 
 
 def load_model_checkpoint(model: nn.Module, checkpoint_path: str | Path) -> nn.Module:

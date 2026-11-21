@@ -1,0 +1,16 @@
+schema_version: 1
+method: temporal
+experiment:
+  name: cp5_temporal_dirichlet_seed42
+  output_dir: ../../results/cp5_v1/runs
+baseline_config_path: ../cp4_v1/dirichlet_seed42.yaml
+reference_clean_run_path: ../../results/cp4_v1/runs/cp4_dirichlet_seed42_20261112T162941125098Z_367804d0
+attack:
+  type: targeted_label
+  enabled: true
+  target_class: 18
+  destination_class: 1
+  malicious_clients: 2
+  start_round: 4
+  end_round: 20
+  selection_seed_offset: 5005

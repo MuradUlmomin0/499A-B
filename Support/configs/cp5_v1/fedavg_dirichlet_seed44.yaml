@@ -1,0 +1,16 @@
+schema_version: 1
+method: fedavg
+experiment:
+  name: cp5_fedavg_dirichlet_seed44
+  output_dir: ../../results/cp5_v1/runs
+baseline_config_path: ../cp2_v1/dirichlet_seed44.yaml
+reference_clean_run_path: ../../results/cp2_v1/runs/cp2_dirichlet_seed44_20261110T163855869938Z_a9de2b7f
+attack:
+  type: targeted_label
+  enabled: true
+  target_class: 18
+  destination_class: 1
+  malicious_clients: 2
+  start_round: 4
+  end_round: 20
+  selection_seed_offset: 5005

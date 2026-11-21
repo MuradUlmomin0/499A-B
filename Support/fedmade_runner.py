@@ -14,22 +14,22 @@ import torch
 from torch.utils.data import DataLoader
 import yaml
 
-from support.data.federated_bundle import load_federated_bundle
-from support.data.latest_audit import source_hash
-from support.data.latest_pilot import _json
-from support.data.prepared import load_prepared_data
-from support.data.split_checks import load_split_evidence,check_disjoint_splits
-from support.federated.client import FederatedClient
-from support.federated.server import FederatedServer
-from support.federated.fedmade import FedMADEAggregator
-from support.federated_runner import _state_sha256
-from support.models.artifact import save_model_artifact
-from support.models.factory import create_model
-from support.research_runner import completed_preparation
-from support.utils.fedmade_config import load_fedmade_config
-from support.utils.training_config import load_training_config
-from support.utils.experiment_logger import ExperimentLogger
-from support.utils.reproducibility import seed_everything,environment_metadata
+from Support.data.federated_bundle import load_federated_bundle
+from Support.data.latest_audit import source_hash
+from Support.data.latest_pilot import _json
+from Support.data.prepared import load_prepared_data
+from Support.data.split_checks import load_split_evidence,check_disjoint_splits
+from Support.federated.client import FederatedClient
+from Support.federated.server import FederatedServer
+from Support.federated.fedmade import FedMADEAggregator
+from Support.federated_runner import _state_sha256
+from Support.models.artifact import save_model_artifact
+from Support.models.factory import create_model
+from Support.research_runner import completed_preparation
+from Support.Utils.fedmade_config import load_fedmade_config
+from Support.Utils.training_config import load_training_config
+from Support.Utils.experiment_logger import ExperimentLogger
+from Support.Utils.reproducibility import seed_everything,environment_metadata
 
 REPOSITORY=Path(__file__).resolve().parents[1]
 
@@ -127,7 +127,7 @@ def run_fedmade(config_path):
 
 
 def run_verified(config_path):
-    from support.fedmade_verification import verify_run
+    from Support.fedmade_verification import verify_run
     started=perf_counter();path=run_fedmade(config_path);verify_run(path,started=started)
     print(json.dumps({'run_completed':str(path)}),flush=True);return path
 
@@ -135,11 +135,11 @@ def run_verified(config_path):
 def generate_configs(directory,results):
     """Clone the six frozen CP2 configurations and add only method settings."""
     directory=Path(directory).resolve();directory.mkdir(parents=True,exist_ok=False)
-    references=json.loads((REPOSITORY/'support/docs/cp2_evidence/verification.json').read_text())['primary_runs']
+    references=json.loads((REPOSITORY/'Support/docs/cp2_evidence/verification.json').read_text())['primary_runs']
     aux=REPOSITORY/'data/processed/research_cp1_v1'
     for condition in ['iid','dirichlet']:
         for seed in [42,43,44]:
-            name=f'{condition}_seed{seed}';v=load_training_config(REPOSITORY/f'support/configs/cp2_v1/{name}.yaml')
+            name=f'{condition}_seed{seed}';v=load_training_config(REPOSITORY/f'Support/configs/cp2_v1/{name}.yaml')
             reference=next(r['run_path'] for r in references if r['condition']==condition and r['seed']==seed)
             v['experiment']['name']='cp3_'+name;v['experiment']['output_dir']=os.path.relpath(Path(results).resolve(),directory)
             v['dataset']['bundle_path']=os.path.relpath(v['dataset']['bundle_path'],directory);v['federated']['aggregation']='fedmade'
@@ -164,7 +164,7 @@ def run_matrix(config_dir, output_dir):
             root=Path(v['experiment']['output_dir']);before=set(root.glob(v['experiment']['name']+'_*'))
             print(f'Starting adapted FedMADE {condition} seed {seed}',flush=True)
             with (output/f'{condition}_seed{seed}.log').open('x') as stream:
-                subprocess.run([sys.executable,'-m','support.fedmade_runner','train-one','--config',str(config)],
+                subprocess.run([sys.executable,'-m','Support.fedmade_runner','train-one','--config',str(config)],
                     env={**os.environ,'OPENBLAS_NUM_THREADS':'1','OMP_NUM_THREADS':'1','PYTHONDONTWRITEBYTECODE':'1'},
                     stdout=stream,stderr=subprocess.STDOUT,check=True)
             fresh=set(root.glob(v['experiment']['name']+'_*'))-before
@@ -174,7 +174,7 @@ def run_matrix(config_dir, output_dir):
             entries.append({'condition':condition,'seed':seed,'run_path':str(path)})
             (output/'progress.json').write_text(json.dumps(entries,indent=2)+'\n')
             print(f'Completed {condition} seed {seed}: {path}',flush=True)
-    from support.research_runner import summarize_matrix
+    from Support.research_runner import summarize_matrix
     return summarize_matrix(entries,output)
 
 

@@ -152,7 +152,7 @@ def recover_preprocessing(archive, output, work_dir, expected_rows, chunk_rows,
         _check_hash(output/'checkpoint.pth', checkpoint_sha256)
         # Validate the supplied blueprint/weights before any completion marker.
         # Kept local so inspecting data schemas does not initialize PyTorch.
-        from support.models.stacking import load_stacking_checkpoint
+        from Support.models.stacking import load_stacking_checkpoint
         load_stacking_checkpoint(output/'checkpoint.pth', len(features), len(classes))
         description = {
             'schema_version': 1, 'architecture': 'notebook_stacking_v1',

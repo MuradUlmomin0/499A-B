@@ -10,17 +10,17 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader
 from threadpoolctl import threadpool_limits
-from support.data.latest_audit import source_hash
+from Support.data.latest_audit import source_hash
 
-from support.data.latest_pilot import _json
-from support.data.prepared import load_prepared_data
-from support.evaluation.metrics import evaluate_model
-from support.federated.types import ClientResult
-from support.federated_runner import _state_sha256
-from support.models.artifact import load_model_artifact
-from support.models.factory import create_model
-from support.utils.parameters import clone_state,extract_update,flatten_update
-from support.utils.temporal_config import load_temporal_config
+from Support.data.latest_pilot import _json
+from Support.data.prepared import load_prepared_data
+from Support.evaluation.metrics import evaluate_model
+from Support.federated.types import ClientResult
+from Support.federated_runner import _state_sha256
+from Support.models.artifact import load_model_artifact
+from Support.models.factory import create_model
+from Support.Utils.parameters import clone_state,extract_update,flatten_update
+from Support.Utils.temporal_config import load_temporal_config
 
 
 def _write_csv(path,rows):
@@ -113,7 +113,7 @@ def verify_run(path,*,started=None):
     torch.set_num_threads(1)
     path=Path(path);started=perf_counter() if started is None else started
     config=load_temporal_config(path/'config.yaml');meta=json.loads((path/'metadata.json').read_text());summary=json.loads((path/'run_summary.json').read_text())
-    from support.research_runner import completed_preparation
+    from Support.research_runner import completed_preparation
     completed_preparation(config)
     inputs=meta['federated_inputs']
     if str(Path(config['dataset']['bundle_path']).resolve())!=inputs['bundle_path'] or source_hash(inputs['bundle_path'])!=inputs['bundle_sha256']:raise ValueError('Changed bundle source')

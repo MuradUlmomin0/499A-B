@@ -10,17 +10,17 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader
 
-from support.data.latest_audit import source_hash
-from support.data.latest_pilot import _json
-from support.data.prepared import load_prepared_data
-from support.evaluation.metrics import evaluate_model
-from support.federated.cpm import class_probability_matrix
-from support.federated.fedmade import cluster_cpms,solve_cluster_weights,client_weights
-from support.federated_runner import _state_sha256
-from support.models.artifact import load_model_artifact
-from support.models.factory import create_model
-from support.utils.fedmade_config import load_fedmade_config
-from support.utils.parameters import clone_state,extract_update
+from Support.data.latest_audit import source_hash
+from Support.data.latest_pilot import _json
+from Support.data.prepared import load_prepared_data
+from Support.evaluation.metrics import evaluate_model
+from Support.federated.cpm import class_probability_matrix
+from Support.federated.fedmade import cluster_cpms,solve_cluster_weights,client_weights
+from Support.federated_runner import _state_sha256
+from Support.models.artifact import load_model_artifact
+from Support.models.factory import create_model
+from Support.Utils.fedmade_config import load_fedmade_config
+from Support.Utils.parameters import clone_state,extract_update
 
 
 def verify_run(path, *, started=None):

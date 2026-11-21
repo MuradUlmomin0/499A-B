@@ -20,9 +20,9 @@ from pathlib import Path
 import torch
 from torch import nn
 
-from support.data.contract import ModelDataContract
-from support.models.factory import create_model
-from support.utils.parameters import clone_state, validate_state
+from Support.data.contract import ModelDataContract
+from Support.models.factory import create_model
+from Support.Utils.parameters import clone_state, validate_state
 
 
 @dataclass(frozen=True)

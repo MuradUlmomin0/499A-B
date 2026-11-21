@@ -13,17 +13,17 @@ from time import perf_counter
 import torch
 from torch.utils.data import DataLoader
 
-from support.data.federated_bundle import load_federated_bundle
-from support.data.split_checks import file_sha256
-from support.federated.aggregation import FedAvgAggregator
-from support.federated.client import FederatedClient
-from support.federated.server import FederatedServer
-from support.models.artifact import load_model_artifact, save_model_artifact
-from support.models.factory import create_model
-from support.utils.experiment_logger import ExperimentLogger
-from support.utils.parameters import clone_state
-from support.utils.reproducibility import environment_metadata, seed_everything
-from support.utils.training_config import load_training_config
+from Support.data.federated_bundle import load_federated_bundle
+from Support.data.split_checks import file_sha256
+from Support.federated.aggregation import FedAvgAggregator
+from Support.federated.client import FederatedClient
+from Support.federated.server import FederatedServer
+from Support.models.artifact import load_model_artifact, save_model_artifact
+from Support.models.factory import create_model
+from Support.Utils.experiment_logger import ExperimentLogger
+from Support.Utils.parameters import clone_state
+from Support.Utils.reproducibility import environment_metadata, seed_everything
+from Support.Utils.training_config import load_training_config
 
 REPOSITORY = Path(__file__).resolve().parents[1]
 
