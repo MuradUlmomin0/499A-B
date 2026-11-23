@@ -1,4 +1,5 @@
 """Matched clean adapted-FedMADE experiments; no attacks or final-test scoring."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 import argparse
 import csv
 import json
@@ -36,7 +37,7 @@ REPOSITORY=Path(__file__).resolve().parents[1]
 
 def load_inputs(config):
     """Bind auxiliary files to the completed CP1 report and check role isolation."""
-    report_path=completed_preparation(config);report=json.loads(report_path.read_text())
+    report_path=completed_preparation(config);report=runtime_json(report_path.read_text())
     bundle=load_federated_bundle(config['dataset']['bundle_path']);m=config['fedmade']
     auxiliary=load_prepared_data(m['auxiliary_manifest_path'],expected_role='auxiliary',expected_contract=bundle.contract)
     evidence=load_split_evidence(m['auxiliary_evidence_path'],data_path=auxiliary.manifest.data_path,sample_count=len(auxiliary.dataset))
@@ -63,7 +64,7 @@ def paired_reference(config,bundle,testing_only):
     for key in ['seed','device','deterministic']:
         if baseline['experiment'][key]!=config['experiment'][key]:raise ValueError('Unmatched baseline execution')
     if Path(baseline['dataset']['bundle_path'])!=bundle.path:raise ValueError('Unmatched data partition')
-    metadata=json.loads((path/'metadata.json').read_text());verification=json.loads((path/'verification.json').read_text())
+    metadata=runtime_json((path/'metadata.json').read_text());verification=runtime_json((path/'verification.json').read_text())
     if (metadata.get('workflow')!='prepared_fedavg' or metadata['federated_inputs']['bundle_sha256']!=bundle.sha256
             or verification['test_scored'] or verification['rounds']!=config['federated']['rounds']):
         raise ValueError('Reference is not the completed paired clean FedAvg run')
@@ -135,7 +136,7 @@ def run_verified(config_path):
 def generate_configs(directory,results):
     """Clone the six frozen CP2 configurations and add only method settings."""
     directory=Path(directory).resolve();directory.mkdir(parents=True,exist_ok=False)
-    references=json.loads((REPOSITORY/'Support/docs/cp2_evidence/verification.json').read_text())['primary_runs']
+    references=runtime_json((REPOSITORY/'Support/docs/cp2_evidence/verification.json').read_text())['primary_runs']
     aux=REPOSITORY/'data/processed/research_cp1_v1'
     for condition in ['iid','dirichlet']:
         for seed in [42,43,44]:
@@ -154,7 +155,7 @@ def run_matrix(config_dir, output_dir):
     directory=Path(config_dir).resolve();output=Path(output_dir).resolve()
     evidence=directory/'preflight.json'
     if not evidence.is_file():raise ValueError('Measured FedMADE preflight required')
-    measured=json.loads(evidence.read_text());first=load_fedmade_config(directory/'iid_seed42.yaml')
+    measured=runtime_json(evidence.read_text());first=load_fedmade_config(directory/'iid_seed42.yaml')
     if (measured['config_sha256']!=source_hash(directory/'iid_seed42.yaml') or measured['bundle_sha256']!=source_hash(first['dataset']['bundle_path'])
             or measured['peak_process_rss_kib']>int(3.5*1024**2) or measured['training_performed']):raise ValueError('Stale/invalid preflight')
     output.mkdir(parents=True,exist_ok=False);entries=[]

@@ -1,0 +1,155 @@
+{
+  "cp4_complete": true,
+  "user_approved_adaptation": true,
+  "exact_paper_reproduction": false,
+  "six_primary_runs_verified": true,
+  "independent_specification_equations_verified": true,
+  "shared_em_library": true,
+  "honest_client_penalties_reported": true,
+  "all_classes_and_seeds_reported": true,
+  "matched_cp2_controls_verified": true,
+  "full_repeat_verified": true,
+  "repeat_excluded_from_three_seed_summary": true,
+  "test_scored": false,
+  "attacks_enabled": false,
+  "tests": {
+    "passed": 921,
+    "new_cp4_cases": 54,
+    "warnings": 1
+  },
+  "primary_runs": [
+    {
+      "condition": "iid",
+      "seed": 42,
+      "run_path": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp4_v1/runs/cp4_iid_seed42_20261112T161055958092Z_d9f78893",
+      "accuracy": 0.8320482459287847,
+      "balanced_accuracy": 0.5523885254531749,
+      "macro_f1": 0.5510162459152186,
+      "weighted_f1": 0.8246036462234139,
+      "loss": 0.42167169794239984,
+      "peak_process_rss_kib": 1451796,
+      "duration_seconds": 314.3241838039976,
+      "zero_recall_class_ids": [
+        0,
+        2,
+        3,
+        28,
+        30,
+        31,
+        33
+      ]
+    },
+    {
+      "condition": "iid",
+      "seed": 43,
+      "run_path": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp4_v1/runs/cp4_iid_seed43_20261112T161615814832Z_29d848a4",
+      "accuracy": 0.8342037906756078,
+      "balanced_accuracy": 0.553761897210338,
+      "macro_f1": 0.5486819501324973,
+      "weighted_f1": 0.8272802051862858,
+      "loss": 0.4268343739863447,
+      "peak_process_rss_kib": 1376764,
+      "duration_seconds": 323.76880125499883,
+      "zero_recall_class_ids": [
+        0,
+        2,
+        3,
+        17,
+        28,
+        30,
+        31,
+        33
+      ]
+    },
+    {
+      "condition": "iid",
+      "seed": 44,
+      "run_path": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp4_v1/runs/cp4_iid_seed44_20261112T162357474635Z_9aefaf55",
+      "accuracy": 0.8280361684992784,
+      "balanced_accuracy": 0.5522348921396474,
+      "macro_f1": 0.5514857404453082,
+      "weighted_f1": 0.8212213725678138,
+      "loss": 0.42422434234898976,
+      "peak_process_rss_kib": 1436768,
+      "duration_seconds": 340.49507313399954,
+      "zero_recall_class_ids": [
+        0,
+        2,
+        3,
+        28,
+        30,
+        31,
+        33
+      ]
+    },
+    {
+      "condition": "dirichlet",
+      "seed": 42,
+      "run_path": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp4_v1/runs/cp4_dirichlet_seed42_20261112T162941125098Z_367804d0",
+      "accuracy": 0.7936218733305159,
+      "balanced_accuracy": 0.5020452421991219,
+      "macro_f1": 0.4926848268939956,
+      "weighted_f1": 0.7672181053385028,
+      "loss": 0.47359340076487544,
+      "peak_process_rss_kib": 1447056,
+      "duration_seconds": 310.7069631609993,
+      "zero_recall_class_ids": [
+        0,
+        2,
+        3,
+        17,
+        28,
+        30,
+        31,
+        33
+      ]
+    },
+    {
+      "condition": "dirichlet",
+      "seed": 43,
+      "run_path": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp4_v1/runs/cp4_dirichlet_seed43_20261112T163457857694Z_3ba2fa52",
+      "accuracy": 0.7967010331199051,
+      "balanced_accuracy": 0.49953174714739557,
+      "macro_f1": 0.493178538880098,
+      "weighted_f1": 0.7663824978638185,
+      "loss": 0.4932794754616668,
+      "peak_process_rss_kib": 1438472,
+      "duration_seconds": 280.88945627299836,
+      "zero_recall_class_ids": [
+        0,
+        2,
+        3,
+        17,
+        28,
+        30,
+        31,
+        33
+      ]
+    },
+    {
+      "condition": "dirichlet",
+      "seed": 44,
+      "run_path": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp4_v1/runs/cp4_dirichlet_seed44_20261112T163941314948Z_a1ade7f1",
+      "accuracy": 0.6809381802524459,
+      "balanced_accuracy": 0.5140387948375701,
+      "macro_f1": 0.49892278230769993,
+      "weighted_f1": 0.6241368925862656,
+      "loss": 0.601871309111606,
+      "peak_process_rss_kib": 1435684,
+      "duration_seconds": 296.7792532780004,
+      "zero_recall_class_ids": [
+        0,
+        2,
+        3,
+        17,
+        28,
+        30,
+        31,
+        33
+      ]
+    }
+  ],
+  "training_code_frozen_manifest_sha256": "c91925becc3899d96e79b99b1fd12bb33c9fe1c9fc753d94fbbe312a1e8a43a0",
+  "source_snapshot_sha256": "bdf1867ba914f72540b694397ba07ff07cc801a68d6665b216dba9cc1bcce074",
+  "diagnostic_archive_sha256": "e60ccd8578cff2245e81845c8e55a0b46a02cd163c62b1fad98f77ef6db1d681"
+}

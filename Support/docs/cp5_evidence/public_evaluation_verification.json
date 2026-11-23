@@ -1,0 +1,6 @@
+{
+  "classification_metrics_exact": true,
+  "test_scored": false,
+  "loss_difference": 1.1562483082094843e-08,
+  "loss_note": "Existing prepared evaluator uses float64 loss; round evaluator float32."
+}

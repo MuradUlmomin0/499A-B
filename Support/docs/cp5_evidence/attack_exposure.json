@@ -1,0 +1,74 @@
+[
+  {
+    "condition": "iid",
+    "seed": 42,
+    "clients": [
+      "client_008",
+      "client_003"
+    ],
+    "target_rows": 154,
+    "malicious_training_rows": 100000,
+    "malicious_training_fraction": 0.2,
+    "flipped_observations": 2618
+  },
+  {
+    "condition": "iid",
+    "seed": 43,
+    "clients": [
+      "client_005",
+      "client_000"
+    ],
+    "target_rows": 154,
+    "malicious_training_rows": 100000,
+    "malicious_training_fraction": 0.2,
+    "flipped_observations": 2618
+  },
+  {
+    "condition": "iid",
+    "seed": 44,
+    "clients": [
+      "client_000",
+      "client_004"
+    ],
+    "target_rows": 154,
+    "malicious_training_rows": 100000,
+    "malicious_training_fraction": 0.2,
+    "flipped_observations": 2618
+  },
+  {
+    "condition": "dirichlet",
+    "seed": 42,
+    "clients": [
+      "client_008",
+      "client_003"
+    ],
+    "target_rows": 229,
+    "malicious_training_rows": 79062,
+    "malicious_training_fraction": 0.158124,
+    "flipped_observations": 3893
+  },
+  {
+    "condition": "dirichlet",
+    "seed": 43,
+    "clients": [
+      "client_005",
+      "client_000"
+    ],
+    "target_rows": 79,
+    "malicious_training_rows": 97592,
+    "malicious_training_fraction": 0.195184,
+    "flipped_observations": 1343
+  },
+  {
+    "condition": "dirichlet",
+    "seed": 44,
+    "clients": [
+      "client_000",
+      "client_004"
+    ],
+    "target_rows": 109,
+    "malicious_training_rows": 82927,
+    "malicious_training_fraction": 0.165854,
+    "flipped_observations": 1853
+  }
+]

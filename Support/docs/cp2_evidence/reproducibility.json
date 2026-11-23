@@ -1,0 +1,11 @@
+{
+  "configuration": "support/configs/cp2_v1/iid_seed42.yaml",
+  "original_run": "support/results/cp2_v1/runs/cp2_iid_seed42_20261110T161835890702Z_f7a41338",
+  "repeat_run": "support/results/cp2_v1/runs/cp2_iid_seed42_20261110T164258973808Z_eac62c3f",
+  "initial_states_equal": true,
+  "final_states_equal": true,
+  "validation_metrics_equal": true,
+  "final_state_sha256": "cba47658c3f297cb3df6eab2717a6a7cc52e2c4cb70c61ebdc45594bba821a7f",
+  "excluded_from_three_seed_summary": true,
+  "test_scored": false
+}

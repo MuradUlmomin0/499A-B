@@ -1,0 +1,13 @@
+case,condition,seed,attacked,malicious_aggregation_mass_mean,temporal_rejected_client_rounds,temporal_rejected_with_positive_fused_weight,honest_client_rounds,honest_zero_weight_rate,honest_weight_below_fedavg_rate,honest_rejection_rate,honest_downweight_rate,malicious_client_rounds,malicious_zero_weight_rate,malicious_weight_below_fedavg_rate,malicious_rejection_rate,malicious_downweight_rate
+fused_clean_iid_seed42,iid,42,False,0.0,0,0,170,0.0,0.1411764705882353,0.0,0.01764705882352941,0,,,,
+fused_poisoned_iid_seed42,iid,42,True,0.09901960784313726,0,0,136,0.0,0.125,0.0,0.007352941176470588,34,0.0,1.0,0.0,0.029411764705882353
+fused_clean_iid_seed43,iid,43,False,0.0,0,0,170,0.0,0.3058823529411765,0.0,0.0058823529411764705,0,,,,
+fused_poisoned_iid_seed43,iid,43,True,0.10230188062500446,0,0,136,0.0,0.2867647058823529,0.0,0.007352941176470588,34,0.0,1.0,0.0,0.0
+fused_clean_iid_seed44,iid,44,False,0.0,0,0,170,0.0,0.14705882352941177,0.0,0.0058823529411764705,0,,,,
+fused_poisoned_iid_seed44,iid,44,True,0.0978328173374613,0,0,136,0.0,0.22058823529411764,0.0,0.007352941176470588,34,0.0,1.0,0.0,0.058823529411764705
+fused_clean_dirichlet_seed42,dirichlet,42,False,0.0,0,0,170,0.0,0.6,0.0,0.01764705882352941,0,,,,
+fused_poisoned_dirichlet_seed42,dirichlet,42,True,0.08776787111730922,0,0,136,0.0,0.5808823529411765,0.0,0.007352941176470588,34,0.0,1.0,0.0,0.029411764705882353
+fused_clean_dirichlet_seed43,dirichlet,43,False,0.0,0,0,170,0.0,0.5764705882352941,0.0,0.01764705882352941,0,,,,
+fused_poisoned_dirichlet_seed43,dirichlet,43,True,0.1743490088684318,1,0,136,0.007352941176470588,0.5955882352941176,0.007352941176470588,0.014705882352941176,34,0.0,0.5882352941176471,0.0,0.0
+fused_clean_dirichlet_seed44,dirichlet,44,False,0.0,0,0,170,0.0,0.6705882352941176,0.0,0.011764705882352941,0,,,,
+fused_poisoned_dirichlet_seed44,dirichlet,44,True,0.08713158269098671,0,0,136,0.0,0.5882352941176471,0.0,0.014705882352941176,34,0.0,1.0,0.0,0.0

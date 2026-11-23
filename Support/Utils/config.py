@@ -1,4 +1,5 @@
 """Strict configuration for the testing-only entry point."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 from pathlib import Path
 import math
 import yaml
@@ -56,4 +57,4 @@ def validate_config(config):
 
 def load_config(path):
     with Path(path).open() as stream:
-        return validate_config(yaml.safe_load(stream))
+        return validate_config(runtime_safe_yaml(stream))

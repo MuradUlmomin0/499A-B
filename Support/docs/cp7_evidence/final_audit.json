@@ -1,0 +1,13 @@
+{
+  "all_48_results_verified_offline": true,
+  "frozen_sources_and_inputs_unchanged": true,
+  "archives_entries_and_hashes_verified": true,
+  "all_paired_client_selection_schedules_match": true,
+  "all_three_seed_means_and_sample_stds_independently_checked": true,
+  "current_document_links_valid": true,
+  "tests_passed": 1037,
+  "test_scored": true,
+  "training_performed": false,
+  "report_sha256": "29c82459b3ce08f68695a60e8a71ef629e8d8fc8934904fa58bb450e0bf4b335",
+  "guide_sha256": "4a087ad1ae3bfae2c5905eb493074e5a4d562686aa9c50c7ed259f14d3051252"
+}

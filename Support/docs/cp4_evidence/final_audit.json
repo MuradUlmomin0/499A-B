@@ -1,0 +1,32 @@
+{
+  "public_evaluation": {
+    "classification_metrics_exact": true,
+    "prepared_adds_class_names": true,
+    "sample_count": 752478,
+    "evaluation_role": "validation",
+    "test_scored": false,
+    "public_loss": 0.4216717110772035,
+    "round_evaluator_loss": 0.42167169794239984,
+    "loss_absolute_difference": 1.3134803689140995e-08,
+    "note": "Prepared inference adds class names and uses existing float64 loss calculation; round evaluator uses float32. Classification outputs match exactly."
+  },
+  "frozen_sources_and_configs_match": true,
+  "source_snapshot_matches_current_files": true,
+  "archives_valid_crc_and_hashes": true,
+  "current_document_links_valid": true,
+  "test_files": 52,
+  "tests_passed": 921,
+  "existing_training_and_scoring_preserved": {
+    "scoring_source_identical_to_pre_run_freeze": true,
+    "unchanged_runner_functions": [
+      "run_temporal",
+      "run_verified",
+      "preflight",
+      "paired_reference",
+      "load_inputs"
+    ],
+    "original_cp3_sources_unchanged_except_main_and_requirements": true,
+    "revisions": "Finite CSV verification check and replaceable progress index only; method settings, model training and scoring unchanged."
+  },
+  "test_scored": false
+}

@@ -1,4 +1,5 @@
 """Clean matched CP4 temporal-trust runs; no poisoning or final-test evaluation."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 import argparse
 import csv
 import json
@@ -50,7 +51,7 @@ def paired_reference(config,bundle):
     for key in ['seed','device','deterministic']:
         if baseline['experiment'][key]!=config['experiment'][key]:raise ValueError('Unmatched baseline execution')
     if Path(baseline['dataset']['bundle_path'])!=bundle.path:raise ValueError('Unmatched data partition')
-    meta=json.loads((path/'metadata.json').read_text());verification=json.loads((path/'verification.json').read_text())
+    meta=runtime_json((path/'metadata.json').read_text());verification=runtime_json((path/'verification.json').read_text())
     if (meta.get('workflow')!='prepared_fedavg' or meta['federated_inputs']['bundle_sha256']!=bundle.sha256
             or verification['test_scored'] or verification['rounds']!=config['federated']['rounds']):raise ValueError('Invalid paired clean FedAvg reference')
     return meta
@@ -103,7 +104,7 @@ def run_verified(config_path):
 
 def generate_configs(directory,results):
     directory=Path(directory).resolve();directory.mkdir(parents=True,exist_ok=False)
-    references=json.loads((REPOSITORY/'Support/docs/cp2_evidence/verification.json').read_text())['primary_runs']
+    references=runtime_json((REPOSITORY/'Support/docs/cp2_evidence/verification.json').read_text())['primary_runs']
     for condition in ['iid','dirichlet']:
         for seed in [42,43,44]:
             name=f'{condition}_seed{seed}';v=load_training_config(REPOSITORY/f'Support/configs/cp2_v1/{name}.yaml')
@@ -117,7 +118,7 @@ def generate_configs(directory,results):
 def run_matrix(config_dir,output_dir):
     directory=Path(config_dir).resolve();output=Path(output_dir).resolve();evidence=directory/'preflight.json'
     if not evidence.is_file():raise ValueError('Measured CP4 preflight required')
-    measured=json.loads(evidence.read_text());first=load_temporal_config(directory/'iid_seed42.yaml')
+    measured=runtime_json(evidence.read_text());first=load_temporal_config(directory/'iid_seed42.yaml')
     if (measured['config_sha256']!=source_hash(directory/'iid_seed42.yaml') or measured['bundle_sha256']!=source_hash(first['dataset']['bundle_path'])
             or measured['peak_process_rss_kib']>int(3.5*1024**2) or measured['training_performed']):raise ValueError('Stale/invalid preflight')
     output.mkdir(parents=True,exist_ok=False);entries=[]

@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "workflow": "prepared_temporal_adapted",
+  "testing_only": false,
+  "training_completed": true,
+  "selection_policy": "final_round",
+  "selected_round": 20,
+  "evaluation_role": "validation",
+  "model_artifact": "model_artifact.pt",
+  "model_artifact_sha256": "f5578d3df97962bf350372c425dc648e4f98eb3f21ae6bc31d976653d7f12070",
+  "resume_supported": false,
+  "test_scored": false,
+  "execution_duration_seconds": 294.2564319189987
+}

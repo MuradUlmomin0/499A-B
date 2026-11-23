@@ -1,0 +1,78 @@
+{
+  "protocol_version": "cp4_temporal_trust_v1",
+  "date": "2026-11-12",
+  "user_approved_adaptation": true,
+  "exact_paper_reproduction": false,
+  "code_sha256": {
+    "main.py": "e7af8af7408139d6fd1393c596fe4598dce926bbdeb95f5c4e2809e12bee8f16",
+    "requirements.txt": "025e7dc97dc62febdc79e26b52d05541919ac69e09658d5f6ed388acd598e2e4",
+    "support/federated/temporal.py": "d1dc96f949072648c14baa6889c639dddadd89fb5617fd37d292a36ee4f4baac",
+    "support/utils/temporal_config.py": "28f9f291a6356046e1fa25b1784113f428585b136600b023344462cc49e9eb86",
+    "support/temporal_runner.py": "a423a7266e3d9e3af40d29a8e06330090d1a98f7192ff8855c10661edfd61409",
+    "support/temporal_verification.py": "8515a3a9575d27bda5e280bbb1b37f2c1d70007042f0654e1b446f1133cad6dc",
+    "support/compare_temporal.py": "0b0fff20f295b1aa46c8bb74367b3de68d82c4dbfd2fa4aa594130f1e9f39611",
+    "support/docs/cp4_temporal_trust_design.md": "492bb0ec3aa6a499cd5624526cfd955080d924aef370d0b0c6a937584905c88d"
+  },
+  "config_sha256": {
+    "support/configs/cp4_v1/dirichlet_seed42.yaml": "5a976e52ad07f2b46540ac6980725898dbf2d1ab863e707038e7f5f2e590b08a",
+    "support/configs/cp4_v1/dirichlet_seed43.yaml": "373b70b1b22e80aaed15974c26455716a36637c2790039265d945d1d654a1cff",
+    "support/configs/cp4_v1/dirichlet_seed44.yaml": "7844370ad6be3b91f75e1ba7038f94ab01498ec3828c98836d5d21fcd72a0da2",
+    "support/configs/cp4_v1/iid_seed42.yaml": "20bef53c9ca23c3b96ed59b48246d34355e38d8b30a382564f1da25cc93cc61e",
+    "support/configs/cp4_v1/iid_seed43.yaml": "3ee63369f2d759e7e1df90e1db45aec6e22a19eebef962eecc4ae5af4d77f2db",
+    "support/configs/cp4_v1/iid_seed44.yaml": "9027174cc0b2672f57da98097d8c9f9b854b49c47bbaf3e7872c23bc0519869b",
+    "support/configs/cp4_v1/preflight.json": "63abba489a64e9d2ae92e3194054c4cc1e63642132215538f0680430a161f092"
+  },
+  "paper_sha256": "6769490a4113e9c9f2e26a11cb91ba3d1e6d43c7d330892209a2e9b090ac6911",
+  "cp1_frozen_manifest_sha256": "ec0cfcbfb1072f4b777376adcb5e1592e38e050f0fa5d2e823c2ab60ef397662",
+  "cp2_verification_sha256": "94f48e8d86a70ee505b351768b5550c740361eb6c6c42b772e26d11269823ecd",
+  "cp3_frozen_manifest_sha256": "9d6ea8ce6412e70e7d972c934396b4c609e7ca5cd6516e54ebe24f029cc32c8f",
+  "common_existing_code_unchanged": true,
+  "minority_lowest_eight": [
+    {
+      "class_id": "31",
+      "class_name": "Uploading_Attack",
+      "train_rows": "12"
+    },
+    {
+      "class_id": "28",
+      "class_name": "Recon-PingSweep",
+      "train_rows": "22"
+    },
+    {
+      "class_id": "0",
+      "class_name": "Backdoor_Malware",
+      "train_rows": "35"
+    },
+    {
+      "class_id": "33",
+      "class_name": "XSS",
+      "train_rows": "37"
+    },
+    {
+      "class_id": "30",
+      "class_name": "SqlInjection",
+      "train_rows": "53"
+    },
+    {
+      "class_id": "3",
+      "class_name": "CommandInjection",
+      "train_rows": "56"
+    },
+    {
+      "class_id": "2",
+      "class_name": "BrowserHijacking",
+      "train_rows": "60"
+    },
+    {
+      "class_id": "17",
+      "class_name": "DictionaryBruteForce",
+      "train_rows": "139"
+    }
+  ],
+  "evaluation_role": "validation",
+  "test_scored": false,
+  "attacks_enabled": false,
+  "verification_revision": 3,
+  "initial_pre_run_manifest_sha256": "9f1ff7ea74a1df34589f052147e46ec9f6eec35f49c8f47732512e0f9cbcd0cc",
+  "revision_reason": "Reject nonfinite CSV weights; no training or scoring changes. Initial verifier/source preserved as v1; all actual weights separately audited finite. Orchestration-only fix: replace progress index after each case; preserve initial launcher log and verified cases. No change to training/scoring/settings."
+}

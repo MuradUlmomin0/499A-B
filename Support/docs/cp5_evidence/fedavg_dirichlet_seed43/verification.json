@@ -1,0 +1,37 @@
+{
+  "method": "fedavg",
+  "initial_state_sha256": "5446cef1c575c564585cd303e6ebdcc0ea9cd1e5248b5dc1f7771ccb004bc522",
+  "final_state_sha256": "578719bb5e9a96e886dabbcf13a89946f2738c4cda56f462d2cb67f080248316",
+  "rounds": 20,
+  "train_rows": 500000,
+  "client_rows": {
+    "client_000": 64272,
+    "client_001": 52296,
+    "client_002": 59325,
+    "client_003": 46014,
+    "client_004": 71170,
+    "client_005": 33320,
+    "client_006": 52640,
+    "client_007": 23892,
+    "client_008": 55194,
+    "client_009": 41877
+  },
+  "validation_rows": 752478,
+  "testing_only": false,
+  "test_scored": false,
+  "delivered_labels_verified": true,
+  "original_sources_verified": true,
+  "aggregation_verified": true,
+  "history_verified": true,
+  "reloaded_validation_exact": true,
+  "paired_controls_verified": true,
+  "zero_attack_matches_clean": null,
+  "selected_malicious": [
+    "client_005",
+    "client_000"
+  ],
+  "flipped_unique_rows_per_active_round": 79,
+  "total_flipped_training_observations": 1343,
+  "end_to_end_with_verification_seconds": 309.82466884300084,
+  "peak_process_rss_kib": 1525496
+}

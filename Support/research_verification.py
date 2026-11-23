@@ -1,4 +1,5 @@
 """Independent CP1 artifact, source-row alignment and role/group checks."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 import gc
 import json
 from pathlib import Path
@@ -15,13 +16,13 @@ from Support.data.split_checks import load_split_evidence, check_disjoint_splits
 def verify_prepared(source_dir, prepared_dir):
     """Check all exports without predicting, fitting, or selecting final scores."""
     started=perf_counter();source=Path(source_dir);root=Path(prepared_dir)
-    report=json.loads((root/'preparation_report.json').read_text())
-    selection=json.loads((source/'selection.json').read_text())
+    report=runtime_json((root/'preparation_report.json').read_text())
+    selection=runtime_json((source/'selection.json').read_text())
     for filename,digest in selection['files'].items():
         if source_hash(source/filename)!=digest:raise ValueError('Source selection hash mismatch')
     for filename,digest in report['files'].items():
         if source_hash(root/filename)!=digest:raise ValueError('Prepared file hash mismatch')
-    preprocessing=json.loads((root/'preprocessing.json').read_text());mean=np.array(preprocessing['mean']);scale=np.array(preprocessing['scale'])
+    preprocessing=runtime_json((root/'preprocessing.json').read_text());mean=np.array(preprocessing['mean']);scale=np.array(preprocessing['scale'])
     evidence={};counts={};train_y=None;train_groups=None
     for role in ['train','auxiliary','validation','test']:
         data=load_prepared_data(root/f'{role}.manifest.json',expected_role=role)
@@ -50,7 +51,7 @@ def verify_prepared(source_dir, prepared_dir):
     train_x=np.load(root/'train_features.npy',mmap_mode='r')
     train_ord=np.load(root/'train_ordinals.npy',mmap_mode='r')
     for name,record in report['conditions'].items():
-        directory=root/name;assignment=np.load(directory/'assignment.npy');bundle=json.loads((directory/'federated_bundle.json').read_text());owners={};rows=[]
+        directory=root/name;assignment=np.load(directory/'assignment.npy');bundle=runtime_json((directory/'federated_bundle.json').read_text());owners={};rows=[]
         if len(assignment)!=len(train_y):raise ValueError('Client assignment is not complete')
         for group,client in zip(train_groups,assignment):
             previous=owners.setdefault(bytes(group),int(client))

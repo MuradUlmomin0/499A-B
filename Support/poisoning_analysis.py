@@ -1,4 +1,5 @@
 """Descriptive clean/poisoned comparison; no retuning, stealth or significance claim."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 import argparse
 import csv
 import json
@@ -13,7 +14,7 @@ from Support.poisoning_experiments import case_order,_checked
 METRICS=['accuracy','balanced_accuracy','macro_f1','weighted_f1','loss']
 
 
-def _read(path):return json.loads(Path(path).read_text())
+def _read(path):return runtime_json(Path(path).read_text())
 def _rows(path):
     with Path(path).open() as f:return list(csv.DictReader(f))
 
@@ -84,7 +85,7 @@ def analyze(index_path,output_dir):
     pairs=[];per_class=[];penalties=[];class_penalties=[];details={}
     for e in entries:
         if e['control']:continue
-        path=Path(e['run_path']);meta=_read(path/'metadata.json');config=yaml.load((path/'config.yaml').read_text(),Loader=_PreparedConfigLoader);clean=Path(meta['paired_clean_run'])
+        path=Path(e['run_path']);meta=_read(path/'metadata.json');config=runtime_yaml((path/'config.yaml').read_text(),Loader=_PreparedConfigLoader);clean=Path(meta['paired_clean_run'])
         cm=_read(clean/'metadata.json');v=_read(path/'verification.json');cv=_read(clean/'verification.json')
         if (meta['workflow']!='prepared_poisoning' or meta['method']!=e['method'] or meta['seed']!=e['seed'] or cm['seed']!=e['seed']
                 or meta['federated_inputs']!=cm['federated_inputs'] or meta['evaluation_role']!='validation' or cm['evaluation_role']!='validation'):

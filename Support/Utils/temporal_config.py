@@ -1,4 +1,5 @@
 """Strict configuration for the approved CP4 temporal-trust adaptation."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 from pathlib import Path
 import yaml
 from Support.federated.temporal import DEFAULTS
@@ -23,7 +24,7 @@ def validate_temporal_config(value):
 
 def load_temporal_config(path):
     path=Path(path).resolve()
-    try:v=yaml.load(path.read_text(),Loader=_PreparedConfigLoader)
+    try:v=runtime_yaml(path.read_text(),Loader=_PreparedConfigLoader)
     except yaml.YAMLError as error:raise ValueError(f'Invalid temporal YAML: {error}') from error
     v=validate_temporal_config(v)
     for section,key in [('experiment','output_dir'),('dataset','bundle_path'),('temporal','reference_run_path')]:

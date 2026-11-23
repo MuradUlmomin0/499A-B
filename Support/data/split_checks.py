@@ -5,6 +5,7 @@ not freshly assigned row numbers in each exported partition. The producer is
 responsible for truthful IDs and row alignment. Hashes/counts bind declarations
 to files; they cannot prove preprocessing or identity claims are correct.
 """
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 
 from collections.abc import Mapping
 from dataclasses import dataclass
@@ -48,7 +49,7 @@ def load_split_evidence(path: str | Path, *, data_path: str | Path, sample_count
         raise ValueError('sample_count must be a positive integer')
     source = Path(path).resolve()
     content = source.read_bytes()
-    value = json.loads(content, object_pairs_hook=_unique_json_object)
+    value = runtime_json(content, object_pairs_hook=_unique_json_object)
     required = {'schema_version', 'source_namespace', 'data_sha256', 'record_ids', 'group_ids'}
     if not isinstance(value, dict) or set(value) != required:
         raise ValueError('Split sidecar fields must exactly match the version 1 schema')

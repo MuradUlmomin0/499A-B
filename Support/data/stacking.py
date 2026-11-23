@@ -4,6 +4,7 @@ Exact medians use disk-backed feature columns; scaling uses bounded partial_fit.
 This is a reconstruction with today's libraries, not proof of historical identity.
 No resampling or model training occurs. This format is separate from MLP v1 data.
 """
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 from contextlib import ExitStack
 from collections import Counter
 import csv
@@ -190,7 +191,7 @@ def load_recovery(path):
     payload = (path/'recovery.json').read_bytes()
     if hashlib.sha256(payload).hexdigest() != (path/'recovery.sha256').read_text().strip():
         raise ValueError('Recovery metadata hash mismatch')
-    r = json.loads(payload)
+    r = runtime_json(payload)
     if (r.get('schema_version') != 1 or r.get('architecture') != 'notebook_stacking_v1'
             or r.get('status') != 'reconstructed_unverified' or r.get('testing_only') is not True
             or r.get('historical_preprocessing_verified') is not False

@@ -12,6 +12,7 @@ Paths may be absolute or relative to the manifest's directory. ``client_id`` is
 a nonblank string or explicit null for an unassigned/global artifact. Each
 artifact declares its role; no partitioning or client mapping is inferred.
 """
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 
 from dataclasses import dataclass
 import hashlib
@@ -92,7 +93,7 @@ def load_data_manifest(path: str | Path) -> PreparedDataManifest:
     manifest_path = Path(path).resolve()
     if not manifest_path.is_file():
         raise FileNotFoundError(f'Manifest file not found: {manifest_path}')
-    description = json.loads(
+    description = runtime_json(
         manifest_path.read_text(encoding='utf-8'),
         object_pairs_hook=_unique_json_object,
     )

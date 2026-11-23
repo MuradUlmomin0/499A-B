@@ -1,0 +1,12 @@
+{
+  "scoring_source_identical_to_pre_run_freeze": true,
+  "unchanged_runner_functions": [
+    "run_temporal",
+    "run_verified",
+    "preflight",
+    "paired_reference",
+    "load_inputs"
+  ],
+  "original_cp3_sources_unchanged_except_main_and_requirements": true,
+  "revisions": "Finite CSV verification check and replaceable progress index only; method settings, model training and scoring unchanged."
+}

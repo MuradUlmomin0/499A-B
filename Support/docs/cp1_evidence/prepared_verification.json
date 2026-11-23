@@ -1,0 +1,91 @@
+{
+  "source_alignment_verified": true,
+  "all_role_records_disjoint": true,
+  "all_role_groups_disjoint": true,
+  "all_client_arrays_verified": true,
+  "roles": {
+    "train": 500000,
+    "auxiliary": 339,
+    "validation": 752478,
+    "test": 724992
+  },
+  "conditions": {
+    "iid_seed42": [
+      50000,
+      50000,
+      50000,
+      50000,
+      50000,
+      50000,
+      50000,
+      50000,
+      50000,
+      50000
+    ],
+    "iid_seed43": [
+      50000,
+      50000,
+      50000,
+      50000,
+      50000,
+      50000,
+      50000,
+      50000,
+      50000,
+      50000
+    ],
+    "iid_seed44": [
+      50000,
+      50000,
+      50000,
+      50000,
+      50000,
+      50000,
+      50000,
+      50000,
+      50000,
+      50000
+    ],
+    "dirichlet_seed42": [
+      69069,
+      100215,
+      29318,
+      43844,
+      55190,
+      51137,
+      17827,
+      57636,
+      35218,
+      40546
+    ],
+    "dirichlet_seed43": [
+      64272,
+      52296,
+      59325,
+      46014,
+      71170,
+      33320,
+      52640,
+      23892,
+      55194,
+      41877
+    ],
+    "dirichlet_seed44": [
+      54537,
+      43050,
+      65478,
+      50867,
+      28390,
+      85453,
+      75349,
+      15800,
+      45465,
+      35611
+    ]
+  },
+  "preparation_report_sha256": "531afe38b906b3878e1db10b0b40fc9d66efb7c2642319677ad13d495a52acfa",
+  "source_selection_sha256": "eceae43b7da247665cdaa114a19a3aaf8b8e2a81ea673357cc043f55588b7807",
+  "test_scored": false,
+  "seconds": 70.06810106500052,
+  "peak_process_rss_kib": 1488800
+}

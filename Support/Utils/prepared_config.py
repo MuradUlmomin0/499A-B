@@ -27,6 +27,7 @@ Testing-only status belongs to the model/data declarations; YAML cannot override
 it. Declared completed training and false testing-only flags do not establish
 research validity. The existing Milestone A configuration API is unchanged.
 """
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 
 from pathlib import Path
 import re
@@ -145,7 +146,7 @@ def load_prepared_config(path: str | Path) -> dict:
     if not config_path.is_file():
         raise FileNotFoundError(f'Prepared configuration file not found: {config_path}')
     try:
-        description = yaml.load(config_path.read_text(encoding='utf-8'), Loader=_PreparedConfigLoader)
+        description = runtime_yaml(config_path.read_text(encoding='utf-8'), Loader=_PreparedConfigLoader)
     except yaml.YAMLError as error:
         raise ValueError(f'Invalid prepared configuration YAML: {error}') from error
     config = validate_prepared_config(description)

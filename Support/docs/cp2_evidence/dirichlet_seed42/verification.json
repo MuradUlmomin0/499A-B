@@ -1,0 +1,29 @@
+{
+  "initial_state_sha256": "0fbc7feccb79c2c81e3422c764de2b46e235a8f01563b23a2d325211f0754635",
+  "final_state_sha256": "3a10cab569035b588f1ca808c4708efff5f5b37c66f28b65a66e20eaffbf0169",
+  "model_artifact_sha256": "8d2e90a7ae95ce5b8ca9fca9abd9a6fe3791c34a13c6db43a834a38783df33fc",
+  "rounds": 20,
+  "train_rows": 500000,
+  "client_rows": {
+    "client_000": 69069,
+    "client_001": 100215,
+    "client_002": 29318,
+    "client_003": 43844,
+    "client_004": 55190,
+    "client_005": 51137,
+    "client_006": 17827,
+    "client_007": 57636,
+    "client_008": 35218,
+    "client_009": 40546
+  },
+  "validation_rows": 752478,
+  "history_verified": true,
+  "aggregation_verified": true,
+  "reloaded_validation_exact": true,
+  "artifact_matches_checkpoint": true,
+  "model_changed": true,
+  "test_scored": false,
+  "testing_only": false,
+  "end_to_end_with_verification_seconds": 246.13728740899933,
+  "peak_process_rss_kib": 1441044
+}

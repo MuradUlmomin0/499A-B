@@ -1,0 +1,171 @@
+{
+  "cp3_complete": true,
+  "user_approved_nnls_adaptation": true,
+  "exact_paper_reproduction": false,
+  "six_primary_runs_verified": true,
+  "true_class_cpms_recomputed_from_local_states": true,
+  "cluster_weight_and_state_equations_verified": true,
+  "history_updates_match_prior_global_reference": true,
+  "matched_cp2_controls_verified": true,
+  "all_classes_and_seeds_reported": true,
+  "full_public_main_repeat_verified": true,
+  "repeat_excluded_from_three_seed_summary": true,
+  "test_scored": false,
+  "training_code_frozen_manifest_sha256": "9d6ea8ce6412e70e7d972c934396b4c609e7ca5cd6516e54ebe24f029cc32c8f",
+  "analysis_code_sha256": "0834078588242de26c6c2b2d9e29b79e936ac9f7ade506a0d4894326321b1eb2",
+  "unit_tests": {
+    "passed": 867,
+    "new_cp3_cases": 50,
+    "warnings": 1,
+    "warning": "Expected old invalid-input float32 overflow fixture"
+  },
+  "source_snapshot_sha256": "f2efbed507f98aaffc8471c2c33e293a917d9deba6ef31d4121b4c5a49ecdb53",
+  "diagnostic_archive_sha256": "f085a8e47bacc4b5c6ee1a0cfb2ed1c3036e6c612e7d4cd9297b13e4ad44dcac",
+  "primary_runs": [
+    {
+      "condition": "iid",
+      "seed": 42,
+      "run_path": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp3_v1/runs/cp3_iid_seed42_20261112T115908901406Z_bc653a86",
+      "accuracy": 0.8320801405489596,
+      "balanced_accuracy": 0.5502925502969951,
+      "macro_f1": 0.5485813677102392,
+      "weighted_f1": 0.824098474251914,
+      "loss": 0.41952491354530613,
+      "peak_process_rss_kib": 1455540,
+      "duration_seconds": 360.13855335900007,
+      "zero_recall_class_ids": [
+        0,
+        2,
+        3,
+        28,
+        30,
+        31,
+        33
+      ]
+    },
+    {
+      "condition": "iid",
+      "seed": 43,
+      "run_path": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp3_v1/runs/cp3_iid_seed43_20261112T120509730435Z_e64c13b3",
+      "accuracy": 0.8344257240743251,
+      "balanced_accuracy": 0.5534842307489869,
+      "macro_f1": 0.5491468746328136,
+      "weighted_f1": 0.8275694432103979,
+      "loss": 0.4264481791919832,
+      "peak_process_rss_kib": 1455032,
+      "duration_seconds": 288.20748913600073,
+      "zero_recall_class_ids": [
+        0,
+        2,
+        3,
+        17,
+        28,
+        30,
+        31,
+        33
+      ]
+    },
+    {
+      "condition": "iid",
+      "seed": 44,
+      "run_path": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp3_v1/runs/cp3_iid_seed44_20261112T121002380518Z_37470334",
+      "accuracy": 0.8268427781277327,
+      "balanced_accuracy": 0.5484470295222357,
+      "macro_f1": 0.5449390565270532,
+      "weighted_f1": 0.8189736696705314,
+      "loss": 0.42346572146980543,
+      "peak_process_rss_kib": 1450648,
+      "duration_seconds": 275.60876545799965,
+      "zero_recall_class_ids": [
+        0,
+        2,
+        3,
+        28,
+        30,
+        31,
+        33
+      ]
+    },
+    {
+      "condition": "dirichlet",
+      "seed": 42,
+      "run_path": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp3_v1/runs/cp3_dirichlet_seed42_20261112T121448823158Z_05fe6b1a",
+      "accuracy": 0.8268746727479076,
+      "balanced_accuracy": 0.5399457706256371,
+      "macro_f1": 0.5325786047025768,
+      "weighted_f1": 0.8219576631611764,
+      "loss": 0.45100299919642894,
+      "peak_process_rss_kib": 1454128,
+      "duration_seconds": 302.02261414500026,
+      "zero_recall_class_ids": [
+        0,
+        2,
+        3,
+        17,
+        28,
+        30,
+        31,
+        33
+      ]
+    },
+    {
+      "condition": "dirichlet",
+      "seed": 43,
+      "run_path": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp3_v1/runs/cp3_dirichlet_seed43_20261112T121948595708Z_52c9df57",
+      "accuracy": 0.8092289741361209,
+      "balanced_accuracy": 0.521826138895519,
+      "macro_f1": 0.5154728848142668,
+      "weighted_f1": 0.7975797908761677,
+      "loss": 0.4816147597416505,
+      "peak_process_rss_kib": 1452812,
+      "duration_seconds": 274.71115181999994,
+      "zero_recall_class_ids": [
+        0,
+        2,
+        3,
+        17,
+        27,
+        28,
+        30,
+        31,
+        33
+      ]
+    },
+    {
+      "condition": "dirichlet",
+      "seed": 44,
+      "run_path": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp3_v1/runs/cp3_dirichlet_seed44_20261112T122427839328Z_3a1e7133",
+      "accuracy": 0.6963419528544356,
+      "balanced_accuracy": 0.5210626192203541,
+      "macro_f1": 0.48954898345594744,
+      "weighted_f1": 0.6612827092871211,
+      "loss": 0.5917286619552862,
+      "peak_process_rss_kib": 1449808,
+      "duration_seconds": 286.0279251969996,
+      "zero_recall_class_ids": [
+        0,
+        2,
+        3,
+        17,
+        28,
+        30,
+        31,
+        33
+      ]
+    }
+  ],
+  "limitations": [
+    "Documented solver/geometry and common-protocol adaptations; not exact reproduction",
+    "Simulated clients and unverified capture/device independence",
+    "Three descriptive seeds, no significance claim",
+    "No poisoning/temporal trust/fusion or final-test evaluation",
+    "Runtime measurements are not a controlled same-date hardware comparison"
+  ],
+  "public_saved_model_evaluation_verified": true,
+  "public_evaluation_run": "support/results/cp3_v1/evaluation/cp3_iid_seed42_validation_20261112T123839419587Z_11187744",
+  "public_classification_metrics_match": true,
+  "public_loss_precision_note": "Prepared evaluator uses float64 logits for loss; round evaluation uses float32.",
+  "final_original_archive_and_prepared_hashes_verified": true,
+  "shared_engine_still_matches_cp2": true,
+  "final_document_links_verified": true
+}

@@ -1,35 +1,15 @@
-# Prepared prediction template: supply the referenced artifacts before running.
-# Use a version 1 PyTorch MLP artifact and a compatible JSON data manifest that
-# points to already-prepared NPZ arrays. The paths below are examples.
-#
-# Run from the repository root after supplying the artifacts:
-# shield_env/bin/python main.py --prepared --config Support/configs/prepared_predict.yaml
-#
-# Relative path values resolve from this YAML's directory (Support/configs/).
-# Testing-only status comes from the model/data declarations. Synthetic inputs
-# are for software verification; their outputs must not be used as research results.
-
 schema_version: 1
 mode: predict
-
 experiment:
-  name: prepared_predict
+  name: demo_20_real_traffic_predictions
   seed: 42
   device: cpu
   deterministic: true
-  # Each execution creates a separate run folder within Support/results/.
-  output_dir: ../results
-
+  output_dir: ../results/demo_prediction
 model:
-  # The artifact contains weights, architecture, feature/class order and metadata.
-  artifact_path: ../results/checkpoints/prepared_model.pt
-
+  artifact_path: ../results/cp2_v1/runs/cp2_iid_seed42_20261110T161835890702Z_f7a41338/model_artifact.pt
 dataset:
-  # Prepared features must already have the model's required preprocessing applied.
-  manifest_path: ../../data/processed/predict_manifest.json
-  # Must match the manifest's declared role. Prediction ignores any supplied labels.
+  manifest_path: ../../data/processed/demo_predict/manifest.json
   expected_role: predict
-
 inference:
-  # Number of rows processed per prediction batch.
-  batch_size: 256
+  batch_size: 128

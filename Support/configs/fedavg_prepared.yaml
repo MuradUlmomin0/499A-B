@@ -1,34 +1,23 @@
-# Prepared FedAvg training template. Supply an audited bundle, existing version 1
-# train/validation manifests and NPZ files, plus version 1 ID sidecars first.
-# No real dataset, client mapping or research training budget is chosen here.
-# Values below illustrate a small run; agree the experiment settings before use.
-#
-# This command PERFORMS local optimization when supplied inputs are present:
-# shield_env/bin/python main.py --federated --config Support/configs/fedavg_prepared.yaml
-# Relative paths resolve from Support/configs/. Final test data is not accepted.
-
 schema_version: 1
 experiment:
-  name: fedavg_prepared
+  name: cp2_iid_seed42
   seed: 42
   device: cpu
   deterministic: true
-  output_dir: ../results
+  output_dir: ../results/cp2_v1/runs
 dataset:
-  bundle_path: ../../data/processed/federated_bundle.json
+  bundle_path: ../../data/processed/research_cp1_v1/iid_seed42/federated_bundle.json
 initialization:
-  # One shared random global state; compatible artifact warm starts are optional.
   mode: random
   artifact_path: null
 federated:
   aggregation: fedavg
-  rounds: 1
+  rounds: 20
   participation_rate: 1.0
 training:
   optimizer: adam
   learning_rate: 0.001
   local_epochs: 1
-  batch_size: 32
+  batch_size: 128
 selection:
-  # Approved policy: export the final round, independent of validation scores.
   policy: final_round

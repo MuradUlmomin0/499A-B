@@ -1,4 +1,5 @@
 """Strict CP6 wrapper; referenced CP3 and CP4 configurations stay immutable."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 import math
 from pathlib import Path
 import re
@@ -11,7 +12,7 @@ from Support.Utils.temporal_config import load_temporal_config
 
 def load_fusion_config(path):
     path=Path(path).resolve()
-    try:v=yaml.load(path.read_text(),Loader=_PreparedConfigLoader)
+    try:v=runtime_yaml(path.read_text(),Loader=_PreparedConfigLoader)
     except yaml.YAMLError as e:raise ValueError(f'Invalid fusion YAML: {e}') from e
     fields={'schema_version','method','experiment','baseline_config_path','temporal_config_path','reference_clean_run_path','endpoint_reference_run_path','lambda_value','attack'}
     if not isinstance(v,dict) or set(v)!=fields:raise ValueError('Invalid fusion configuration fields')

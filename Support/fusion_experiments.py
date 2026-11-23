@@ -1,4 +1,5 @@
 """Sequential CP6 controls, pilot and matched attack matrix; no retuning."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 import argparse
 import json
 import os
@@ -8,6 +9,7 @@ import sys
 
 import yaml
 from Support.data.latest_audit import source_hash
+from Support.Utils.runtime_paths import packaged, historical_inventory, authenticate_recorded, verify_code
 from Support.Utils.fusion_config import load_fusion_config
 
 REPOSITORY=Path(__file__).resolve().parents[1]
@@ -25,8 +27,8 @@ def case_order():
 
 def generate_configs(directory,results):
     directory=Path(directory).resolve();directory.mkdir(parents=True,exist_ok=False)
-    refs={m:json.loads((REPOSITORY/f'Support/results/{folder}/matrix/comparison.json').read_text())['runs'] for m,folder in [('fedmade','cp3_v1'),('temporal','cp4_v1')]}
-    attacked=json.loads((REPOSITORY/'Support/docs/cp5_evidence/primary_registry.json').read_text())
+    refs={m:runtime_json((REPOSITORY/f'Support/results/{folder}/matrix/comparison.json').read_text())['runs'] for m,folder in [('fedmade','cp3_v1'),('temporal','cp4_v1')]}
+    attacked=runtime_json((REPOSITORY/'Support/docs/cp5_evidence/primary_registry.json').read_text())
     for c in case_order():
         condition,seed=c['condition'],c['seed'];ref=next(r['run_path'] for r in refs['fedmade'] if (r['condition'],r['seed'])==(condition,seed))
         endpoint=None
@@ -50,6 +52,10 @@ def _files(directory):
 def required_inventory(config_dir):
     """Derive the required inventory independently of the supplied freeze maps."""
     directory=Path(config_dir).resolve()
+    if packaged(REPOSITORY):
+        frozen=historical_inventory(6)
+        if directory==Path(frozen['config_directory']):
+            return {k:set(frozen[k]) for k in ['code_sha256','config_sha256','input_sha256','reference_sha256']}
     code={str(p.resolve()) for p in (REPOSITORY/'Support').rglob('*.py') if not any(k in p.parts for k in ['results','docs','__pycache__'])}
     code|={str(REPOSITORY/p) for p in ['main.py','Requirements.txt','PROJECT_CONTEXT.md']}
     configs={str(directory/(c['name']+'.yaml')) for c in case_order()}
@@ -57,13 +63,13 @@ def required_inventory(config_dir):
     for path in list(configs):
         cfg=load_fusion_config(path);base=cfg['_baseline']
         configs.update([cfg['baseline_config_path'],cfg['temporal_config_path']])
-        bundle=Path(base['dataset']['bundle_path']);inputs.add(str(bundle));inputs.add(str(bundle.parent.parent/'preparation_report.json'));raw=json.loads(bundle.read_text())
+        bundle=Path(base['dataset']['bundle_path']);inputs.add(str(bundle));inputs.add(str(bundle.parent.parent/'preparation_report.json'));raw=runtime_json(bundle.read_text())
         for item in [*raw['clients'],raw['validation']]:
             for field in ['manifest_path','evidence_path']:inputs.add(str((bundle.parent/item[field]).resolve()))
-            manifest=(bundle.parent/item['manifest_path']).resolve();m=json.loads(manifest.read_text())
+            manifest=(bundle.parent/item['manifest_path']).resolve();m=runtime_json(manifest.read_text())
             for field in ['data_path','preprocessing_path']:inputs.add(str((manifest.parent/m[field]).resolve()))
         manifest=Path(base['fedmade']['auxiliary_manifest_path']);inputs.add(str(manifest));inputs.add(base['fedmade']['auxiliary_evidence_path'])
-        m=json.loads(manifest.read_text())
+        m=runtime_json(manifest.read_text())
         for field in ['data_path','preprocessing_path']:inputs.add(str((manifest.parent/m[field]).resolve()))
         for field in ['reference_clean_run_path','endpoint_reference_run_path']:
             if cfg[field] is not None:references.update(_files(cfg[field]))
@@ -83,17 +89,17 @@ def validate_case(config,case):
         or Path(config['baseline_config_path'])!=REPOSITORY/f'Support/configs/cp3_v1/{condition}_seed{seed}.yaml'
         or Path(config['temporal_config_path'])!=REPOSITORY/f'Support/configs/cp4_v1/{condition}_seed{seed}.yaml'):
         raise ValueError('Case configuration differs from frozen scientific identity')
-    refs=json.loads((REPOSITORY/'Support/results/cp3_v1/matrix/comparison.json').read_text())['runs']
+    refs=runtime_json((REPOSITORY/'Support/results/cp3_v1/matrix/comparison.json').read_text())['runs']
     expected_clean=next(r['run_path'] for r in refs if (r['condition'],r['seed'])==(condition,seed))
     if Path(config['reference_clean_run_path'])!=Path(expected_clean):raise ValueError('Case clean reference mismatch')
     expected_endpoint=None
     if case['control']:
         method='fedmade' if case['lambda_value']==0 else 'temporal'
         if case['attacked']:
-            refs=json.loads((REPOSITORY/'Support/docs/cp5_evidence/primary_registry.json').read_text())
+            refs=runtime_json((REPOSITORY/'Support/docs/cp5_evidence/primary_registry.json').read_text())
             expected_endpoint=next(r['run_path'] for r in refs if r['method']==method and not r['control'] and (r['condition'],r['seed'])==(condition,seed))
         else:
-            folder='cp3_v1' if method=='fedmade' else 'cp4_v1';refs=json.loads((REPOSITORY/f'Support/results/{folder}/matrix/comparison.json').read_text())['runs']
+            folder='cp3_v1' if method=='fedmade' else 'cp4_v1';refs=runtime_json((REPOSITORY/f'Support/results/{folder}/matrix/comparison.json').read_text())['runs']
             expected_endpoint=next(r['run_path'] for r in refs if (r['condition'],r['seed'])==(condition,seed))
     if config['endpoint_reference_run_path']!=expected_endpoint:raise ValueError('Case endpoint reference mismatch')
 
@@ -111,16 +117,16 @@ def freeze(config_dir,path):
 def guard(config_dir):
     frozen=REPOSITORY/'Support/docs/cp6_evidence/frozen_manifest.json'
     if not frozen.is_file():raise ValueError('CP6 source/configuration freeze required')
-    v=json.loads(frozen.read_text());directory=Path(config_dir).resolve()
+    v=runtime_json(frozen.read_text());directory=Path(config_dir).resolve()
     if v.get('config_directory')!=str(directory) or v.get('protocol_version')!='cp6_equal_blend_v1' or v.get('user_approved') is not True or v.get('test_scored') is not False:raise ValueError('Invalid freeze identity')
     for field,required in required_inventory(directory).items():
         if set(v.get(field,{}))!=required or not required:raise ValueError('Incomplete/extra frozen inventory: '+field)
         for p,h in v[field].items():
-            if source_hash(p)!=h:raise ValueError('Frozen source/config/input/reference changed: '+p)
+            if not authenticate_recorded(p,h):raise ValueError('Frozen source/config/input/reference changed: '+p)
     for case in case_order():validate_case(load_fusion_config(directory/(case['name']+'.yaml')),case)
     evidence=directory/'preflight.json'
     if not evidence.exists():raise ValueError('Measured CP6 preflight required')
-    measured=json.loads(evidence.read_text());config=directory/'fused_poisoned_dirichlet_seed42.yaml'
+    measured=runtime_json(evidence.read_text());config=directory/'fused_poisoned_dirichlet_seed42.yaml'
     if (measured['config_sha256']!=source_hash(config) or measured['training_performed'] or measured['test_scored']
         or not measured['both_components_initialized'] or measured['peak_process_rss_kib']>int(3.5*1024**2)):raise ValueError('Stale/invalid memory preflight')
 
@@ -133,7 +139,7 @@ def check_cached(entry,case,config,manifest):
     path=Path(entry['run_path']);cfg=load_fusion_config(config)
     if load_fusion_config(path/'config.yaml')!=cfg:raise ValueError('Cached run configuration differs')
     if entry['config_sha256']!=source_hash(config) or entry['verification_sha256']!=source_hash(path/'verification.json'):raise ValueError('Cached case digest differs')
-    if entry['artifact_manifest_sha256']!=source_hash(manifest) or json.loads(Path(manifest).read_text())!=artifact_hashes(path):raise ValueError('Cached artifacts changed')
+    if entry['artifact_manifest_sha256']!=source_hash(manifest) or runtime_json(Path(manifest).read_text())!=artifact_hashes(path):raise ValueError('Cached artifacts changed')
     _checked(path,case['control'])
 
 
@@ -142,12 +148,12 @@ def check_repeat(entries):
     if not repeats:return
     original=next(e for e in entries if e['name']=='fused_poisoned_dirichlet_seed42');repeat=repeats[0]
     left,right=Path(original['run_path']),Path(repeat['run_path'])
-    if (json.loads((left/'verification.json').read_text())['final_state_sha256']!=json.loads((right/'verification.json').read_text())['final_state_sha256']
+    if (runtime_json((left/'verification.json').read_text())['final_state_sha256']!=runtime_json((right/'verification.json').read_text())['final_state_sha256']
         or (left/'validation_metrics.json').read_bytes()!=(right/'validation_metrics.json').read_bytes()):raise ValueError('Full repeat differs')
 
 
 def _checked(path,control):
-    v=json.loads((Path(path)/'verification.json').read_text())
+    v=runtime_json((Path(path)/'verification.json').read_text())
     if (v['testing_only'] or v['test_scored'] or not v['aggregation_verified'] or not v['delivered_labels_verified']
             or not v['reloaded_validation_exact'] or not v['paired_controls_verified'] or (control and v['endpoint_matches_reference'] is not True)):
         raise ValueError('Failed CP6 run/control verification')
@@ -157,7 +163,7 @@ def _checked(path,control):
 def run_matrix(config_dir,output_dir,*,resume=False):
     directory=Path(config_dir).resolve();out=Path(output_dir).resolve();guard(directory)
     out.mkdir(parents=True,exist_ok=resume)
-    index=out/'progress.json';entries=json.loads(index.read_text()) if index.exists() else []
+    index=out/'progress.json';entries=runtime_json(index.read_text()) if index.exists() else []
     cases=case_order()
     if [e['name'] for e in entries]!=[c['name'] for c in cases[:len(entries)]] or len(entries)>len(cases):raise ValueError('Invalid saved matrix prefix')
     for i,c in enumerate(cases):

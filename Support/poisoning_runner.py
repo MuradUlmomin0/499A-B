@@ -1,4 +1,5 @@
 """Approved targeted local-label poisoning for three frozen aggregation methods."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 from collections import OrderedDict
 import json
 from pathlib import Path
@@ -54,7 +55,7 @@ def paired_reference(config,bundle):
         return None
     path=Path(path);reference=LOADERS[config['method']](path/'config.yaml')
     if reference!=base:raise ValueError('Clean reference configuration does not match frozen baseline')
-    meta=json.loads((path/'metadata.json').read_text());v=json.loads((path/'verification.json').read_text())
+    meta=runtime_json((path/'metadata.json').read_text());v=runtime_json((path/'verification.json').read_text())
     if (meta.get('workflow')!=WORKFLOWS[config['method']] or meta.get('evaluation_role')!='validation'
             or meta['federated_inputs']!=bundle.source_metadata() or v['test_scored'] or v['testing_only']!=bundle.testing_only
             or not v['aggregation_verified'] or not v['reloaded_validation_exact']):raise ValueError('Invalid or unverified paired clean reference')

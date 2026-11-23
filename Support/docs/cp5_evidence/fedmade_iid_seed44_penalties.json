@@ -1,0 +1,706 @@
+{
+  "attack_detection_available": false,
+  "rate_unit": "client-round within attack period; temporal unscored rounds excluded",
+  "malicious_aggregation_mass_mean": 0.011939408287197145,
+  "honest": {
+    "client_rounds": 136,
+    "zero_weight_rate": 0.19117647058823528,
+    "weight_below_fedavg_rate": 0.2426470588235294,
+    "rejection_rate": null,
+    "downweight_rate": null
+  },
+  "malicious": {
+    "client_rounds": 34,
+    "zero_weight_rate": 0.9705882352941176,
+    "weight_below_fedavg_rate": 0.9705882352941176,
+    "rejection_rate": null,
+    "downweight_rate": null
+  },
+  "by_client": {
+    "client_000": {
+      "client_rounds": 17,
+      "zero_weight_rate": 1.0,
+      "weight_below_fedavg_rate": 1.0,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    "client_001": {
+      "client_rounds": 17,
+      "zero_weight_rate": 0.17647058823529413,
+      "weight_below_fedavg_rate": 0.23529411764705882,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    "client_002": {
+      "client_rounds": 17,
+      "zero_weight_rate": 0.17647058823529413,
+      "weight_below_fedavg_rate": 0.23529411764705882,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    "client_003": {
+      "client_rounds": 17,
+      "zero_weight_rate": 0.23529411764705882,
+      "weight_below_fedavg_rate": 0.29411764705882354,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    "client_004": {
+      "client_rounds": 17,
+      "zero_weight_rate": 0.9411764705882353,
+      "weight_below_fedavg_rate": 0.9411764705882353,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    "client_005": {
+      "client_rounds": 17,
+      "zero_weight_rate": 0.23529411764705882,
+      "weight_below_fedavg_rate": 0.29411764705882354,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    "client_006": {
+      "client_rounds": 17,
+      "zero_weight_rate": 0.17647058823529413,
+      "weight_below_fedavg_rate": 0.17647058823529413,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    "client_007": {
+      "client_rounds": 17,
+      "zero_weight_rate": 0.17647058823529413,
+      "weight_below_fedavg_rate": 0.23529411764705882,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    "client_008": {
+      "client_rounds": 17,
+      "zero_weight_rate": 0.11764705882352941,
+      "weight_below_fedavg_rate": 0.17647058823529413,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    "client_009": {
+      "client_rounds": 17,
+      "zero_weight_rate": 0.23529411764705882,
+      "weight_below_fedavg_rate": 0.29411764705882354,
+      "rejection_rate": null,
+      "downweight_rate": null
+    }
+  },
+  "honest_by_class": [
+    {
+      "class_id": 0,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 1,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 2,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 3,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 4,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 5,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 6,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 7,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 8,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 9,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 10,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 11,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 12,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 13,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 14,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 15,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 16,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 17,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 18,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 19,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 20,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 21,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 22,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 23,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 24,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 25,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 26,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 27,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 28,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 29,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 30,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 31,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 32,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    },
+    {
+      "class_id": 33,
+      "carrying_honest_clients": [
+        "client_001",
+        "client_002",
+        "client_003",
+        "client_005",
+        "client_006",
+        "client_007",
+        "client_008",
+        "client_009"
+      ],
+      "client_rounds": 136,
+      "zero_weight_rate": 0.19117647058823528,
+      "weight_below_fedavg_rate": 0.2426470588235294,
+      "rejection_rate": null,
+      "downweight_rate": null
+    }
+  ],
+  "interpretation": "FedAvg has no detector; FedMADE zero weights are optimization exclusions. Temporal rejection/downweighting are declared decisions, not proof of attacker detection."
+}

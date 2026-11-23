@@ -1,0 +1,56 @@
+{
+  "config_sha256": "d761dbea566b1c84c2de71044319dbd420d9967d234b113d764d71413b631856",
+  "bundle_sha256": "9f5206f761fa32b0ba87a6f7738dfbb274d912d4d0afdf01d8126cd10946d1c5",
+  "selected_clients": [
+    "client_008",
+    "client_003"
+  ],
+  "target_counts": {
+    "client_003": 72,
+    "client_008": 157
+  },
+  "auxiliary_rows": 339,
+  "both_components_initialized": true,
+  "validation_rows": 752478,
+  "peak_process_rss_kib": 1359912,
+  "numerical_threadpools": [
+    {
+      "user_api": "blas",
+      "internal_api": "openblas",
+      "num_threads": 1,
+      "prefix": "libscipy_openblas",
+      "filepath": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/shield_env/lib/python3.14/site-packages/numpy.libs/libscipy_openblas64_-017048f4.so",
+      "version": "0.3.33.112.0",
+      "threading_layer": "pthreads",
+      "architecture": "Haswell"
+    },
+    {
+      "user_api": "blas",
+      "internal_api": "openblas",
+      "num_threads": 1,
+      "prefix": "libscipy_openblas",
+      "filepath": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/shield_env/lib/python3.14/site-packages/scipy.libs/libscipy_openblas-5f890258.so",
+      "version": "0.3.31.dev",
+      "threading_layer": "pthreads",
+      "architecture": "Haswell"
+    },
+    {
+      "user_api": "openmp",
+      "internal_api": "openmp",
+      "num_threads": 1,
+      "prefix": "libgomp",
+      "filepath": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/shield_env/lib/python3.14/site-packages/scikit_learn.libs/libgomp-e985bcbb.so.1.0.0",
+      "version": null
+    },
+    {
+      "user_api": "openmp",
+      "internal_api": "openmp",
+      "num_threads": 1,
+      "prefix": "libgomp",
+      "filepath": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/shield_env/lib/python3.14/site-packages/torch/lib/libgomp.so.1",
+      "version": null
+    }
+  ],
+  "training_performed": false,
+  "test_scored": false
+}

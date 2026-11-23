@@ -1,0 +1,24 @@
+{
+  "comparison_sha256": "272cce401a843d7bdb29dda481420dfb3252cee544eb3908b70c2e69642a7f11",
+  "cp6_complete_within_approved_equal_blend_scope": true,
+  "four_endpoint_controls_exact": true,
+  "frozen_manifest_sha256": "c720d1fbbc3dc5c917b2b9765ac8b6ea894e644017146581d594970f36678c14",
+  "full_repeat_exact": true,
+  "lambda_main": 0.5,
+  "novelty_or_superiority_claim": false,
+  "run_files": 3281,
+  "run_registry_sha256": "429d1fe1736a5fa80c0fedb79e0aa268ab93809944f749b8ac268776ee25b227",
+  "runs_archive_sha256": "b312ca33b4214b4520224f35eae3b190eddd1a25e4df09611961bb0ab008a136",
+  "source_archive_sha256": "91625aff1c4accde1a4b0ea3f53411ff8c9cc39a0884d331718b6ea54e4d805d",
+  "source_files": 172,
+  "stealth_claim": false,
+  "test_scored": false,
+  "tests": {
+    "focused_cp6_passed": 45,
+    "passed": 1013,
+    "warnings": 1
+  },
+  "three_seed_all_class_analysis": true,
+  "twelve_primary_cases_verified": true,
+  "user_approved": true
+}

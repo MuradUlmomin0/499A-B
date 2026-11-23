@@ -1,0 +1,14 @@
+{
+  "protocol_version": "0.4",
+  "source": "explicit user replies in this conversation",
+  "numeric_settings_approved": true,
+  "conditional_on": "actual post-auxiliary/sample/transform support checks",
+  "faculty_acceptance_reported_by_user": true,
+  "faculty_review_scope": [
+    "simulated-client approach",
+    "CSV export cannot establish device/capture independence"
+  ],
+  "prepared_support_verified": false,
+  "prepared_role_client_manifests_created": false,
+  "research_training_started": false
+}

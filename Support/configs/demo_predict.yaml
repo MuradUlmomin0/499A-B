@@ -1,0 +1,15 @@
+schema_version: 1
+mode: predict
+experiment:
+  name: demo_20_real_traffic_predictions
+  seed: 42
+  device: cpu
+  deterministic: true
+  output_dir: ../results/demo_prediction
+model:
+  artifact_path: ../results/cp2_v1/runs/cp2_iid_seed42_20261110T161835890702Z_f7a41338/model_artifact.pt
+dataset:
+  manifest_path: ../../data/processed/demo_predict/manifest.json
+  expected_role: predict
+inference:
+  batch_size: 128

@@ -4,6 +4,7 @@ Counts original and eligible rows/groups; does not sample, reserve auxiliary
 data, fit preprocessing, allocate clients, train or score final-test records.
 Run with --config pointing to the existing latest-source preparation YAML.
 """
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 import argparse
 import csv
 import hashlib
@@ -141,7 +142,7 @@ def main():
     parser.add_argument('--work-dir',type=Path,required=True)
     args=parser.parse_args()
     with args.config.open() as stream:
-        config=yaml.safe_load(stream)
+        config=runtime_safe_yaml(stream)
     audit_protocol_support(config,args.output_dir,args.work_dir)
     print(f'Support evidence: {args.output_dir}')
 

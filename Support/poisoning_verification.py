@@ -1,4 +1,5 @@
 """Audit actual delivered labels and model equations without defense attacker truth."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 from collections import OrderedDict
 import csv
 import json
@@ -34,9 +35,9 @@ def verify_label_events(path,config,bundle,selected,round_rows):
     """Recompute expected labels from authenticated originals, not wrapper counters."""
     path=Path(path);a=config['attack'];base=config['_baseline'];epochs=base['training']['local_epochs']
     source={p.client_id:p.data.dataset.tensors[1].numpy() for p in bundle.clients}
-    events=json.loads((path/'attack_ground_truth.json').read_text())
+    events=runtime_json((path/'attack_ground_truth.json').read_text())
     if events['selected_malicious']!=selected or events['attack']!=a:raise ValueError('Attack ground truth differs from frozen selection/settings')
-    expected_keys={(int(r['round_id']),c) for r in round_rows for c in json.loads(r['selected_clients'])}
+    expected_keys={(int(r['round_id']),c) for r in round_rows for c in runtime_json(r['selected_clients'])}
     event_keys=[(e['round_id'],e['client_id']) for e in events['events']]
     if len(set(event_keys))!=len(event_keys) or set(event_keys)!=expected_keys:raise ValueError('Missing/duplicate attack events')
     audit_files=set();total_observations=0
@@ -72,7 +73,7 @@ def verify_fedmade_round(path,rnd,results,auxiliary,model,base):
         checks=dict(client_ids=np.array(ids),cpms=cpms,ccpms=ccpms,labels=labels,alpha=alpha,beta=beta,
             auxiliary_counts=torch.bincount(auxiliary.dataset.tensors[1],minlength=model.num_classes).numpy())
         if set(arrays.files)!=set(checks) or any(not np.array_equal(arrays[k],v) for k,v in checks.items()):raise ValueError('FedMADE CPM/cluster/NNLS evidence differs')
-    d=json.loads(prefix.with_suffix('.json').read_text());weights=dict(zip(ids,beta.tolist()))
+    d=runtime_json(prefix.with_suffix('.json').read_text());weights=dict(zip(ids,beta.tolist()))
     if (d['round_id']!=rnd or d['client_ids']!=ids or d['cluster_labels']!=labels.tolist() or d['cluster_count']!=len(alpha)
             or d['cluster_sizes']!=np.bincount(labels).tolist() or d['auxiliary_class_counts']!=checks['auxiliary_counts'].tolist()
             or not np.array_equal(d['raw_alpha'],alpha) or not np.array_equal(d['normalized_cluster_mass'],alpha/alpha.sum())
@@ -86,7 +87,7 @@ def verify_run(path,*,started=None):
     config=load_poisoning_config(path/'config.yaml');base=config['_baseline'];method=config['method'];a=config['attack']
     from Support.poisoning_runner import load_inputs,paired_reference
     bundle,auxiliary=load_inputs(config);reference=paired_reference(config,bundle)
-    meta=json.loads((path/'metadata.json').read_text());summary=json.loads((path/'run_summary.json').read_text())
+    meta=runtime_json((path/'metadata.json').read_text());summary=runtime_json((path/'run_summary.json').read_text())
     if (meta['workflow']!='prepared_poisoning' or meta['method']!=method or meta['federated_inputs']!=bundle.source_metadata()
             or meta['test_scored'] or summary['test_scored'] or meta['baseline_config_sha256']!=source_hash(config['baseline_config_path'])):raise ValueError('Changed source/configuration or invalid workflow scope')
     if reference is not None and meta['paired_clean_config_sha256']!=source_hash(Path(config['reference_clean_run_path'])/'config.yaml'):raise ValueError('Changed clean reference configuration')
@@ -111,7 +112,7 @@ def verify_run(path,*,started=None):
     projection=np.random.default_rng(1729).normal(0,1/np.sqrt(5),size=(sum(v.numel() for v in previous.values()),5)) if method=='temporal' else None
     mixture=None;observations=[];score_history=[];prior_md={};observed={c:set() for c in ids};logged_weights=[]
     for rnd,row in enumerate(round_rows,1):
-        order=json.loads(row['selected_clients']);expected_order=random.Random(base['experiment']['seed']+rnd).sample(ids,max(1,__import__('math').ceil(base['federated']['participation_rate']*len(ids))))
+        order=runtime_json(row['selected_clients']);expected_order=random.Random(base['experiment']['seed']+rnd).sample(ids,max(1,__import__('math').ceil(base['federated']['participation_rate']*len(ids))))
         if order!=expected_order:raise ValueError('Unmatched client-selection schedule')
         states=torch.load(path/'aggregation_evidence'/f'round_{rnd:03d}.pt',weights_only=True,map_location='cpu')
         if states['client_order']!=order or set(states['client_states'])!=set(order):raise ValueError('Invalid local model coverage')
@@ -125,7 +126,7 @@ def verify_run(path,*,started=None):
         else:
             calculated,mixture,z,prior_md=audit_scores(results,rnd,projection,mixture,observations,score_history,prior_md)
             prefix=path/'temporal_diagnostics'/f'round_{rnd:03d}'
-            if not _equal_numbers(json.loads(prefix.with_suffix('.json').read_text()),calculated):raise ValueError('Temporal scoring equations differ')
+            if not _equal_numbers(runtime_json(prefix.with_suffix('.json').read_text()),calculated):raise ValueError('Temporal scoring equations differ')
             if not np.array_equal(np.load(path/'temporal_diagnostics/projection.npy',allow_pickle=False),projection):raise ValueError('Temporal projection differs')
             with np.load(prefix.with_suffix('.npz'),allow_pickle=False) as arrays:
                 checks={'projected':z,**(mixture or {})}
@@ -153,7 +154,7 @@ def verify_run(path,*,started=None):
         previous=weighted;logged_weights.extend(rows)
     if len(weight_rows)!=len(logged_weights) or set(checkpoint['history'])!={c for c in ids if observed[c]} or any(set(checkpoint['history'][c])!=observed[c] for c in checkpoint['history']):raise ValueError('Extra histories/weights')
     if _state_sha256(previous)!=final_hash or initial_hash==final_hash:raise ValueError('Final model state is incorrect or unchanged')
-    validation=bundle.validation.data.dataset;metrics=json.loads((path/'validation_metrics.json').read_text())['metrics']
+    validation=bundle.validation.data.dataset;metrics=runtime_json((path/'validation_metrics.json').read_text())['metrics']
     reloaded=evaluate_model(artifact.model,DataLoader(validation,batch_size=base['training']['batch_size'],shuffle=False),'cpu',bundle.contract.num_classes)
     if reloaded!=metrics:raise ValueError('Saved-model validation differs')
     zero_match=None
@@ -161,7 +162,7 @@ def verify_run(path,*,started=None):
         clean=Path(config['reference_clean_run_path']);reference_rounds=csv_rows(clean/'round_metrics.csv')
         if [(r['round_id'],r['selected_clients']) for r in round_rows]!=[(r['round_id'],r['selected_clients']) for r in reference_rounds]:raise ValueError('Paired selection changed')
         if not a['enabled']:
-            old=json.loads((clean/'verification.json').read_text());old_metrics=json.loads((clean/'validation_metrics.json').read_text())['metrics']
+            old=runtime_json((clean/'verification.json').read_text());old_metrics=runtime_json((clean/'validation_metrics.json').read_text())['metrics']
             if final_hash!=old['final_state_sha256'] or metrics!=old_metrics:raise ValueError('Zero-attack control differs from clean model/metrics')
             clean_weights=csv_rows(clean/'aggregation_weights.csv')
             left={(r['round_id'],r['client_id']):(r['sample_count'],float(r['weight'])) for r in weight_rows}

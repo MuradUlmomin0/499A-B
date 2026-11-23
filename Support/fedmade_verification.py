@@ -1,4 +1,5 @@
 """Verify FedMADE's saved CPM/state equations and paired clean experiment."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 from collections import OrderedDict
 import csv
 import json
@@ -25,10 +26,10 @@ from Support.Utils.parameters import clone_state,extract_update
 
 def verify_run(path, *, started=None):
     path=Path(path);started=perf_counter() if started is None else started
-    config=load_fedmade_config(path/'config.yaml');metadata=json.loads((path/'metadata.json').read_text())
-    summary=json.loads((path/'run_summary.json').read_text());rounds=config['federated']['rounds']
+    config=load_fedmade_config(path/'config.yaml');metadata=runtime_json((path/'metadata.json').read_text())
+    summary=runtime_json((path/'run_summary.json').read_text());rounds=config['federated']['rounds']
     artifact=load_model_artifact(path/'model_artifact.pt');checkpoint=torch.load(path/'checkpoint.pt',map_location='cpu',weights_only=True)
-    metrics=json.loads((path/'validation_metrics.json').read_text())['metrics'];m=config['fedmade']
+    metrics=runtime_json((path/'validation_metrics.json').read_text())['metrics'];m=config['fedmade']
     expected={p['client_id']:p['sample_count'] for p in metadata['federated_inputs']['clients']}
     if summary['selected_round']!=rounds or checkpoint['round_id']!=rounds:raise ValueError('Incomplete rounds')
     if set(checkpoint['history'])!=set(expected) or any(set(h)!=set(range(1,rounds+1)) for h in checkpoint['history'].values()):raise ValueError('Incomplete update histories')
@@ -52,7 +53,7 @@ def verify_run(path, *, started=None):
     cluster_counts=[];zero_weights=[]
     for rnd in range(1,rounds+1):
         prefix=path/'fedmade_diagnostics'/f'round_{rnd:03d}'
-        diagnostics=json.loads(prefix.with_suffix('.json').read_text())
+        diagnostics=runtime_json(prefix.with_suffix('.json').read_text())
         with np.load(prefix.with_suffix('.npz'),allow_pickle=False) as data:
             cpms=data['cpms'];ccpms=data['ccpms'];labels=data['labels'];alpha=data['alpha'];beta=data['beta'];ids=data['client_ids'].tolist()
             actual_counts=torch.bincount(auxiliary.dataset.tensors[1],minlength=artifact.contract.num_classes).numpy()
@@ -81,7 +82,7 @@ def verify_run(path, *, started=None):
                 or any(abs(diagnostics['client_weights'][c]-weights[c])>1e-12 for c in ids)
                 or abs(diagnostics['projected_kkt_residual']-kkt)>1e-10):
             raise ValueError('JSON method diagnostics differ from actual CPM/NNLS equations')
-        selected=json.loads(round_rows[rnd-1]['selected_clients'])
+        selected=runtime_json(round_rows[rnd-1]['selected_clients'])
         if (len(rows)!=len(ids) or {r['client_id'] for r in rows}!=set(ids) or set(selected)!=set(ids)
                 or states['client_order']!=selected or abs(sum(weights.values())-1)>1e-12):raise ValueError('Invalid selected client/weight coverage')
         for r in rows:
@@ -98,13 +99,13 @@ def verify_run(path, *, started=None):
         previous_global=reference
         if diagnostics['round_id']!=rnd or abs(diagnostics['objective_frobenius']-residual)>1e-10:raise ValueError('Diagnostic objective/round differs')
         cluster_counts.append(len(alpha));zero_weights.append(int(np.count_nonzero(beta==0)))
-    bundle_path=Path(config['dataset']['bundle_path']);bundle=json.loads(bundle_path.read_text())
+    bundle_path=Path(config['dataset']['bundle_path']);bundle=runtime_json(bundle_path.read_text())
     validation=load_prepared_data((bundle_path.parent/bundle['validation']['manifest_path']).resolve(),expected_role='validation',expected_contract=artifact.contract)
     reloaded=evaluate_model(artifact.model,DataLoader(validation.dataset,batch_size=config['training']['batch_size'],shuffle=False),'cpu',artifact.contract.num_classes)
     if reloaded!=metrics:raise ValueError('Saved-model validation does not reproduce logged metrics')
     paired=m['reference_run_path']
     if paired is not None:
-        reference=json.loads((Path(paired)/'verification.json').read_text())
+        reference=runtime_json((Path(paired)/'verification.json').read_text())
         if reference['initial_state_sha256']!=metadata['initialization']['model_state_sha256']:raise ValueError('Unmatched initial states')
         with (Path(paired)/'round_metrics.csv').open() as stream:baseline_rows=list(csv.DictReader(stream))
         if [(r['round_id'],r['selected_clients']) for r in round_rows]!=[(r['round_id'],r['selected_clients']) for r in baseline_rows]:raise ValueError('Unmatched client-selection schedule')

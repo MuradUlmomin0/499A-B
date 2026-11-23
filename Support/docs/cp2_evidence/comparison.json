@@ -1,0 +1,188 @@
+{
+  "evaluation_role": "validation",
+  "test_scored": false,
+  "runs": [
+    {
+      "condition": "iid",
+      "seed": 42,
+      "run_path": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp2_v1/runs/cp2_iid_seed42_20261110T161835890702Z_f7a41338",
+      "accuracy": 0.8318010626224288,
+      "balanced_accuracy": 0.5522051996449484,
+      "macro_f1": 0.550583061731284,
+      "weighted_f1": 0.8242733658143385,
+      "loss": 0.42183546580317627,
+      "peak_process_rss_kib": 1439464,
+      "duration_seconds": 242.4152489930002,
+      "zero_recall_class_ids": [
+        0,
+        2,
+        3,
+        28,
+        30,
+        31,
+        33
+      ]
+    },
+    {
+      "condition": "iid",
+      "seed": 43,
+      "run_path": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp2_v1/runs/cp2_iid_seed43_20261110T162241890577Z_683c433c",
+      "accuracy": 0.8395355080148522,
+      "balanced_accuracy": 0.5617219666232898,
+      "macro_f1": 0.5578333865101335,
+      "weighted_f1": 0.8338830948681935,
+      "loss": 0.42668631608864505,
+      "peak_process_rss_kib": 1440264,
+      "duration_seconds": 239.06818395399932,
+      "zero_recall_class_ids": [
+        0,
+        2,
+        3,
+        17,
+        28,
+        30,
+        31,
+        33
+      ]
+    },
+    {
+      "condition": "iid",
+      "seed": 44,
+      "run_path": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp2_v1/runs/cp2_iid_seed44_20261110T162644758627Z_8203bcdd",
+      "accuracy": 0.8280707210044679,
+      "balanced_accuracy": 0.5516351086335176,
+      "macro_f1": 0.5508971250616734,
+      "weighted_f1": 0.8211300006555158,
+      "loss": 0.42407904169116206,
+      "peak_process_rss_kib": 1441628,
+      "duration_seconds": 235.86911923300067,
+      "zero_recall_class_ids": [
+        0,
+        2,
+        3,
+        28,
+        30,
+        31,
+        33
+      ]
+    },
+    {
+      "condition": "dirichlet",
+      "seed": 42,
+      "run_path": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp2_v1/runs/cp2_dirichlet_seed42_20261110T163044237267Z_b8663aa2",
+      "accuracy": 0.7945853566483007,
+      "balanced_accuracy": 0.5025486405900184,
+      "macro_f1": 0.49266630938607797,
+      "weighted_f1": 0.7690102983150113,
+      "loss": 0.4714009633139717,
+      "peak_process_rss_kib": 1441044,
+      "duration_seconds": 246.13728740899933,
+      "zero_recall_class_ids": [
+        0,
+        2,
+        3,
+        17,
+        28,
+        30,
+        31,
+        33
+      ]
+    },
+    {
+      "condition": "dirichlet",
+      "seed": 43,
+      "run_path": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp2_v1/runs/cp2_dirichlet_seed43_20261110T163454242061Z_79c31e22",
+      "accuracy": 0.7934650581146558,
+      "balanced_accuracy": 0.5016627331317228,
+      "macro_f1": 0.4921090176205529,
+      "weighted_f1": 0.7610324043828454,
+      "loss": 0.5005104853636015,
+      "peak_process_rss_kib": 1439016,
+      "duration_seconds": 237.76945382099984,
+      "zero_recall_class_ids": [
+        0,
+        2,
+        3,
+        17,
+        28,
+        30,
+        31,
+        33
+      ]
+    },
+    {
+      "condition": "dirichlet",
+      "seed": 44,
+      "run_path": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp2_v1/runs/cp2_dirichlet_seed44_20261110T163855869938Z_a9de2b7f",
+      "accuracy": 0.6797633950760023,
+      "balanced_accuracy": 0.5139720739535282,
+      "macro_f1": 0.49886131105934767,
+      "weighted_f1": 0.6226522130981355,
+      "loss": 0.6064097216773644,
+      "peak_process_rss_kib": 1438368,
+      "duration_seconds": 238.89113504799934,
+      "zero_recall_class_ids": [
+        0,
+        2,
+        3,
+        17,
+        28,
+        30,
+        31,
+        33
+      ]
+    }
+  ],
+  "conditions": {
+    "iid": {
+      "accuracy": {
+        "mean": 0.8331357638805831,
+        "sample_std": 0.005847769308442158
+      },
+      "balanced_accuracy": {
+        "mean": 0.5551874249672519,
+        "sample_std": 0.005666253341600503
+      },
+      "macro_f1": {
+        "mean": 0.5531045244343636,
+        "sample_std": 0.0040983242115057794
+      },
+      "weighted_f1": {
+        "mean": 0.826428820446016,
+        "sample_std": 0.006644158449440595
+      },
+      "loss": {
+        "mean": 0.4242002745276611,
+        "sample_std": 0.002427696474745625
+      }
+    },
+    "dirichlet": {
+      "accuracy": {
+        "mean": 0.7559379366129862,
+        "sample_std": 0.06597146618787851
+      },
+      "balanced_accuracy": {
+        "mean": 0.5060611492250898,
+        "sample_std": 0.006865366381368834
+      },
+      "macro_f1": {
+        "mean": 0.4945455460219928,
+        "sample_std": 0.00374793468742735
+      },
+      "weighted_f1": {
+        "mean": 0.7175649719319974,
+        "sample_std": 0.08229359355374724
+      },
+      "loss": {
+        "mean": 0.5261070567849792,
+        "sample_std": 0.07105089415414494
+      }
+    }
+  },
+  "matched_initial_state_sha256": {
+    "42": "0fbc7feccb79c2c81e3422c764de2b46e235a8f01563b23a2d325211f0754635",
+    "43": "5446cef1c575c564585cd303e6ebdcc0ea9cd1e5248b5dc1f7771ccb004bc522",
+    "44": "bb5474debc675a9f34efb9538dbaac6709c2dd1d89fd249d9bb7216f3ecd72cf"
+  },
+  "limitations": "Three seeds describe this fixed bounded benchmark; no inferential significance or capture independence is established."
+}

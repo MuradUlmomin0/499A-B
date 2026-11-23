@@ -1,0 +1,15 @@
+schema_version: 1
+mode: evaluate
+experiment:
+  name: demo_fedavg_validation
+  seed: 42
+  device: cpu
+  deterministic: true
+  output_dir: ../results/demo_evaluation
+model:
+  artifact_path: ../results/cp2_v1/runs/cp2_iid_seed42_20261110T161835890702Z_f7a41338/model_artifact.pt
+dataset:
+  manifest_path: ../../data/processed/research_cp1_v1/validation.manifest.json
+  expected_role: validation
+inference:
+  batch_size: 128

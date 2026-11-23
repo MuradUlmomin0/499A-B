@@ -1,4 +1,5 @@
 """Replay temporal evidence and independently check saved weighted models."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 from collections import OrderedDict
 import csv
 import json
@@ -112,7 +113,7 @@ def _equal_numbers(actual,expected):
 def verify_run(path,*,started=None):
     torch.set_num_threads(1)
     path=Path(path);started=perf_counter() if started is None else started
-    config=load_temporal_config(path/'config.yaml');meta=json.loads((path/'metadata.json').read_text());summary=json.loads((path/'run_summary.json').read_text())
+    config=load_temporal_config(path/'config.yaml');meta=runtime_json((path/'metadata.json').read_text());summary=runtime_json((path/'run_summary.json').read_text())
     from Support.research_runner import completed_preparation
     completed_preparation(config)
     inputs=meta['federated_inputs']
@@ -121,7 +122,7 @@ def verify_run(path,*,started=None):
         for field in ['manifest','data','evidence']:
             if source_hash(partition[field+'_path'])!=partition[field+'_sha256']:raise ValueError('Changed prepared source '+field)
     artifact=load_model_artifact(path/'model_artifact.pt');checkpoint=torch.load(path/'checkpoint.pt',weights_only=True,map_location='cpu')
-    metrics=json.loads((path/'validation_metrics.json').read_text())['metrics'];rounds=config['federated']['rounds']
+    metrics=runtime_json((path/'validation_metrics.json').read_text())['metrics'];rounds=config['federated']['rounds']
     expected={p['client_id']:p['sample_count'] for p in meta['federated_inputs']['clients']}
     if checkpoint['round_id']!=rounds or summary['selected_round']!=rounds:raise ValueError('Incomplete rounds')
     if meta['workflow']!='prepared_temporal_adapted' or meta['test_scored'] or summary['test_scored']:raise ValueError('Wrong evaluation scope')
@@ -142,8 +143,8 @@ def verify_run(path,*,started=None):
     observed={c:set() for c in expected};independent_history=[]
     for rnd in range(1,rounds+1):
         prefix=path/'temporal_diagnostics'/f'round_{rnd:03d}'
-        saved=json.loads(prefix.with_suffix('.json').read_text());states=torch.load(prefix.with_suffix('.pt'),weights_only=True,map_location='cpu')
-        selected=json.loads(round_rows[rnd-1]['selected_clients'])
+        saved=runtime_json(prefix.with_suffix('.json').read_text());states=torch.load(prefix.with_suffix('.pt'),weights_only=True,map_location='cpu')
+        selected=runtime_json(round_rows[rnd-1]['selected_clients'])
         if len(selected)!=len(set(selected)) or not set(selected)<=set(expected) or states['client_order']!=selected or set(states['client_states'])!=set(selected):raise ValueError('Invalid client selection evidence')
         results=[]
         for client in selected:
@@ -190,9 +191,9 @@ def verify_run(path,*,started=None):
         if _state_sha256(weighted)!=_state_sha256(states['aggregated_state']):raise ValueError('Weighted-state equation differs')
         previous=weighted
     if set(checkpoint['history'])!={c for c in observed if observed[c]} or any(set(checkpoint['history'][c])!=observed[c] for c in checkpoint['history']):raise ValueError('Unexpected history coverage')
-    if len(weight_rows)!=sum(len(json.loads(r['selected_clients'])) for r in round_rows):raise ValueError('Extra logged weight rows')
+    if len(weight_rows)!=sum(len(runtime_json(r['selected_clients'])) for r in round_rows):raise ValueError('Extra logged weight rows')
     if _state_sha256(previous)!=final_hash:raise ValueError('Final aggregate differs from artifact')
-    bundle_path=Path(config['dataset']['bundle_path']);bundle=json.loads(bundle_path.read_text());counts={}
+    bundle_path=Path(config['dataset']['bundle_path']);bundle=runtime_json(bundle_path.read_text());counts={}
     for client in bundle['clients']:
         data=load_prepared_data(bundle_path.parent/client['manifest_path'],expected_role='train',expected_contract=artifact.contract)
         counts[client['client_id']]=torch.bincount(data.dataset.tensors[1],minlength=artifact.contract.num_classes).tolist()
@@ -203,7 +204,7 @@ def verify_run(path,*,started=None):
     paired=config['temporal']['reference_run_path']
     if paired is not None:
         with (Path(paired)/'round_metrics.csv').open() as stream:base_rows=list(csv.DictReader(stream))
-        bv=json.loads((Path(paired)/'verification.json').read_text())
+        bv=runtime_json((Path(paired)/'verification.json').read_text())
         if bv['initial_state_sha256']!=meta['initialization']['model_state_sha256'] or [(r['round_id'],r['selected_clients']) for r in round_rows]!=[(r['round_id'],r['selected_clients']) for r in base_rows]:raise ValueError('Unmatched paired initialization/selection')
     penalties=penalty_summary(independent_history,counts,artifact.contract.class_names)
     _write_csv(path/'trust_scores.csv',independent_history);_json(path/'honest_client_penalties.json',penalties)

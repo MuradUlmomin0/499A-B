@@ -1,4 +1,5 @@
 """Sequential CP5 controls, pilot and matched attack matrix; no retuning."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 import argparse
 import json
 import os
@@ -8,6 +9,7 @@ import sys
 
 import yaml
 from Support.data.latest_audit import source_hash
+from Support.Utils.runtime_paths import authenticate_recorded, verify_code
 from Support.Utils.poisoning_config import load_poisoning_config
 
 REPOSITORY=Path(__file__).resolve().parents[1]
@@ -25,9 +27,9 @@ def case_order():
 def generate_configs(directory,results):
     directory=Path(directory).resolve();directory.mkdir(parents=True,exist_ok=False)
     refs={
-        'fedavg':json.loads((REPOSITORY/'Support/docs/cp2_evidence/verification.json').read_text())['primary_runs'],
-        'fedmade':json.loads((REPOSITORY/'Support/results/cp3_v1/matrix/comparison.json').read_text())['runs'],
-        'temporal':json.loads((REPOSITORY/'Support/results/cp4_v1/matrix/comparison.json').read_text())['runs']}
+        'fedavg':runtime_json((REPOSITORY/'Support/docs/cp2_evidence/verification.json').read_text())['primary_runs'],
+        'fedmade':runtime_json((REPOSITORY/'Support/results/cp3_v1/matrix/comparison.json').read_text())['runs'],
+        'temporal':runtime_json((REPOSITORY/'Support/results/cp4_v1/matrix/comparison.json').read_text())['runs']}
     folders=dict(fedavg='cp2_v1',fedmade='cp3_v1',temporal='cp4_v1')
     for c in case_order():
         ref=next(r['run_path'] for r in refs[c['method']] if (r['condition'],r['seed'])==(c['condition'],c['seed']))
@@ -43,13 +45,13 @@ def generate_configs(directory,results):
 def guard(config_dir):
     frozen=REPOSITORY/'Support/docs/cp5_evidence/frozen_manifest.json'
     if not frozen.is_file():raise ValueError('CP5 code/configuration freeze is required')
-    v=json.loads(frozen.read_text())
+    v=runtime_json(frozen.read_text())
     for field in ['code_sha256','config_sha256']:
         for p,h in v[field].items():
-            if source_hash(REPOSITORY/p)!=h:raise ValueError('Frozen CP5 source/configuration changed: '+p)
+            if not authenticate_recorded(REPOSITORY/p,h):raise ValueError('Frozen CP5 source/configuration changed: '+p)
     evidence=Path(config_dir)/'preflight.json'
     if not evidence.exists():raise ValueError('Measured CP5 preflight required')
-    measured=json.loads(evidence.read_text())
+    measured=runtime_json(evidence.read_text())
     if set(measured)!=set(METHODS):raise ValueError('Preflight must cover all three methods')
     for m,record in measured.items():
         config=Path(config_dir)/f'{m}_dirichlet_seed42.yaml'
@@ -58,7 +60,7 @@ def guard(config_dir):
 
 
 def _checked(path,control):
-    v=json.loads((Path(path)/'verification.json').read_text())
+    v=runtime_json((Path(path)/'verification.json').read_text())
     if (v['testing_only'] or v['test_scored'] or not v['aggregation_verified'] or not v['delivered_labels_verified']
             or not v['reloaded_validation_exact'] or not v['paired_controls_verified'] or (control and v['zero_attack_matches_clean'] is not True)):
         raise ValueError('Failed CP5 run/control verification')
@@ -68,7 +70,7 @@ def _checked(path,control):
 def run_matrix(config_dir,output_dir,*,resume=False):
     directory=Path(config_dir).resolve();out=Path(output_dir).resolve();guard(directory)
     out.mkdir(parents=True,exist_ok=resume)
-    index=out/'progress.json';entries=json.loads(index.read_text()) if index.exists() else []
+    index=out/'progress.json';entries=runtime_json(index.read_text()) if index.exists() else []
     cases=case_order()
     if [e['name'] for e in entries]!=[c['name'] for c in cases[:len(entries)]] or len(entries)>len(cases):raise ValueError('Invalid saved matrix prefix')
     for i,c in enumerate(cases):

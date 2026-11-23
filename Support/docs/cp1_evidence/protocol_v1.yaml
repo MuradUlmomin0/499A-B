@@ -1,0 +1,81 @@
+# Frozen research specification; not a main.py configuration.
+# proposed_settings is retained as the existing specification field name.
+protocol_version: '1.0'
+status: frozen_for_cp2
+executable: false
+approved_approaches:
+  original_role_priority:
+  - train
+  - validation
+  - test
+  exclude_full_earlier_role_inputs: true
+  auxiliary_source: original_training
+  sampling: proportional_to_eligible_training_row_counts
+source:
+  archive_sha256: fd058f5d9b1471d8b10af17ef966df252728a06bd4bd2544d0ed810f76bc39da
+  schema_reference: latest_pilot_prepare.yaml
+  identity: canonical_little_endian_float32_signed_zero_normalized
+  physical_client_provenance_verified: false
+proposed_settings:
+  preparation_seed: 42
+  training_rows: 500000
+  auxiliary_groups_per_class: 10
+  auxiliary_rows_per_group: 1
+  auxiliary_group_rank: sha256_of_utf8_auxiliary_colon_42_colon_class_id_colon_input_digest
+  auxiliary_rank_selection: lowest_10_per_class_ties_by_input_digest
+  auxiliary_representative: lowest_original_training_row_ordinal
+  exclude_all_auxiliary_group_copies_from_training: true
+  sampling_quota: largest_remainder_from_post_auxiliary_eligible_row_counts
+  quota_ties: ascending_class_id
+  within_class_selection: seeded_bottom_k_source_row_rank
+  holdout_population: all_eligible_original_role_rows
+  clients: 10
+  partition_conditions:
+  - iid_style_group_stratification
+  - dirichlet_group_label_skew
+  dirichlet_alpha: 0.5
+  partition_and_training_seeds:
+  - 42
+  - 43
+  - 44
+  model: mlp
+  hidden_dims:
+  - 64
+  - 32
+  initialization: fresh_shared_random_per_seed
+  scaler: standard_scaler_fit_selected_client_training_only
+  imputation: none_require_finite_inputs
+  device: cpu
+  numerical_threads: 1
+  rounds: 20
+  local_epochs: 1
+  optimizer: adam
+  learning_rate: 0.001
+  batch_size: 128
+  optimizer_state: reset_each_round
+  participation_rate: 1.0
+  selection: final_round
+  aggregation_count: retained_local_training_rows
+guards:
+  no_silent_oversampling_or_refill: true
+  no_silent_client_or_budget_changes: true
+  empty_training_client: stop_and_report
+  missing_global_class_or_auxiliary_support: stop_and_report
+  post_transform_cross_role_input_collisions: report_exclude_later_role_without_refill_and_recheck_support
+  mixed_label_input_group: stop_and_report
+  measured_preflight_required_before_run_matrix: true
+review:
+  numeric_settings_approved: true
+  faculty_review_recorded: true
+  faculty_review_source: user_confirmation
+  faculty_review_scope: simulated_clients_and_unverified_device_capture_independence
+  prepared_support_verified: true
+observed_prepared_support:
+  training_rows: 500000
+  auxiliary_selected_rows: 340
+  auxiliary_retained_rows: 339
+  auxiliary_retained_exception:
+    DDoS-TCP_Flood: 9
+  validation_rows: 752478
+  test_rows: 724992
+  final_test_scored: false

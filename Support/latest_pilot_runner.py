@@ -1,4 +1,5 @@
 """Prepare/audit the active dataset for existing MLP FedAvg; never trains here."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 import argparse
 import hashlib
 import json
@@ -24,7 +25,7 @@ def _json(path, value):
 def load_latest_config(path):
     source = Path(path).resolve()
     with source.open() as stream:
-        c = yaml.load(stream, Loader=_PreparedConfigLoader)
+        c = runtime_yaml(stream, Loader=_PreparedConfigLoader)
     fields = {'schema_version','archive_path','archive_sha256','feature_names','class_names',
               'expected_rows','seed','chunk_rows','train_per_class','validation_per_class',
               'num_clients','hidden_dims','output_dir','work_dir'}
@@ -87,7 +88,7 @@ def prepare_latest(config_path, *, audit_only=False):
         output.mkdir(parents=True,exist_ok=False)
     try:
         if (output/'audit_summary.json').is_file():
-            stored = json.loads((output/'audit_summary.json').read_text())
+            stored = runtime_json((output/'audit_summary.json').read_text())
             if stored['config_sha256'] != config_hash or source_hash(output/'candidates.npz') != stored['candidates_sha256']:
                 raise ValueError('Audit config or candidate fingerprint changed')
             with np.load(output/'candidates.npz',allow_pickle=False) as data:

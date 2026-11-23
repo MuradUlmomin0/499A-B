@@ -1,0 +1,22 @@
+{
+  "cp7_complete_within_frozen_targeted_label_scope": true,
+  "test_scored": true,
+  "training_performed": false,
+  "all_48_cases_verified": true,
+  "all_24_pairs_retained": true,
+  "source_files": 147,
+  "input_files": 5496,
+  "result_files": 205,
+  "tests_passed": 1037,
+  "new_cp7_tests": 24,
+  "existing_warnings": 1,
+  "lambda_retuned": false,
+  "novelty_claim": false,
+  "stealth_claim": false,
+  "freeze_sha256": "20b457866c7c1f98074b4de355affe2f283a91bd95599ed656d4efa5971e11e8",
+  "registry_sha256": "92a2231e2241e876728cbc7156da1b8d4e8c2bcb2cb6f9e3e1bb2220945a5e72",
+  "comparison_sha256": "1f64601173f268eb06a4290ca81988a7b1cd43fa62101cf22a032a291dafb117",
+  "source_archive_sha256": "1fba63c8a33f919ab2774fe7c52accf1c5222854194317796b91c570307f2a7c",
+  "results_archive_sha256": "bfebc0d20eda26ce93f1191edff29621e9d25c84467f846b1a262a0b547685a8",
+  "maximum_evaluation_worker_rss_gib": 1.2055091857910156
+}

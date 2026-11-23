@@ -1,0 +1,18 @@
+{
+  "scope": "unchanged CP0 replay only; not the future CP1/CP2 data protocol",
+  "run_directory": "support/results/fedavg_latest/latest_mlp_fedavg_pilot_20261110T150235113522Z_d879c5d2",
+  "end_to_end_seconds": 7.012249719000465,
+  "training_and_round_validation_seconds": 2.347125318000508,
+  "peak_process_rss_kib_before_comparison_load": 796224,
+  "cpu_threads": 1,
+  "train_rows": 30070,
+  "validation_rows": 11546,
+  "clients": 3,
+  "rounds": 5,
+  "seed": 42,
+  "same_final_tensor_state_as_cp0": true,
+  "same_validation_metrics_as_cp0": true,
+  "original_cp0_preserved": true,
+  "final_state_sha256": "e4ac8b8c71a7f4921f4511b068e77c8828562cec78a235d0fc65238421c8ad5b",
+  "limitations": "One measured process/run, not total system RAM or a guarantee for larger/method-specific workloads."
+}

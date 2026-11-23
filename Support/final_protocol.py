@@ -1,10 +1,12 @@
 """Freeze the existing 48 final-round models before CP7 held-out scoring."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 import hashlib
 import json
 from pathlib import Path
 from zipfile import ZipFile
 
 from Support.data.latest_audit import source_hash
+from Support.Utils.runtime_paths import packaged, historical_inventory, verify_code, authenticate_recorded, original_member
 
 REPOSITORY = Path(__file__).resolve().parents[1]
 METHODS = ('fedavg', 'fedmade', 'temporal', 'fusion')
@@ -13,7 +15,7 @@ SEEDS = (42, 43, 44)
 
 
 def read(path):
-    return json.loads(Path(path).read_text())
+    return runtime_json(Path(path).read_text())
 
 
 def write_new(path, value):
@@ -42,12 +44,15 @@ def fingerprints(paths):
 def authenticate(inventory):
     if not isinstance(inventory, dict) or not inventory:
         raise ValueError('Empty fingerprint inventory')
+    verify_code()
     for path, digest in inventory.items():
-        if not Path(path).is_file() or source_hash(path) != digest:
+        if not authenticate_recorded(path, digest):
             raise ValueError('Frozen input changed: ' + path)
 
 
 def required_sources():
+    if packaged(REPOSITORY):
+        return set(historical_inventory(7)['source_sha256'])
     paths = [REPOSITORY/'main.py', REPOSITORY/'Requirements.txt', REPOSITORY/'Support/docs/cp7_protocol.md']
     paths += [p for p in (REPOSITORY/'Support').rglob('*.py')
               if not any(x in p.parts for x in ['results','docs','__pycache__'])]
@@ -123,6 +128,8 @@ def _archive_identity(entries):
                 path = Path(e['run_path'])
                 prefix = (f'{e["condition"]}_seed{e["seed"]}' if cp <= 4 else
                           f'{e["method"]}_{e["condition"]}_seed{e["seed"]}' if cp == 5 else str(path.relative_to(REPOSITORY)))
+                if packaged(REPOSITORY) and cp == 6:
+                    prefix = original_member(path.relative_to(REPOSITORY))
                 filenames=['model_artifact.pt', 'metadata.json', 'config.yaml', 'round_metrics.csv', 'aggregation_weights.csv']
                 if cp>=4:filenames.append('verification.json')
                 for filename in filenames:

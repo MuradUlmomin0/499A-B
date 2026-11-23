@@ -1,4 +1,5 @@
 """Separate strict attack configuration; clean method schemas remain unchanged."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 from pathlib import Path
 import re
 import yaml
@@ -13,7 +14,7 @@ ATTACK_FIELDS={'type','enabled','target_class','destination_class','malicious_cl
 
 def load_poisoning_config(path):
     path=Path(path).resolve()
-    try:v=yaml.load(path.read_text(),Loader=_PreparedConfigLoader)
+    try:v=runtime_yaml(path.read_text(),Loader=_PreparedConfigLoader)
     except yaml.YAMLError as error:raise ValueError(f'Invalid attack YAML: {error}') from error
     if not isinstance(v,dict) or set(v)!={'schema_version','method','experiment','baseline_config_path','reference_clean_run_path','attack'}:raise ValueError('Invalid poisoning configuration fields')
     if type(v['schema_version']) is not int or v['schema_version']!=1 or v['method'] not in LOADERS:raise ValueError('Unsupported poisoning schema/method')

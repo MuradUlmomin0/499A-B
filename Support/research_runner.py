@@ -1,4 +1,5 @@
 """CP1 preparation and sequential CP2 FedAvg runs; no final-test scoring."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 import argparse
 import csv
 import gc
@@ -30,12 +31,12 @@ def completed_preparation(config):
     bundle=Path(config['dataset']['bundle_path']);root=bundle.parent.parent
     report_path=root/'preparation_report.json'
     if not report_path.is_file():raise ValueError('A completed preparation report is required')
-    report=json.loads(report_path.read_text());description=json.loads(bundle.read_text())
+    report=runtime_json(report_path.read_text());description=runtime_json(bundle.read_text())
     required=[bundle,root/'preprocessing.json']
     for ref in [*description['clients'],description['validation']]:
         manifest=(bundle.parent/ref['manifest_path']).resolve()
         evidence=(bundle.parent/ref['evidence_path']).resolve()
-        metadata=json.loads(manifest.read_text())
+        metadata=runtime_json(manifest.read_text())
         required.extend([manifest,evidence,(manifest.parent/metadata['data_path']).resolve()])
     for path in required:
         key=str(path.resolve().relative_to(root.resolve()))
@@ -81,8 +82,8 @@ def run_one(config_path):
     torch.set_num_threads(1);started=perf_counter();config=load_training_config(config_path)
     completed_preparation(config)
     path=run_federated(config_path)
-    metadata=json.loads((path/'metadata.json').read_text());summary=json.loads((path/'run_summary.json').read_text())
-    metrics=json.loads((path/'validation_metrics.json').read_text())['metrics']
+    metadata=runtime_json((path/'metadata.json').read_text());summary=runtime_json((path/'run_summary.json').read_text())
+    metrics=runtime_json((path/'validation_metrics.json').read_text())['metrics']
     artifact=load_model_artifact(path/'model_artifact.pt')
     checkpoint=torch.load(path/'checkpoint.pt',map_location='cpu',weights_only=True)
     expected={p['client_id']:p['sample_count'] for p in metadata['federated_inputs']['clients']}
@@ -103,7 +104,7 @@ def run_one(config_path):
         if abs(sum(float(r['weight']) for r in rows)-1)>1e-12:raise ValueError('Weights do not sum to one')
     with (path/'round_metrics.csv').open() as stream:round_rows=list(csv.DictReader(stream))
     if len(round_rows)!=rounds or any(r['evaluation_role']!='validation' for r in round_rows):raise ValueError('Wrong round evaluation')
-    bundle_path=Path(config['dataset']['bundle_path']);bundle=json.loads(bundle_path.read_text())
+    bundle_path=Path(config['dataset']['bundle_path']);bundle=runtime_json(bundle_path.read_text())
     val_path=(bundle_path.parent/bundle['validation']['manifest_path']).resolve()
     validation=load_prepared_data(val_path,expected_role='validation',expected_contract=artifact.contract)
     reloaded=evaluate_model(artifact.model,DataLoader(validation.dataset,batch_size=config['training']['batch_size'],shuffle=False), 'cpu',artifact.contract.num_classes)
@@ -129,8 +130,8 @@ def summarize_matrix(entries, destination):
     """Report every seed and sample standard deviation; never pick a best seed."""
     keys=['accuracy','balanced_accuracy','macro_f1','weighted_f1','loss'];rows=[];initial={}
     for entry in entries:
-        path=Path(entry['run_path']);v=json.loads((path/'verification.json').read_text())
-        metrics=json.loads((path/'validation_metrics.json').read_text())['metrics']
+        path=Path(entry['run_path']);v=runtime_json((path/'verification.json').read_text())
+        metrics=runtime_json((path/'validation_metrics.json').read_text())['metrics']
         seed=entry['seed']
         if seed in initial and initial[seed]!=v['initial_state_sha256']:raise ValueError('Unmatched initial states')
         initial[seed]=v['initial_state_sha256']
@@ -154,7 +155,7 @@ def run_matrix(config_dir, matrix_output):
     """Each run has a fresh process; preserve failures and completed artifacts."""
     preflight_path=Path(config_dir)/'preflight.json'
     if not preflight_path.is_file():raise ValueError('Measured preflight evidence is required')
-    measured=json.loads(preflight_path.read_text())
+    measured=runtime_json(preflight_path.read_text())
     first=load_training_config(Path(config_dir)/'iid_seed42.yaml')
     report_path=completed_preparation(first)
     if (measured['preparation_report_sha256']!=source_hash(report_path) or
@@ -196,7 +197,7 @@ def main():
     if args.action in ('prepare','export'):
         from Support.data.research_source import prepare_source
         from Support.data.research_export import export_research
-        c=yaml.safe_load(args.source_config.read_text());p=yaml.safe_load(args.protocol.read_text());s=p['proposed_settings']
+        c=runtime_safe_yaml(args.source_config.read_text());p=runtime_safe_yaml(args.protocol.read_text());s=p['proposed_settings']
         if not p['review']['numeric_settings_approved'] or p['source']['archive_sha256']!=c['archive_sha256']:raise ValueError('Protocol approval/source mismatch')
         if args.action=='prepare':prepare_source(c,args.raw_output,args.work_dir,s['training_rows'],s['auxiliary_groups_per_class'],s['preparation_seed'])
         export_research(args.raw_output,{**c,'hidden_dims':s['hidden_dims']},s,args.prepared_output)

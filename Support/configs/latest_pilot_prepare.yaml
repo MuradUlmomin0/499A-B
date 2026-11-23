@@ -1,7 +1,5 @@
-# Diagnostic class-capped MLP pilot for latest Dataset.zip; original splits are not modified.
-# Run --audit-only first; rerun without it to export the exact audited candidates.
 schema_version: 1
-archive_path: /mnt/CA7ED12F7ED114D3/dataset/riysn/Dataset.zip
+archive_path: ../../data/raw/Dataset.zip
 archive_sha256: fd058f5d9b1471d8b10af17ef966df252728a06bd4bd2544d0ed810f76bc39da
 feature_names:
 - flow_duration

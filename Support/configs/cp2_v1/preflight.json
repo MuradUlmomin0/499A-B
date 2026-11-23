@@ -1,0 +1,21 @@
+{
+  "client_rows": [
+    50000,
+    50000,
+    50000,
+    50000,
+    50000,
+    50000,
+    50000,
+    50000,
+    50000,
+    50000
+  ],
+  "validation_rows": 752478,
+  "bundle_sha256": "99e1dc3e70dcc5304b4934bc2c2f6d4d24099c0fa4911978259f5104ab198c1a",
+  "seconds": 10.077494814000602,
+  "peak_process_rss_kib": 1488800,
+  "training_performed": false,
+  "test_scored": false,
+  "preparation_report_sha256": "531afe38b906b3878e1db10b0b40fc9d66efb7c2642319677ad13d495a52acfa"
+}

@@ -1,0 +1,55 @@
+{
+  "protocol_version": "cp3_adapted_fedmade_v1",
+  "date": "2026-11-12",
+  "user_approved_adaptation": true,
+  "exact_paper_reproduction": false,
+  "method": {
+    "eps": 0.5,
+    "min_samples": 1,
+    "metric": "euclidean_on_raw_flattened_cpms",
+    "norm": "frobenius",
+    "solver": "scipy.optimize.nnls",
+    "maxiter": 10000,
+    "alpha_nonnegative": true,
+    "normalize_only_after_cluster_to_client_conversion": true,
+    "zero_mass_or_solver_failure": "stop_without_fallback"
+  },
+  "common_protocol_sha256": "5ea89662d080e4ef5729759a594c1ad4a5d5e73ba73d1a739ae05331f15e3211",
+  "cp1_frozen_manifest_sha256": "ec0cfcbfb1072f4b777376adcb5e1592e38e050f0fa5d2e823c2ab60ef397662",
+  "cp2_verification_sha256": "94f48e8d86a70ee505b351768b5550c740361eb6c6c42b772e26d11269823ecd",
+  "paper_sha256": "0995646693063238c8b514d69d7626a96af27c6719d560030a61a43927ce1d49",
+  "code_sha256": {
+    "main.py": "281db67835645e9d605e329d050f0dfc8e94308746b383e831c254d6c4bfe1ce",
+    "requirements.txt": "4016d9af861bfedd539b11db41f8adaccf74b5e9c60ac8d46da00bd75ffd4290",
+    "support/federated/cpm.py": "024a37e81bb5a99640701ab298f54b14fca9d6ad1d3558e52d26a95156678cb6",
+    "support/federated/fedmade.py": "5b3dd64f222ee56d7a9304de507a3018137636ae8473e08708663bb45ab1b5b2",
+    "support/utils/fedmade_config.py": "0614cc8fb67a3d6f630e4ac0c725cd72b8d8ecf6163823de6ac8d6740c2fad39",
+    "support/fedmade_runner.py": "4d312fcc49e36d526c088a943cce5dcf61d8675fc3b3a733bf774c5e9cbb91b3",
+    "support/fedmade_verification.py": "e9fe94a015506042ebfe14c4e5e04335bd22325216ffa50f2ec10e76f5adf273"
+  },
+  "config_sha256": {
+    "support/configs/cp3_v1/dirichlet_seed42.yaml": "5526d9c0fc31264f0745300b7009025d9062b6337c45f9a3c2a90db3be56b87d",
+    "support/configs/cp3_v1/dirichlet_seed43.yaml": "21dc74ebece4c241b86cdf122bb437b6d75d05cbc09ef4a8b2f49f410872093b",
+    "support/configs/cp3_v1/dirichlet_seed44.yaml": "2034f338f0501bb22ce08f1881c481595322a090ac32dfaf7b32ec6e6494d4c2",
+    "support/configs/cp3_v1/iid_seed42.yaml": "0fb4cdf6d56d0fa2c2cbe99879c041001219a8f496abb18eb86b201f5d6b81bd",
+    "support/configs/cp3_v1/iid_seed43.yaml": "874b976d49de72fb1096da7564f9ff103b7ab2fe30c75a1b6ed60176351b7472",
+    "support/configs/cp3_v1/iid_seed44.yaml": "4093e9c9e63c8ac0b2e6694691a9b4afbe7d5b69f78d9bfcaf47a76f65abfd34",
+    "support/configs/cp3_v1/preflight.json": "3d91bc5b06e90aa468b8dd7363eaa1843ed5ea2dc134d33bb45ff7bd5a252ae1"
+  },
+  "dependencies": {
+    "torch": "2.12.1",
+    "numpy": "2.5.0",
+    "scipy": "1.18.0",
+    "scikit-learn": "1.9.0",
+    "PyYAML": "6.0.3",
+    "pandas": "3.0.4"
+  },
+  "shared_engine_unchanged_from_cp2": true,
+  "test_scored": false,
+  "auxiliary_rows": 339,
+  "auxiliary_support_exception": {
+    "DDoS-TCP_Flood": 9
+  },
+  "preflight_peak_process_rss_kib": 1361992,
+  "unit_tests_passed": 862
+}

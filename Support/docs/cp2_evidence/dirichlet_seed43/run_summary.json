@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "workflow": "prepared_fedavg",
+  "testing_only": false,
+  "training_completed": true,
+  "selection_policy": "final_round",
+  "selected_round": 20,
+  "evaluation_role": "validation",
+  "model_artifact": "model_artifact.pt",
+  "model_artifact_sha256": "671f62fb72a5ae2afaa603b1d9d3b89c24bbe0922583ce36bb58e5b8b66d4330",
+  "resume_supported": false,
+  "execution_duration_seconds": 225.14451887299947
+}

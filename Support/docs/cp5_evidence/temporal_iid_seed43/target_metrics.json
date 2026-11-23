@@ -1,0 +1,10 @@
+{
+  "target_class": 18,
+  "target_class_name": "DoS-HTTP_Flood",
+  "destination_class": 1,
+  "target_support": 1751,
+  "target_recall": 0.6836093660765277,
+  "target_f1": 0.7566371681415929,
+  "target_to_benign_count": 22,
+  "target_to_benign_rate": 0.012564249000571102
+}

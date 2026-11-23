@@ -3,6 +3,7 @@
 No training, resampling, FL or final-test scoring. All outputs are diagnostic,
 testing-only and unverified against the historical preprocessing objects.
 """
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 import argparse
 import csv
 from datetime import datetime, timezone
@@ -37,7 +38,7 @@ def load_stacking_config(path):
     """Validate exact explicit mode schemas; paths are relative to this YAML."""
     path = Path(path).resolve()
     with path.open(encoding='utf-8') as stream:
-        config = yaml.load(stream, Loader=_PreparedConfigLoader)
+        config = runtime_yaml(stream, Loader=_PreparedConfigLoader)
     common = {'schema_version','mode','archive_path','archive_sha256','output_dir','chunk_rows'}
     extra = {
         'recover': {'checkpoint_path','checkpoint_sha256','notebook_path','notebook_sha256',

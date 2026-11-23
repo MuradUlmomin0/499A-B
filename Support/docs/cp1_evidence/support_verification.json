@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-10",
+  "scope": "CP1 original-source support audit; not prepared role/client manifests or research results",
+  "source_archive_sha256": "fd058f5d9b1471d8b10af17ef966df252728a06bd4bd2544d0ed810f76bc39da",
+  "file_sha256": {
+    "support/data/protocol_audit.py": "1e4894e2cdc92e7271a37f9357f447e15ad3ec4338cc0ec987e926b86ada6257",
+    "support/tests/test_protocol_audit.py": "fbf400b34f4229d3ce96dc1d737915c9b5062f4f548594245d9651b69c07bd8f",
+    "support/configs/latest_pilot_prepare.yaml": "f38c1ace5ad9c95d0b426b7ae0478648204a2de09bed5bc0b504e1cde15e3c49",
+    "support/configs/cp1_protocol_proposal.yaml": "622cc438b746b126c483317f69c8a89a9a07cbff199bc8d1ff127c1d1cc9814c",
+    "support/docs/cp1_evidence/eligible_support/support.json": "fac528c3c585ab967ffafa67c9fcac10b6706a7b97b8816d3493efd48617e4f1",
+    "support/docs/cp1_evidence/eligible_support/support_by_class.csv": "1ea3ed0a73c75fcd3a34a781dea507cc278002160336944b7d01d15787205f7a"
+  },
+  "verification": {
+    "original_source_audit_reconciled": true,
+    "original_cp0_artifact_hash_unchanged": true,
+    "row_group_conservation_checked": true,
+    "class_table_cells_checked": true,
+    "focused_cases_passed": 21,
+    "full_suite_passed": 798,
+    "full_suite_seconds": 68.75,
+    "full_suite_warnings": 1,
+    "warning_explanation": "Expected pandas float32 overflow warning in deliberately invalid 1e300 input; audit rejects it and publishes no report.",
+    "test_files": 36
+  },
+  "test_command": "PYTHONDONTWRITEBYTECODE=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 shield_env/bin/python -m pytest support/tests -q -p no:cacheprovider --basetemp=data/interim/cp1-final-suite",
+  "numeric_settings_approved": true,
+  "faculty_review_recorded": true,
+  "cp1_complete": false,
+  "training_run_for_support_audit": false,
+  "test_scored": false,
+  "faculty_review_scope": "User-confirmed acceptance of simulated clients and provenance limitations",
+  "approval_record": "approval_record.json"
+}

@@ -1,0 +1,15 @@
+schema_version: 1
+mode: evaluate
+experiment:
+  name: demo_fusion_validation
+  seed: 42
+  device: cpu
+  deterministic: true
+  output_dir: ../results/demo_evaluation
+model:
+  artifact_path: ../results/cp6_v1/runs/cp6_fused_clean_iid_seed42_20261115T172634764121Z_fa0fe2c7/model_artifact.pt
+dataset:
+  manifest_path: ../../data/processed/research_cp1_v1/validation.manifest.json
+  expected_role: validation
+inference:
+  batch_size: 128

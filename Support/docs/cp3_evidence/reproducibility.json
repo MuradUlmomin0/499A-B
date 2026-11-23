@@ -1,0 +1,12 @@
+{
+  "original_run": "support/results/cp3_v1/runs/cp3_iid_seed42_20261112T115908901406Z_bc653a86",
+  "repeat_run": "support/results/cp3_v1/runs/cp3_iid_seed42_20261112T122923176436Z_6c307fd1",
+  "public_main_training_route_verified": true,
+  "initial_states_equal": true,
+  "final_states_equal": true,
+  "validation_metrics_equal": true,
+  "all_twenty_cpm_cluster_alpha_beta_arrays_equal": true,
+  "final_state_sha256": "ff52e72457cdd6ca89bd1f107477d28ea0cae52dea4390ffb385ccea4ca5c77b",
+  "excluded_from_three_seed_summary": true,
+  "test_scored": false
+}

@@ -1,4 +1,5 @@
 """Training-only scaling, final-input checks and existing v1 research artifacts."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 import csv
 import gc
 import json
@@ -37,7 +38,7 @@ def export_research(source_dir, config, settings, output_dir):
     """
     source=Path(source_dir);out=Path(output_dir)
     if out.exists():raise FileExistsError('Refusing to overwrite research export')
-    selection=json.loads((source/'selection.json').read_text())
+    selection=runtime_json((source/'selection.json').read_text())
     if config.get('archive_sha256',selection['archive_sha256'])!=selection['archive_sha256']:
         raise ValueError('Source archive binding mismatch')
     for filename,digest in selection['files'].items():

@@ -1,0 +1,42 @@
+{
+  "cases": [
+    {
+      "condition": "iid",
+      "seed": 42,
+      "rows": 200,
+      "all_finite": true
+    },
+    {
+      "condition": "iid",
+      "seed": 43,
+      "rows": 200,
+      "all_finite": true
+    },
+    {
+      "condition": "iid",
+      "seed": 44,
+      "rows": 200,
+      "all_finite": true
+    },
+    {
+      "condition": "dirichlet",
+      "seed": 42,
+      "rows": 200,
+      "all_finite": true
+    },
+    {
+      "condition": "dirichlet",
+      "seed": 43,
+      "rows": 200,
+      "all_finite": true
+    },
+    {
+      "condition": "dirichlet",
+      "seed": 44,
+      "rows": 200,
+      "all_finite": true
+    }
+  ],
+  "verification_revision": 3,
+  "training_and_scoring_unchanged": true
+}

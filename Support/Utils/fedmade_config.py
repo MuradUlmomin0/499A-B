@@ -1,4 +1,5 @@
 """Strict adapted-FedMADE configuration without relaxing FedAvg's schema."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 import math
 from pathlib import Path
 import yaml
@@ -35,7 +36,7 @@ def validate_fedmade_config(value):
 
 def load_fedmade_config(path):
     source=Path(path).resolve()
-    try:value=yaml.load(source.read_text(encoding='utf-8'),Loader=_PreparedConfigLoader)
+    try:value=runtime_yaml(source.read_text(encoding='utf-8'),Loader=_PreparedConfigLoader)
     except yaml.YAMLError as error:raise ValueError(f'Invalid FedMADE YAML: {error}') from error
     value=validate_fedmade_config(value)
     fields=[('experiment','output_dir'),('dataset','bundle_path'),

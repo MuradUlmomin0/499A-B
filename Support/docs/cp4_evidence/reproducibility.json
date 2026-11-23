@@ -1,0 +1,16 @@
+{
+  "internal_thread_limit_verified": true,
+  "launch_environment_threads": 4,
+  "actual_execution_threads": 1,
+  "original_run": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp4_v1/runs/cp4_iid_seed42_20261112T161055958092Z_d9f78893",
+  "repeat_run": "/mnt/CA7ED12F7ED114D3/NSU/499A-B (Copy)/support/results/cp4_v1/runs/cp4_iid_seed42_20261112T164521678641Z_c44eaa3c",
+  "exact_final_state": true,
+  "exact_metrics": true,
+  "exact_round_diagnostics": true,
+  "exact_projection": true,
+  "initial_state_sha256": "0fbc7feccb79c2c81e3422c764de2b46e235a8f01563b23a2d325211f0754635",
+  "final_state_sha256": "5820b681a6973666e93bf181a31e96e36e6c1b73325818e96a7193e7191008f4",
+  "rounds": 20,
+  "repeat_excluded_from_three_seed_summary": true,
+  "test_scored": false
+}

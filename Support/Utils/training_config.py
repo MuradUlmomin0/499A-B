@@ -1,4 +1,5 @@
 """Strict prepared-FedAvg settings; architecture comes from the bundle contract."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 
 import math
 from pathlib import Path
@@ -66,7 +67,7 @@ def load_training_config(path: str | Path) -> dict:
     if not source.is_file():
         raise FileNotFoundError(f'Training configuration file not found: {source}')
     try:
-        value = yaml.load(source.read_text(encoding='utf-8'), Loader=_PreparedConfigLoader)
+        value = runtime_yaml(source.read_text(encoding='utf-8'), Loader=_PreparedConfigLoader)
     except yaml.YAMLError as error:
         raise ValueError(f'Invalid training YAML: {error}') from error
     config = validate_training_config(value)

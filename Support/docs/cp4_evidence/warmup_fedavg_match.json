@@ -1,0 +1,32 @@
+[
+  {
+    "condition": "iid",
+    "seed": 42,
+    "first_three_round_updates_exact": true
+  },
+  {
+    "condition": "iid",
+    "seed": 43,
+    "first_three_round_updates_exact": true
+  },
+  {
+    "condition": "iid",
+    "seed": 44,
+    "first_three_round_updates_exact": true
+  },
+  {
+    "condition": "dirichlet",
+    "seed": 42,
+    "first_three_round_updates_exact": true
+  },
+  {
+    "condition": "dirichlet",
+    "seed": 43,
+    "first_three_round_updates_exact": true
+  },
+  {
+    "condition": "dirichlet",
+    "seed": 44,
+    "first_three_round_updates_exact": true
+  }
+]

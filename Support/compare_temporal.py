@@ -1,4 +1,5 @@
 """Descriptive paired clean FedAvg/temporal-trust validation comparison."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 import argparse
 import csv
 import json
@@ -9,14 +10,14 @@ from Support.data.latest_pilot import _json
 METRICS=['accuracy','balanced_accuracy','macro_f1','weighted_f1','loss']
 
 
-def _read(path,name):return json.loads((path/name).read_text())
+def _read(path,name):return runtime_json((path/name).read_text())
 
 
 def compare(summary_path, output_dir):
     """Require matched, verified six-case inputs; include every seed/class."""
     output=Path(output_dir)
     if output.exists():raise FileExistsError('Refusing to overwrite paired comparison')
-    source=json.loads(Path(summary_path).read_text());entries=source['runs']
+    source=runtime_json(Path(summary_path).read_text());entries=source['runs']
     if len(entries)!=6 or {(e['condition'],e['seed']) for e in entries}!={(c,s) for c in ['iid','dirichlet'] for s in [42,43,44]}:
         raise ValueError('Comparison requires exactly the frozen six conditions/seeds')
     pairs=[];classes={};class_pairs=[]

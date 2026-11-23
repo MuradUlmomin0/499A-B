@@ -1,4 +1,5 @@
 """Explicit diagnostic preparation settings with conservative memory bounds."""
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 from pathlib import Path
 import math
 import re
@@ -11,7 +12,7 @@ def load_preparation_config(path):
     """Read strict unique-key YAML; no source/model/data execution or outputs."""
     source = Path(path).resolve()
     try:
-        value = yaml.load(source.read_text(encoding='utf-8'), Loader=_PreparedConfigLoader)
+        value = runtime_yaml(source.read_text(encoding='utf-8'), Loader=_PreparedConfigLoader)
     except yaml.YAMLError as error:
         raise ValueError(f'Invalid preparation YAML: {error}') from error
     fields = {

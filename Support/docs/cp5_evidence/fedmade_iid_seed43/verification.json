@@ -1,0 +1,37 @@
+{
+  "method": "fedmade",
+  "initial_state_sha256": "5446cef1c575c564585cd303e6ebdcc0ea9cd1e5248b5dc1f7771ccb004bc522",
+  "final_state_sha256": "3035395a70c4490e4729d0a05b5229a6d4d0e887b1d59ca6cf4553573d25801c",
+  "rounds": 20,
+  "train_rows": 500000,
+  "client_rows": {
+    "client_000": 50000,
+    "client_001": 50000,
+    "client_002": 50000,
+    "client_003": 50000,
+    "client_004": 50000,
+    "client_005": 50000,
+    "client_006": 50000,
+    "client_007": 50000,
+    "client_008": 50000,
+    "client_009": 50000
+  },
+  "validation_rows": 752478,
+  "testing_only": false,
+  "test_scored": false,
+  "delivered_labels_verified": true,
+  "original_sources_verified": true,
+  "aggregation_verified": true,
+  "history_verified": true,
+  "reloaded_validation_exact": true,
+  "paired_controls_verified": true,
+  "zero_attack_matches_clean": null,
+  "selected_malicious": [
+    "client_005",
+    "client_000"
+  ],
+  "flipped_unique_rows_per_active_round": 154,
+  "total_flipped_training_observations": 2618,
+  "end_to_end_with_verification_seconds": 376.7585287949987,
+  "peak_process_rss_kib": 1350912
+}

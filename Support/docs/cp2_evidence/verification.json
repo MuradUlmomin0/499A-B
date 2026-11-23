@@ -1,0 +1,75 @@
+{
+  "cp2_complete": true,
+  "primary_runs": [
+    {
+      "condition": "iid",
+      "seed": 42,
+      "run_path": "support/results/cp2_v1/runs/cp2_iid_seed42_20261110T161835890702Z_f7a41338",
+      "model_artifact_sha256": "ebcd0b9c33cc351721c34208ed312a70f4ff6b76ca4436ac01751e78f39270ee",
+      "final_state_sha256": "cba47658c3f297cb3df6eab2717a6a7cc52e2c4cb70c61ebdc45594bba821a7f"
+    },
+    {
+      "condition": "iid",
+      "seed": 43,
+      "run_path": "support/results/cp2_v1/runs/cp2_iid_seed43_20261110T162241890577Z_683c433c",
+      "model_artifact_sha256": "3c8fa31b63485a2dd2b036813385ef7ffa94f838a2a84534bb0715f1d1498834",
+      "final_state_sha256": "012644747978aae0108a7fe2e032c68af78f2f092c064955bb8d9e550228711d"
+    },
+    {
+      "condition": "iid",
+      "seed": 44,
+      "run_path": "support/results/cp2_v1/runs/cp2_iid_seed44_20261110T162644758627Z_8203bcdd",
+      "model_artifact_sha256": "2b3d30ece7c7f2fe9fb5be706677cbcce0151c4428d2ed3645dc092efa9c6e23",
+      "final_state_sha256": "401858ac801801a42d80429e8dca858fbb4ec31816efcb0b6fdc779f44f0658d"
+    },
+    {
+      "condition": "dirichlet",
+      "seed": 42,
+      "run_path": "support/results/cp2_v1/runs/cp2_dirichlet_seed42_20261110T163044237267Z_b8663aa2",
+      "model_artifact_sha256": "8d2e90a7ae95ce5b8ca9fca9abd9a6fe3791c34a13c6db43a834a38783df33fc",
+      "final_state_sha256": "3a10cab569035b588f1ca808c4708efff5f5b37c66f28b65a66e20eaffbf0169"
+    },
+    {
+      "condition": "dirichlet",
+      "seed": 43,
+      "run_path": "support/results/cp2_v1/runs/cp2_dirichlet_seed43_20261110T163454242061Z_79c31e22",
+      "model_artifact_sha256": "671f62fb72a5ae2afaa603b1d9d3b89c24bbe0922583ce36bb58e5b8b66d4330",
+      "final_state_sha256": "18f71a919906f910933bd8f492248a9e9b5f17fa33568f9db3e1eead0d73cb0a"
+    },
+    {
+      "condition": "dirichlet",
+      "seed": 44,
+      "run_path": "support/results/cp2_v1/runs/cp2_dirichlet_seed44_20261110T163855869938Z_a9de2b7f",
+      "model_artifact_sha256": "ab75069777d060a24933254b1b0b058ce801e46525b429a50ad65e0cfc08772a",
+      "final_state_sha256": "9e0a83f7bff355d3227c19fd44b6a86f2e649d2003317f244abf5751b69a5bea"
+    }
+  ],
+  "all_six_conditions_verified": true,
+  "matched_initial_states": true,
+  "matched_client_selection_schedules": true,
+  "shared_validation_support_verified": true,
+  "full_training_repeat_verified": true,
+  "repeat_excluded_from_summary": true,
+  "test_scored": false,
+  "unit_tests": {
+    "passed": 817,
+    "warnings": 1,
+    "warning": "Expected overflow from intentionally invalid float32 input",
+    "test_files": 41
+  },
+  "cp1_frozen_manifest_sha256": "ec0cfcbfb1072f4b777376adcb5e1592e38e050f0fa5d2e823c2ab60ef397662",
+  "source_snapshot_sha256": "d59c26f6044c80949eb2403e3ff3202ff5922c901434035b9011d79396b30799",
+  "logs_and_models_sha256": "ed12073d20d66e11699fb430b638dfed821e66661f5e03e91be0f048b2b692ec",
+  "limitations": [
+    "Bounded supplied CSV benchmark; device/capture independence unverified",
+    "Three seeds are descriptive, not significance evidence",
+    "Minority classes with zero clean recall cannot demonstrate additional recall loss",
+    "Saved checkpoints do not support exact interrupted-training resume"
+  ],
+  "public_saved_model_command_verified": true,
+  "public_evaluation_run": "support/results/cp2_v1/evaluation/cp2_iid_seed42_validation_20261110T164758967823Z_f08ed521",
+  "public_classification_metrics_match": true,
+  "public_loss_precision_note": "Prepared evaluator float64 logits vs round evaluator float32 loss; classification metrics match exactly.",
+  "final_source_archive_hash_verified": true,
+  "final_prepared_file_hashes_verified": true
+}

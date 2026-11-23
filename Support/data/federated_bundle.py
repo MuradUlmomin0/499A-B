@@ -4,6 +4,7 @@ Bundle v1 fields: schema_version, bundle_name, contract, split_policy, clients,
 validation. Each client has client_id, manifest_path and evidence_path. Validation
 has manifest_path/evidence_path. ID sidecars keep the existing NPZ schema intact.
 """
+from Support.Utils.runtime_paths import load_json as runtime_json, load_json_file as runtime_json_file, load_yaml as runtime_yaml, safe_load_yaml as runtime_safe_yaml
 
 from dataclasses import dataclass
 import hashlib
@@ -101,7 +102,7 @@ def load_federated_bundle(path: str | Path) -> FederatedDataBundle:
     """
     source = Path(path).resolve()
     content = source.read_bytes()
-    value = json.loads(content, object_pairs_hook=_unique_json_object)
+    value = runtime_json(content, object_pairs_hook=_unique_json_object)
     fields = {'schema_version', 'bundle_name', 'contract', 'split_policy', 'clients', 'validation'}
     if not isinstance(value, dict) or set(value) != fields:
         raise ValueError('Federated bundle fields must exactly match the version 1 schema')
