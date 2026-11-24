@@ -10,6 +10,20 @@ their validation histories, the final comparison summaries, and a small
 20-record prediction demo. These files are enough to run the local dashboard
 and the synthetic FedAvg framework check.
 
+## Dashboard screenshots
+
+These screenshots were captured from the local dashboard on 25 November 2026.
+Click an image to open it at full size. Predictions use the bundled 20 prepared
+records. Research comparisons are saved final-test means across three seeds;
+training charts show saved validation history.
+
+| Dashboard view | Dashboard view |
+| :--- | :--- |
+| **1. Overview**<br>[![Overview](Support/frontend/screenshots/01_overview.png)](Support/frontend/screenshots/01_overview.png) | **2. FedAvg predictions**<br>[![FedAvg predictions](Support/frontend/screenshots/02_fedavg_predictions.png)](Support/frontend/screenshots/02_fedavg_predictions.png) |
+| **3. Fusion predictions**<br>[![Fusion predictions](Support/frontend/screenshots/03_fusion_predictions.png)](Support/frontend/screenshots/03_fusion_predictions.png) | **4. Saved IID research results**<br>[![Saved IID research results](Support/frontend/screenshots/04_iid_research_results.png)](Support/frontend/screenshots/04_iid_research_results.png) |
+| **5. Saved non-IID research results**<br>[![Saved non-IID research results](Support/frontend/screenshots/05_non_iid_research_results.png)](Support/frontend/screenshots/05_non_iid_research_results.png) | **6. FedAvg validation history**<br>[![FedAvg validation history](Support/frontend/screenshots/06_fedavg_training_history.png)](Support/frontend/screenshots/06_fedavg_training_history.png) |
+| **7. Fusion validation history**<br>[![Fusion validation history](Support/frontend/screenshots/07_fusion_training_history.png)](Support/frontend/screenshots/07_fusion_training_history.png) |  |
+
 ## Setup
 
 The pinned environment was tested with Python 3.14.4 on Linux. From the project
